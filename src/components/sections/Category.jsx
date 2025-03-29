@@ -7,9 +7,7 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import Drink from "../../assets/drinks-line.svg";
-import Food from "../../assets/restaurant-line.svg";
-import Accessories from "../../assets/handbag-line.svg";
+import { Backpack, Brandy, Bread } from "@phosphor-icons/react"
 
 export default function Category() {
   return (
@@ -48,14 +46,18 @@ export default function Category() {
               w={{ base: "100px", lg: "160px" }}
               h={{ base: "100px", lg: "160px" }}
               cursor="pointer"
-              bg="#FDE5D3"
-              _hover={{ bg: "#FCCBA6" }}
+              bg="linear-gradient(135deg, #F77E21 0%, #FAC213 100%)"
+              _hover={{ bg: "#F77E21" }}
             >
-              <Image src={Food} boxSize={{ base: "32px", lg: "48px" }} />
+              <Bread
+                size={{ base: "32px", lg: "48px" }}
+                color="white"
+                weight="light"
+              />
               <Text
                 fontSize={{ base: "12px", lg: "16px" }}
                 fontWeight="semibold"
-                color="black"
+                color="white"
                 mt="8px"
               >
                 Makanan
@@ -73,14 +75,18 @@ export default function Category() {
               w={{ base: "100px", lg: "160px" }}
               h={{ base: "100px", lg: "160px" }}
               cursor="pointer"
-              bg="#FDE5D3"
-              _hover={{ bg: "#FCCBA6" }}
+              bg="linear-gradient(135deg, #F77E21 0%, #FAC213 100%)"
+              _hover={{ bg: "#F77E21" }}
             >
-              <Image src={Drink} boxSize={{ base: "32px", lg: "48px" }} />
+              <Brandy
+                size={{ base: "32px", lg: "48px" }}
+                color="white"
+                weight="light"
+              />
               <Text
                 fontSize={{ base: "12px", lg: "16px" }}
                 fontWeight="semibold"
-                color="black"
+                color="white"
                 mt="8px"
               >
                 Minuman
@@ -98,14 +104,18 @@ export default function Category() {
               w={{ base: "100px", lg: "160px" }}
               h={{ base: "100px", lg: "160px" }}
               cursor="pointer"
-              bg="#FDE5D3"
-              _hover={{ bg: "#FCCBA6" }}
+              bg="linear-gradient(135deg, #F77E21 0%, #FAC213 100%)"
+              _hover={{ bg: "#F77E21" }}
             >
-              <Image src={Accessories} boxSize={{ base: "32px", lg: "48px" }} />
+              <Backpack
+                size={{ base: "32px", lg: "48px" }}
+                color="white"
+                weight="light"
+              />
               <Text
                 fontSize={{ base: "12px", lg: "16px" }}
                 fontWeight="semibold"
-                color="black"
+                color="white"
                 mt="8px"
               >
                 Aksesoris

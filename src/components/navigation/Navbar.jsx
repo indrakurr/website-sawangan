@@ -8,9 +8,9 @@ export default function Navbar() {
   const [toggleNavbar, setToggleNavbar] = useState(false);
 
   const menuItems = [
-    { text: "Beranda" },
-    { text: "Tentang Kami" },
-    { text: "Produk" },
+    { text: "Beranda", href: "/beranda" },
+    { text: "Tentang Kami", href: "/tentang-kami" },
+    { text: "Produk", href: "/produk" },
   ];
 
   return (
@@ -65,7 +65,7 @@ export default function Navbar() {
               bg={"orange.500"}
               color={"white"}
               borderRadius={"full"}
-              px={6}
+              px={5}
               py={4}
               _hover={{ bg: "orange.700" }}
             >
