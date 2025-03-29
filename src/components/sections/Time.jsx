@@ -1,4 +1,12 @@
-import { Badge, Box, Container, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Container,
+  Flex,
+  Grid,
+  GridItem,
+  Text,
+} from "@chakra-ui/react";
 import { ClockUser } from "@phosphor-icons/react";
 
 const days = [
@@ -17,6 +25,8 @@ export default function Time() {
       paddingX={{ sm: "20px", lg: "80px" }}
       paddingY="100px"
       marginY="76px"
+      bg="gray.100"
+      borderRadius={{ sm: "16px", lg: "32px" }}
     >
       <Grid gap={10} marginX={{ base: "24px", lg: "72px" }}>
         {/* Headline */}
@@ -40,7 +50,7 @@ export default function Time() {
 
         {/* Grid Jam Operasional */}
         <GridItem>
-          <Flex justify="center" gap={6} wrap="wrap">
+          <Flex justify="center" gap={{ base: "12px", lg: "24px" }} wrap="wrap">
             {days.map((item, index) => (
               <Box
                 key={index}
@@ -48,36 +58,35 @@ export default function Time() {
                 flexDirection="column"
                 alignItems="start"
                 justifyContent="start"
-                gap={"4px"}
-                p={{ base: "12px", lg: "16px" }}
-                borderRadius="20px"
+                gap="4px"
+                p={{ base: "8px", sm: "10px", lg: "16px" }}
+                borderRadius="16px"
                 cursor="pointer"
                 bg="white"
-                boxShadow={"0px 4px 30px rgba(0, 0, 0, 0.1)"}
-                w="260px"
+                w={{ base: "140px", sm: "180px", md: "220px", lg: "260px" }}
               >
                 <div className="flex w-full justify-end">
                   <Badge
                     variant="solid"
                     bg="#FEF3D0"
-                    padding={"4px"}
-                    borderRadius={"xl"}
+                    padding="4px"
+                    borderRadius="xl"
                   >
-                    <ClockUser size={36} color="#F77E21" />
+                    <ClockUser size={28} color="#F77E21" />
                   </Badge>
                 </div>
                 <Text
-                  fontSize={{ base: "16px", lg: "20px" }}
+                  fontSize={{ base: "12px", sm: "14px", lg: "20px" }}
                   fontWeight="semibold"
                   color="black"
                 >
                   {item.day}
                 </Text>
                 <Text
-                  fontSize={{ base: "24px", lg: "28px" }}
+                  fontSize={{ base: "16px", sm: "18px", lg: "28px" }}
                   fontWeight="bold"
                   color="#D61C4E"
-                  lineHeight={"1.2"}
+                  lineHeight="1.2"
                 >
                   {item.time}
                 </Text>
