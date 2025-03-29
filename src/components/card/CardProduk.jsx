@@ -1,6 +1,6 @@
 import { Card, Image, Text, HStack } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
-import { ShoppingCart } from "iconsax-react";
+import { ShoppingCart } from "@phosphor-icons/react";
 import { Star } from "@phosphor-icons/react";
 
 export default function CardProduk() {

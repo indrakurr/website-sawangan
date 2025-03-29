@@ -1,5 +1,6 @@
 import ProductPage from "./pages/ProductPage";
 import LandingPage from "./pages/LandingPage";
+import AboutPage from "./pages/AboutPage"
 
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
         alignItems: "center",
       }}
     >
-      <ProductPage />
+      <AboutPage />
     </div>
   );
 }
