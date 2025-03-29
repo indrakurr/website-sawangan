@@ -15,7 +15,7 @@ function App() {
         alignItems: "center",
       }}
     >
-      <AboutPage />
+      <LandingPage />
     </div>
   );
 }

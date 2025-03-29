@@ -24,6 +24,7 @@ export default function HeroSection() {
             fontWeight="bold"
             color="White"
             marginY={"12px"}
+            lineHeight={"1.2"}
           >
             Beli Oleh-oleh Khas Purwokerto, dari Ujung Jari!
           </Text>

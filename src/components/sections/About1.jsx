@@ -13,7 +13,9 @@ export default function About1() {
     <Container
       paddingX={{ sm: "20px", lg: "72px" }}
       paddingY={{ sm: "96px", lg: "100px" }}
-      marginY="76px"
+      marginTop={"96px"}
+      bg="gray.100"
+      borderRadius={{ sm: "16px", lg: "32px" }}
     >
       <Grid
         className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-rows-1 justify-start gap-8"
