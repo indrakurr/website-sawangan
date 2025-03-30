@@ -22,11 +22,10 @@ const socialMediaLink = [
 ];
 
   return (
-    <footer>
+    <footer className="bg-white" style={{ borderTop: "2px solid #E2E8F0" }}>
       <Container
-        paddingX={{ sm: "20px", lg: "72px" }}
-        paddingY={{ sm: "40px", lg: "64px" }}
-        borderTop="2px solid #E2E8F0"
+        paddingX={{ base: "20px", lg: "" }}
+        paddingY={{ base: "20px", lg: "64px" }}
       >
         <Grid className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-rows-1 justify-start gap-8">
           <GridItem className="col-span-1" w="full">

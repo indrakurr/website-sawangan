@@ -52,7 +52,7 @@ export default function CardProduk() {
         <Button
           size={"sm"}
           bg={"orange.500"}
-          borderRadius={"lg"}
+          rounded={"xl"}
           px={4}
           py={4}
           _hover={{ bg: "orange.600" }}

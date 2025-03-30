@@ -12,11 +12,16 @@ import { MedalStar, WalletMoney, Bag2, Map } from "iconsax-react";
 export default function Benefit() {
   return (
     <Container
-      background="linear-gradient(to right, #D61C4E, #F77E21)"
-      borderRadius="20px"
       p="40px"
+      marginY={{ base: "16", lg: "48px" }}
+      paddingX={{ base: "16px", lg: "48px"}}
     >
-      <Grid gap={10}>
+      <Grid
+        borderRadius={{ base: "16px", lg: "32px" }}
+        padding={{ base: "16px", lg: "96px" }}
+        gap={10}
+        background="linear-gradient(to right, #D61C4E, #F77E21)"
+      >
         {/* Headline */}
         <GridItem textAlign="center">
           <Text
@@ -48,11 +53,10 @@ export default function Benefit() {
               borderRadius="20px"
               w={{ base: "100px", lg: "200px" }}
               h={{ base: "100px", lg: "200px" }}
-              cursor="pointer"
               bg="transparent"
               _hover={{ bg: "#F77E21" }}
             >
-              <MedalStar size="48" color="white" />
+              <MedalStar size="48px" color="white" />
               <Text
                 fontSize={{ base: "12px", lg: "20px" }}
                 fontWeight="semibold"
@@ -135,7 +139,7 @@ export default function Benefit() {
                 mt="8px"
                 textAlign={"center"}
               >
-                Tersedia berbagai produk <br /> khas dengan banyak varian untuk{" "}
+                Tersedia berbagai produk <br /> dengan banyak varian untuk
                 <br />
                 memenuhi kebutuhanmu
               </Text>
@@ -169,8 +173,8 @@ export default function Benefit() {
                 mt="8px"
                 textAlign={"center"}
               >
-                Belanja dari mana saja <br /> dan kapan saja secara
-                online <br /> yang mudah dan cepat.
+                Belanja dari mana saja, <br /> kapan saja secara online
+                <br /> yang mudah dan cepat.
               </Text>
             </Box>
           </Flex>

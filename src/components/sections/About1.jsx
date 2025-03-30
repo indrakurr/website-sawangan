@@ -11,8 +11,8 @@ import Image from "../../assets/about-img.png";
 export default function About1() {
   return (
     <Container
-      paddingX={{ sm: "20px", lg: "72px" }}
-      paddingY={{ sm: "96px", lg: "100px" }}
+      paddingX={{ base: "20px", lg: "72px" }}
+      paddingY={{ base: "20px", lg: "100px" }}
       marginTop={"96px"}
       bg="gray.100"
       borderRadius={{ sm: "16px", lg: "32px" }}
@@ -80,7 +80,9 @@ export default function About1() {
               py={4}
               _hover={{ bg: "orange.700" }}
             >
-              Belanja Sekarang
+              <Text lineHeight="1" whiteSpace="nowrap">
+                Belanja Sekarang
+              </Text>
             </Button>
             <Button
               size={"sm"}
@@ -92,7 +94,9 @@ export default function About1() {
               py={4}
               _hover={{ bg: "orange.500", color: "white" }}
             >
-              Kunjungi Toko
+              <Text lineHeight="1" whiteSpace="nowrap">
+                Kunjungi Toko
+              </Text>
             </Button>
           </Flex>
         </GridItem>

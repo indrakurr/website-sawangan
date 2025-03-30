@@ -11,8 +11,8 @@ import { WhatsappLogo } from "@phosphor-icons/react";
 export default function ContactUs() {
   return (
     <Container
-      paddingX={{ sm: "20px", lg: "72px" }}
-      paddingY={{ sm: "72px", lg: "72px" }}
+      paddingX={{ base: "20px", lg: "72px" }}
+      paddingY={{ base: "24px", lg: "72px" }}
       marginBottom={"96px"}
       bg="gray.100"
       borderRadius={{ sm: "16px", lg: "32px" }}
@@ -61,9 +61,9 @@ export default function ContactUs() {
             <Button
               size={"sm"}
               bg={"orange.500"}
-              borderRadius={"full"}
-              px={4}
-              py={4}
+              rounded={"xl"}
+              px={5}
+              py={5}
               _hover={{ bg: "orange.600" }}
               border={"none"}
               color="white"
