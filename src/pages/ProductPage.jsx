@@ -8,7 +8,7 @@ import { Flex } from "@chakra-ui/react";
 
 export default function ProductPage() {
   const productsPerPage = 8; // Jumlah produk per halaman
-  const totalProducts = 100; // Total produk yang akan ditampilkan (bisa diganti dengan jumlah data dari API)
+  const totalProducts = 60; // Total produk yang akan ditampilkan (bisa diganti dengan jumlah data dari API)
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -48,7 +48,6 @@ export default function ProductPage() {
           onPageChange={(page) => setCurrentPage(page)}
         />
       </Flex>
-
       <Footer />
     </div>
   );

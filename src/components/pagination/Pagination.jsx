@@ -1,19 +1,19 @@
 "use client";
 
-import { useState } from "react";
 import { ButtonGroup, IconButton, Pagination } from "@chakra-ui/react";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 
 const PaginationComponent = ({
   totalCount,
   pageSize,
+  currentPage,
+  onPageChange,
 }) => {
-    const [currentPage, setCurrentPage] = useState(1);
     const totalPages = Math.ceil(totalCount / pageSize);
 
     const handlePageChange = (page) => {
       if (page >= 1 && page <= totalPages) {
-        setCurrentPage(page);
+        onPageChange(page);
       }
     };
 

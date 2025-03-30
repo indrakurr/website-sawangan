@@ -14,13 +14,13 @@ export default function SearchBar() {
   return (
     <Flex
       position="fixed"
-      top="60px"
+      top={{base: "60px", lg:"65px"}}
       left="0"
       w="full"
       bg="#F4F5F6"
       px={{ base: "30px", lg: "240px" }}
       py="12px"
-      zIndex="60"
+      zIndex="40"
       borderTop={1}
       borderStyle={"solid"}
       borderColor={"#CACACA"}
@@ -78,6 +78,7 @@ export default function SearchBar() {
         <Input
           placeholder="Cari oleh-oleh disini!"
           borderRadius={"12px"}
+          bg="white"
           borderColor={"#B1B5C3"}
           border={"none"}
           focusBorderColor="transparent"

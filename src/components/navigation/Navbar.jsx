@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Logo from "../../assets/logo-sawangan.svg";
 import hamburger_active from "../../assets/x-bold.svg";
-import hamburger_non_active from "../../assets/list-bold.svg"
-import { Box, Button, Flex, Link } from "@chakra-ui/react";
+import hamburger_non_active from "../../assets/list-bold.svg";
+import { Box, Button, Flex, Link, Text } from "@chakra-ui/react";
 
 export default function Navbar() {
   const [toggleNavbar, setToggleNavbar] = useState(false);
@@ -24,7 +24,7 @@ export default function Navbar() {
           py={{ base: "12px", sm: "14px", lg: "16px" }}
           justify="space-between"
           align="center"
-          borderBottom={2}
+          borderBottom={1}
           borderStyle={"solid"}
           borderColor={"gray.100"}
         >
@@ -64,12 +64,14 @@ export default function Navbar() {
               size={"sm"}
               bg={"orange.500"}
               color={"white"}
-              borderRadius={"full"}
+              rounded={"xl"}
               px={5}
               py={4}
               _hover={{ bg: "orange.700" }}
             >
-              Masuk
+              <Text lineHeight="1" whiteSpace="nowrap">
+                Masuk
+              </Text>
             </Button>
           </div>
         </Flex>

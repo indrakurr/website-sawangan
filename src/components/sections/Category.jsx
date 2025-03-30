@@ -4,14 +4,13 @@ import {
   Flex,
   Grid,
   GridItem,
-  Image,
   Text,
 } from "@chakra-ui/react";
 import { Backpack, Brandy, Bread } from "@phosphor-icons/react"
 
 export default function Category() {
   return (
-    <Container marginBottom={"96px"}>
+    <Container marginY={{base:"32px", lg:"48px"}}>
       <Grid gap={10}>
         {/* Headline */}
         <GridItem textAlign="center">
