@@ -13,9 +13,9 @@ export default function About1() {
     <Container
       paddingX={{ base: "20px", lg: "72px" }}
       paddingY={{ base: "20px", lg: "100px" }}
-      marginTop={"96px"}
+      paddingTop={"96px"}
       bg="gray.100"
-      borderRadius={{ sm: "16px", lg: "32px" }}
+      borderRadius={{ base: "0px", lg: "32px" }}
     >
       <Grid
         className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-rows-1 justify-start gap-8"
@@ -75,7 +75,7 @@ export default function About1() {
               size={"sm"}
               bg={"orange.500"}
               color={"white"}
-              rounded={"full"}
+              rounded={"xl"}
               px={5}
               py={4}
               _hover={{ bg: "orange.700" }}
@@ -89,7 +89,7 @@ export default function About1() {
               bg={"transparent"}
               color={"orange.500"}
               borderColor={"orange.500"}
-              rounded={"full"}
+              rounded={"xl"}
               px={5}
               py={4}
               _hover={{ bg: "orange.500", color: "white" }}
