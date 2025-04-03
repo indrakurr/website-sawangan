@@ -16,9 +16,9 @@ const floatingStyles = defineStyle({
   transition: "position",
   _peerPlaceholderShown: {
     color: "fg.muted",
-    top: "3",
+    top: {base:"4", lg:"3"},
     insetStart: "3",
-    fontSize: "16px",
+    fontSize: {base:"12px", lg:"16px"},
   },
   _peerFocusVisible: {
     color: "black",
