@@ -4,6 +4,9 @@ import AboutPage from "./pages/AboutPage"
 import ProductDetail from "./pages/ProductDetail";
 import RegisterPage from "./pages/RegisterPage"
 import LoginPage from "./pages/LoginPage"
+import ForgotPassword from "./pages/ForgotPassword";
+import Verification from "./pages/Verification";
+import NewPassword from "./pages/NewPassword";
 
 
 function App() {
@@ -18,7 +21,7 @@ function App() {
         alignItems: "center",
       }}
     >
-      <LoginPage />
+      <NewPassword />
     </div>
   );
 }
