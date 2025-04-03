@@ -1,17 +1,31 @@
-import { Button, Checkbox, Grid, GridItem, Image, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Image,
+  Link,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { InputWithLogo } from "../components/inputs/InputWithLogo";
 import Banner from "../assets/login-bg.png";
-import { Message, User, Lock } from "react-iconly";
-import { PhoneCall } from "@phosphor-icons/react";
+import { Message, Lock } from "react-iconly";
+import Logo from "../assets/logo-sawangan.svg";
 
 export default function LoginPage() {
   return (
     <div>
-      <Grid h="100vh" templateColumns="1fr 1fr" padding={5}>
-        <GridItem>
+      <Grid
+        h="100vh"
+        templateColumns={{ base: "1fr", lg: "1fr 1fr" }}
+        padding={5}
+      >
+        <GridItem display={{ base: "none", lg: "block" }}>
           <Image
             src={Banner}
-            alt="about-img"
+            alt="banner-img"
             w="full"
             h="full"
             objectFit="cover"
@@ -22,23 +36,32 @@ export default function LoginPage() {
           className="flex flex-col"
           alignItems={{ base: "center", lg: "start" }}
           justifyContent="center"
-          paddingX="120px"
+          paddingX={{ base: "20px", lg: "120px" }}
           gap={4}
         >
-          <div>
+          <Flex direction="column" alignItems="center">
+            <Image
+              display={{ base: "block", lg: "none" }}
+              src={Logo}
+              alt="logo-img"
+              w="1/2"
+              objectFit="cover"
+              marginBottom="40px"
+            />
             <Text
+              w="full"
               textAlign={{ base: "center", md: "start", lg: "start" }}
-              fontSize={"32px"}
+              fontSize={{ base: "24px", lg: "32px" }}
               fontWeight="bold"
               color="black"
               marginY={"12px"}
               lineHeight={"1"}
             >
-              Selamat Datang Kembali 👋
+              Selamat Datang Kembali
             </Text>
             <Text
               textAlign={{ base: "center", md: "start", lg: "start" }}
-              fontSize={"16px"}
+              fontSize={{ base: "12px", lg: "16px" }}
               fontWeight={"regular"}
               color="gray.400"
               marginY={"12px"}
@@ -46,8 +69,8 @@ export default function LoginPage() {
               Masuk untuk melanjutkan pengalaman belanja oleh-oleh khas
               Purwokerto yang mudah dan cepat
             </Text>
-          </div>
-          <VStack align="start" spacing={3} w="full">
+          </Flex>
+          <VStack align="start" gap={3} w="full">
             <InputWithLogo
               id="email"
               label="Masukkan Alamat Email Anda"
@@ -60,6 +83,7 @@ export default function LoginPage() {
               type="password"
               icon={Lock}
             />
+            <Link width="full" justifyContent="end" color="orange.500">Lupa Password?</Link>
           </VStack>
           <Button
             size={"sm"}
@@ -72,6 +96,34 @@ export default function LoginPage() {
           >
             <Text lineHeight="1" whiteSpace="nowrap">
               Masuk
+            </Text>
+          </Button>
+          <Flex width="full" align="center" gap={2}>
+            <Box flex="1" height="1px" bg="gray.300"></Box>
+            <Text
+              fontSize={{ base: "12px", lg: "16px" }}
+              fontWeight="light"
+              color="gray.400"
+            >
+              Atau masuk menggunakan
+            </Text>
+            <Box flex="1" height="1px" bg="gray.300"></Box>
+          </Flex>
+          <Button
+            size={"sm"}
+            bg={"gray.200"}
+            color={"gray.700"}
+            rounded={"xl"}
+            w={"full"}
+            py={5}
+            _hover={{ bg: "gray.300" }}
+          >
+            <Image
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              boxSize="20px"
+            />
+            <Text lineHeight="1" whiteSpace="nowrap">
+              Masuk menggunakan Google
             </Text>
           </Button>
         </GridItem>
