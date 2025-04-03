@@ -47,6 +47,7 @@ export default function LoginPage() {
               w="1/2"
               objectFit="cover"
               marginBottom="40px"
+              marginTop="20px"
             />
             <Text
               w="full"
@@ -83,7 +84,9 @@ export default function LoginPage() {
               type="password"
               icon={Lock}
             />
-            <Link width="full" justifyContent="end" color="orange.500">Lupa Password?</Link>
+            <Link width="full" justifyContent="end" fontWeight="semibold" color="orange.500">
+              Lupa Password?
+            </Link>
           </VStack>
           <Button
             size={"sm"}
@@ -126,6 +129,20 @@ export default function LoginPage() {
               Masuk menggunakan Google
             </Text>
           </Button>
+          <Text
+            fontSize={{ base: "12px", lg: "16px" }}
+            fontWeight="light"
+            color="gray.400"
+            marginTop={{ base: "40px", lg: "0px" }}
+            marginBottom={{ base: "20px", lg: "0px" }}
+            textAlign="center"
+            width="full"
+          >
+            Belum punya akun?{" "}
+            <Link color="orange.500" fontWeight="semibold">
+              Daftar
+            </Link>
+          </Text>
         </GridItem>
       </Grid>
     </div>
