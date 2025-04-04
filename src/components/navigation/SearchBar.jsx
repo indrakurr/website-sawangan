@@ -14,13 +14,13 @@ export default function SearchBar() {
   return (
     <Flex
       position="fixed"
-      top={{base: "60px", lg:"65px"}}
+      top={{ base: "60px", lg: "65px" }}
       left="0"
       w="full"
-      bg="#F4F5F6"
+      bg="white"
       px={{ base: "30px", lg: "240px" }}
       py="12px"
-      zIndex="40"
+      zIndex="60"
       borderTop={1}
       borderStyle={"solid"}
       borderColor={"#CACACA"}
@@ -74,12 +74,16 @@ export default function SearchBar() {
         startElement={<MagnifyingGlass size={"20px"} color="black" />}
         background={"white"}
         borderRadius={"12px"}
+        border="solid"
+        borderWidth="1px"
+        borderColor={"#E2E8F0"}
       >
         <Input
           placeholder="Cari oleh-oleh disini!"
+          color={"black"}
           borderRadius={"12px"}
           bg="white"
-          borderColor={"#B1B5C3"}
+          borderColor={"#E2E8F0"}
           border={"none"}
           focusBorderColor="transparent"
           _placeholder={{ color: "black" }}

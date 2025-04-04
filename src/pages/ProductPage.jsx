@@ -17,7 +17,7 @@ export default function ProductPage() {
   const endIndex = startIndex + productsPerPage;
 
   return (
-    <div className="overflow-x-hidden w-full max-w-screen mx-0">
+    <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
       <Navbar />
       <SearchBar />
       <Flex

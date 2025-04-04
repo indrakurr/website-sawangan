@@ -70,7 +70,6 @@ export default function ForgotPassword() {
                 rounded={"xl"}
                 px={0}
                 py={0}
-                _hover={{ bg: "orange.600" }}
                 border={"none"}
                 display={{ base: "none", lg: "flex" }}
                 marginBottom="24px"
@@ -108,8 +107,8 @@ export default function ForgotPassword() {
               color="gray.400"
               marginY={"12px"}
             >
-              Masukkan alamat email Anda untuk menerima kode verifikasi dan
-              mengatur ulang password
+              Masukkan alamat email Anda untuk menerima tautan
+              pengaturan ulang password
             </Text>
           </Flex>
           <VStack align="start" gap={3} w="full">
