@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage"
 import ForgotPassword from "./pages/ForgotPassword";
 import Verification from "./pages/Verification";
 import NewPassword from "./pages/NewPassword";
+import Cart from "./pages/Cart";
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
         alignItems: "center",
       }}
     >
-      <NewPassword />
+      <Cart />
     </div>
   );
 }

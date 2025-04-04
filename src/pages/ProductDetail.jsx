@@ -10,7 +10,7 @@ export default function ProductDetail() {
     <div
       className="overflow-x-hidden w-full max-w-screen"
       style={{
-        backgroundColor: "#DFDFDF",
+        backgroundColor: "#F0F3F7",
         width: "100vw",
         maxWidth: "100%",
         overflowX: "hidden",

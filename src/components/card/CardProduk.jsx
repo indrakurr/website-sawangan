@@ -18,7 +18,7 @@ export default function CardProduk() {
         className="w-64 h-48"
         maxH={192}
         src="https://www.astronauts.id/blog/wp-content/uploads/2022/08/Makanan-Khas-Daerah-tiap-Provinsi-di-Indonesia-Serta-Daerah-Asalnya.jpg"
-        alt="Green double couch with wooden legs"
+        alt="gambar-produk"
       />
       <Card.Body gap="2">
         <Card.Title textStyle={"md"} color="black" maxW={208}>

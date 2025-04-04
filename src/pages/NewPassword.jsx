@@ -70,7 +70,6 @@ export default function NewPassword() {
                 rounded={"xl"}
                 px={0}
                 py={0}
-                _hover={{ bg: "orange.600" }}
                 border={"none"}
                 display={{ base: "none", lg: "flex" }}
                 marginBottom="24px"

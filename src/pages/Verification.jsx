@@ -71,7 +71,6 @@ export default function Verification() {
                 rounded={"xl"}
                 px={0}
                 py={0}
-                _hover={{ bg: "orange.600" }}
                 border={"none"}
                 display={{ base: "none", lg: "flex" }}
                 marginBottom="24px"
@@ -100,7 +99,7 @@ export default function Verification() {
               marginY={"12px"}
               lineHeight={"1"}
             >
-              Masukkan Kode Verifikasi
+              Masukkan Kode OTP
             </Text>
             <Text
               textAlign={{ base: "center", md: "start", lg: "start" }}
@@ -109,8 +108,9 @@ export default function Verification() {
               color="gray.400"
               marginY={"12px"}
             >
-              Kode verifikasi telah dikirimkan ke email Anda. Silakan masukkan
-              kode verifikasi di bawah untuk melanjutkan proses reset password
+              Kami telah mengirimkan kode verifikasi (OTP) ke email Anda.
+              Silakan masukkan kode tersebut untuk melanjutkan proses
+              pendaftaran.
             </Text>
           </Flex>
           <VStack align="center" gap={3} w="full">
@@ -120,7 +120,8 @@ export default function Verification() {
                 <PinInput.Input index={0} color={"black"} />
                 <PinInput.Input index={1} color={"black"} />
                 <PinInput.Input index={2} color={"black"} />
-                <PinInput.Input index={3} color={"black"}/>
+                <PinInput.Input index={3} color={"black"} />
+                <PinInput.Input index={4} color={"black"} />
               </PinInput.Control>
             </PinInput.Root>
           </VStack>
