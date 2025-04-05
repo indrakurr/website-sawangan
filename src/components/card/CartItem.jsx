@@ -5,7 +5,7 @@ import { Trash } from "iconsax-react";
 export default function CartItem() {
   return (
     <Box
-      w={{ base: "100%", md: "800px" }}
+      w={{ base: "100%", lg: "800px" }}
       display="flex"
       alignItems={{ base: "start", lg: "center" }}
       justifyContent="start"
