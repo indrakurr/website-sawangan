@@ -1,14 +1,4 @@
-import {
-  Button,
-  Box,
-  Checkbox,
-  Flex,
-  Image,
-  Spacer,
-  Text,
-} from "@chakra-ui/react";
-import Counter from "../counter/Counter";
-import { Trash } from "iconsax-react";
+import { Box, Image, Text } from "@chakra-ui/react";
 
 export default function CheckoutItem() {
   return (
@@ -25,14 +15,14 @@ export default function CheckoutItem() {
     >
       <Image
         className="w-64 h-48"
-        boxSize={{ base:"50px", lg:"80px"}}
+        boxSize={{ base: "50px", lg: "80px" }}
         borderRadius="md"
         src="https://www.astronauts.id/blog/wp-content/uploads/2022/08/Makanan-Khas-Daerah-tiap-Provinsi-di-Indonesia-Serta-Daerah-Asalnya.jpg"
         alt="gambar-produk"
       />
       <Box>
         <Text
-          maxW={{ base:"160px", lg: "332px"}}
+          maxW={{ base: "160px", lg: "332px" }}
           maxH="40px"
           wordBreak="break-word"
           textAlign="start"
