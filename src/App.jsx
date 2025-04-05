@@ -9,6 +9,7 @@ import Verification from "./pages/Verification";
 import NewPassword from "./pages/NewPassword";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import MyOrder from "./pages/MyOrder";
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
         alignItems: "center",
       }}
     >
-      <Checkout />
+      <MyOrder />
     </div>
   );
 }
