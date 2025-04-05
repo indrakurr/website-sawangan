@@ -68,7 +68,7 @@ export default function Cart() {
                 <Text
                   textAlign="start"
                   fontSize="14px"
-                  fontWeight="regular"
+                  fontWeight="semibold"
                   color="gray.400"
                   lineHeight={"1.2"}
                 >
@@ -96,7 +96,7 @@ export default function Cart() {
                 _hover={{ bg: "orange.600" }}
               >
                 <Text lineHeight="1" whiteSpace="nowrap">
-                  Beli
+                  Checkout
                 </Text>
               </Button>
             </Box>
@@ -129,7 +129,7 @@ export default function Cart() {
           <Text
             textAlign="start"
             fontSize="14px"
-            fontWeight="regular"
+            fontWeight="semibold"
             color="gray.400"
             lineHeight={"1.2"}
           >
@@ -156,7 +156,7 @@ export default function Cart() {
           _hover={{ bg: "orange.600" }}
         >
           <Text lineHeight="1" whiteSpace="nowrap">
-            Beli
+            Checkout
           </Text>
         </Button>
       </Box>
