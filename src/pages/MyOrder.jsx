@@ -9,7 +9,7 @@ import { useState } from "react";
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/sections/Footer";
 import FilterButton from "../components/buttons/FilterButton";
-import CartOrder from "../components/my-order/CartOrder";
+import CartOrder from "../components/card/CartOrder";
 
 export default function MyOrder() {
   const [activeFilter, setActiveFilter] = useState("Dikirim");
@@ -33,7 +33,7 @@ export default function MyOrder() {
         <Box
           bg="white"
           borderRadius="xl"
-          padding={{base:"16px", lg:"24px"}}
+          padding={{ base: "16px", lg: "24px" }}
           boxShadow="0px 4px 30px rgba(0, 0, 0, 0.1)"
           marginTop={{ base: "16px", lg: "24px" }}
           marginBottom={{ base: "24px", lg: "52px" }}
