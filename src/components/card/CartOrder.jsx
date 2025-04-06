@@ -26,19 +26,31 @@ export default function CartOrder() {
           direction={{ base: "column", lg: "row" }}
           justifyContent="space-between"
           gap={{ base: "4px", lg: "24px" }}
-          marginBottom="16px"
         >
-          <Text
-            maxW="100%"
-            wordBreak="break-word"
-            textAlign="start"
-            fontSize={{ base: "12px", lg: "16px" }}
-            fontWeight="regular"
-            color="black"
-            lineHeight="1.2"
-          >
-            Mendoan Sawangan hraaras asdanasd Mendoan Sawangan hraaras Mendoan
-          </Text>
+          <Box>
+            <Text
+              maxW="100%"
+              wordBreak="break-word"
+              textAlign="start"
+              fontSize={{ base: "12px", lg: "16px" }}
+              fontWeight="semibold"
+              color="black"
+              lineHeight="1.2"
+            >
+              Mendoan Sawangan hraaras asdanasd Mendoan Sawangan hraaras Mendoan
+            </Text>
+            <Text
+              maxW="100%"
+              wordBreak="break-word"
+              textAlign="start"
+              fontSize={{ base: "12px", lg: "16px" }}
+              fontWeight="regular"
+              color="gray.500"
+              lineHeight="1.2"
+            >
+              Total : 3
+            </Text>
+          </Box>
           <Text
             textAlign={{ base: "start", lg: "end" }}
             fontSize={{ base: "12px", lg: "16px" }}
