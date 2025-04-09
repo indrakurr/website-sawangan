@@ -13,7 +13,7 @@ import { CloseSquare } from "iconsax-react";
 import StepProgressCustom from "../../steps/StepProgress";
 import ProdukItem from "../../card/CartModal";
 
-const ModalOrderDetailCompleted = ({ children }) => {
+const ModalOrderDetailCompleted = ({ isOpen, onClose }) => {
   const orderDetail = [
     { label: "Nama Penerima", value: ": Lorem Ipsum" },
     { label: "Nomor Telepon", value: ": 08123456789" },
@@ -26,10 +26,9 @@ const ModalOrderDetailCompleted = ({ children }) => {
   ];
 
   return (
-    <Dialog.Root>
-      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
+    <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Portal>
-        <Dialog.Backdrop />
+        <Dialog.Backdrop backdropFilter="blur(8px)" bg="rgba(0, 0, 0, 0.4)" />
         <Dialog.Positioner padding={{ base: 3, lg: 0 }}>
           <Dialog.Content
             borderRadius="2xl"
