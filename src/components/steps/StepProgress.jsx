@@ -5,6 +5,7 @@ import {
   Truck,
   CheckCircle,
 } from "@phosphor-icons/react";
+import PropTypes from "prop-types";
 
 const steps = [
   {
@@ -29,35 +30,43 @@ const steps = [
   },
 ];
 
-const activeStep = 2;
+const StepProgressCustom = ({ activeStep }) => {
+  const isMobile = useBreakpointValue({ base: true, lg: false });
 
-const StepProgressCustom = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  const iconSize = useBreakpointValue({ base: 16, lg: 28 });
+  const circleSize = useBreakpointValue({ base: "30px", lg: "60px" });
+  const fontSize = useBreakpointValue({ base: "12px", lg: "16px" });
 
   if (isMobile) {
     return (
-      <Flex direction="column" align="start" gap={6}>
+      <Flex direction="column" align="start" gap={6} overflowX="auto">
         {steps.map((step, index) => {
           const isActive = index === activeStep;
           const Icon = step.icon;
           return (
-            <Flex key={index} direction="row" align="center" gap={4}>
+            <Flex
+              key={index}
+              direction="row"
+              align="center"
+              gap={2}
+              minWidth="120px"
+            >
               <Flex
                 bg={isActive ? "orange.500" : "orange.100"}
                 color={isActive ? "white" : "orange.500"}
                 borderRadius="full"
-                w="60px"
-                h="60px"
+                w={circleSize}
+                h={circleSize}
                 align="center"
                 justify="center"
               >
-                <Icon size={28} weight="bold" />
+                <Icon size={iconSize} weight="bold" />
               </Flex>
-              <Box>
-                <Text fontWeight="semibold" color="black">
+              <Box textAlign="start">
+                <Text fontWeight="semibold" color="black" fontSize={fontSize}>
                   {step.title}
                 </Text>
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize={fontSize} color="gray.500">
                   {step.description}
                 </Text>
               </Box>
@@ -83,24 +92,22 @@ const StepProgressCustom = () => {
             position="relative"
             flex={1}
           >
-            {/* Lingkaran icon */}
             <Flex
               bg={isActive || isCompleted ? "orange.500" : "orange.100"}
               color={isActive || isCompleted ? "white" : "orange.500"}
               borderRadius="full"
-              w="60px"
-              h="60px"
+              w={circleSize}
+              h={circleSize}
               align="center"
               justify="center"
               zIndex={1}
               mx="auto"
             >
-              <Icon size={28} weight="bold" />
+              <Icon size={iconSize} weight="bold" />
             </Flex>
 
-            {/* Judul dan deskripsi */}
             <Box textAlign="center" mt={2}>
-              <Text fontWeight="semibold" color="black">
+              <Text fontWeight="semibold" color="black" fontSize={fontSize}>
                 {step.title}
               </Text>
               <Text fontSize="sm" color="gray.500">
@@ -108,7 +115,6 @@ const StepProgressCustom = () => {
               </Text>
             </Box>
 
-            {/* Garis penghubung */}
             {index !== steps.length - 1 && (
               <Box
                 position="absolute"
@@ -126,6 +132,10 @@ const StepProgressCustom = () => {
       })}
     </Flex>
   );
+};
+
+StepProgressCustom.propTypes = {
+  activeStep: PropTypes.number.isRequired,
 };
 
 export default StepProgressCustom;
