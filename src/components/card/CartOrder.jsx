@@ -79,7 +79,7 @@ const CartOrder = () => {
               py={5}
               gap={2}
               border="1px solid"
-              borderColor="orange.500"
+              borderColor={{base:"transparent", lg:"orange.500"}}
               _hover={{ bg: { base: "gray.50", lg: "orange.600" } }}
               onClick={() => setIsOpen(true)}
             >

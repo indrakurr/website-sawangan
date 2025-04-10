@@ -50,8 +50,8 @@ const ModalOrderDetailPending = ({ isOpen, onClose }) => {
               </Text>
               <Box
                 position="absolute"
-                top={{ base: 2, lg: 4 }}
-                right={{ base: 2, lg: 4 }}
+                top={{ base: 3, lg: 4 }}
+                right={{ base: 3, lg: 4 }}
               >
                 <Box cursor="pointer" onClick={onClose}>
                   <CloseSquare size="32" color="#828282" />

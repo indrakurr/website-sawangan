@@ -43,6 +43,7 @@ export default function SearchBar() {
               padding="16px"
               borderRadius="12px"
               backgroundColor="white"
+              boxShadow="0px 4px 15px rgba(0, 0, 0, 0.1)"
             >
               <Menu.Item
                 color="black"
