@@ -12,6 +12,7 @@ import Checkout from "./pages/Checkout";
 import MyOrder from "./pages/MyOrder";
 import ProfilePage from "./pages/ProfilePage";
 import ChangePassword from "./pages/ChangePassword";
+import Dashboard from "./pages/Dashboard";
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
         alignItems: "center",
       }}
     >
-      <ChangePassword />
+      <Dashboard />
     </div>
   );
 }
