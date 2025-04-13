@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Box, VStack, Button, Image, Flex, Text } from "@chakra-ui/react";
 import {
   House,
@@ -19,7 +18,7 @@ const NavItem = ({ Icon, label, isActive, isExpanded }) => (
     variant="ghost"
     bg={isActive ? "orange.400" : "transparent"}
     color={isActive ? "white" : "black"}
-    _hover={{ bg: isActive ? "orange.500" : "orange.100" }}
+    _hover={{ bg: isActive ? "orange.500" : "gray.100" }}
     px={isExpanded ? 4 : 0}
     borderRadius="md"
     height="40px"
@@ -32,36 +31,33 @@ const NavItem = ({ Icon, label, isActive, isExpanded }) => (
 );
 
 // Komponen Sidebar Utama
-const Sidebar = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const handleToggle = () => {
-    setIsExpanded((prev) => !prev);
-  };
-
+const Sidebar = ({ collapse, setCollapse }) => {
   return (
     <Box
-      w={isExpanded ? "250px" : "80px"}
+      w={collapse ? "80px" : "250px"}
       bg="white"
       borderRight="1px"
       borderColor="gray.200"
       p={4}
       minH="100vh"
       transition="width 0.2s ease"
+      boxShadow={"0px 4px 30px rgba(0, 0, 0, 0.05)"}
     >
-      <VStack spacing={6} align={isExpanded ? "flex-start" : "center"}>
-        <Image
-          src={isExpanded ? LogoSawangan : LogoThumb}
-          alt="Logo"
-          boxSize={isExpanded ? "auto" : "50px"}
-          height="50px"
-          marginY="4px"
-          objectFit="contain"
-          cursor="pointer"
-          onClick={handleToggle}
-          transition="transform 0.2s ease"
-          _hover={{ transform: "scale(1.05)" }}
-        />
+      <VStack spacing={6} align={collapse ? "center" : "flex-start"}>
+        <Flex w="full" justify="center">
+          <Image
+            src={collapse ? LogoThumb : LogoSawangan}
+            alt="Logo"
+            boxSize={collapse ? "50px" : "auto"}
+            height="50px"
+            marginY="14px"
+            objectFit="contain"
+            cursor="pointer"
+            onClick={() => setCollapse(!collapse)} // Toggle collapse state
+            transition="transform 0.2s ease"
+            _hover={{ transform: "scale(1.05)" }}
+          />
+        </Flex>
 
         <Box w="100%" h="1px" bg="orange.500" transition="width 0.2s ease" />
 
@@ -70,25 +66,25 @@ const Sidebar = () => {
           Icon={House}
           label="Beranda"
           isActive={false}
-          isExpanded={isExpanded}
+          isExpanded={!collapse}
         />
         <NavItem
           Icon={ShoppingCart}
           label="Produk"
           isActive={false}
-          isExpanded={isExpanded}
+          isExpanded={!collapse}
         />
         <NavItem
           Icon={ClipboardText}
           label="Pesanan"
-          isActive={true}
-          isExpanded={isExpanded}
+          isActive={true} // Assuming this is active
+          isExpanded={!collapse}
         />
         <NavItem
           Icon={UsersThree}
           label="Manajemen Pengguna"
           isActive={false}
-          isExpanded={isExpanded}
+          isExpanded={!collapse}
         />
       </VStack>
     </Box>
