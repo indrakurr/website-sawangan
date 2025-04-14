@@ -194,7 +194,7 @@ export default function Dashboard() {
                 justifyContent="space-between"
                 padding={6}
                 _hover={{
-                  bg: "orange.500",
+                  bg: "#FAC213",
                   color: "white",
                 }}
               >
