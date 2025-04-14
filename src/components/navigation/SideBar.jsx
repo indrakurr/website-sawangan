@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, VStack, Button, Image, Flex, Text } from "@chakra-ui/react";
 import {
   House,
@@ -5,14 +6,13 @@ import {
   ClipboardText,
   UsersThree,
 } from "@phosphor-icons/react";
-
-// Gambar logo
 import LogoThumb from "../../assets/logo.png";
 import LogoSawangan from "../../assets/logo-sawangan.png";
 
 // Komponen Navigasi Sidebar
-const NavItem = ({ Icon, label, isActive, isExpanded }) => (
+const NavItem = ({ Icon, label, isActive, isExpanded, onClick }) => (
   <Button
+    onClick={onClick}
     justifyContent={isExpanded ? "flex-start" : "center"}
     w="100%"
     variant="ghost"
@@ -32,13 +32,15 @@ const NavItem = ({ Icon, label, isActive, isExpanded }) => (
 
 // Komponen Sidebar Utama
 const Sidebar = ({ collapse, setCollapse }) => {
+const [activeMenu, setActiveMenu] = useState("Pesanan");
+
   return (
     <Box
       w={collapse ? "80px" : "250px"}
       bg="white"
       borderRight="1px"
       borderColor="gray.200"
-      p={4}
+      p={6}
       minH="100vh"
       transition="width 0.2s ease"
       boxShadow={"0px 4px 30px rgba(0, 0, 0, 0.05)"}
@@ -65,26 +67,30 @@ const Sidebar = ({ collapse, setCollapse }) => {
         <NavItem
           Icon={House}
           label="Beranda"
-          isActive={false}
+          isActive={activeMenu === "Beranda"}
           isExpanded={!collapse}
+          onClick={() => setActiveMenu("Beranda")}
         />
         <NavItem
           Icon={ShoppingCart}
           label="Produk"
-          isActive={false}
+          isActive={activeMenu === "Produk"}
           isExpanded={!collapse}
+          onClick={() => setActiveMenu("Produk")}
         />
         <NavItem
           Icon={ClipboardText}
           label="Pesanan"
-          isActive={true} // Assuming this is active
+          isActive={activeMenu === "Pesanan"}
           isExpanded={!collapse}
+          onClick={() => setActiveMenu("Pesanan")}
         />
         <NavItem
           Icon={UsersThree}
           label="Manajemen Pengguna"
-          isActive={false}
+          isActive={activeMenu === "Manajemen Pengguna"}
           isExpanded={!collapse}
+          onClick={() => setActiveMenu("Manajemen Pengguna")}
         />
       </VStack>
     </Box>
