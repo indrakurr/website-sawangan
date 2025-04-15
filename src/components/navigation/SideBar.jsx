@@ -32,7 +32,7 @@ const NavItem = ({ Icon, label, isActive, isExpanded, onClick }) => (
 
 // Komponen Sidebar Utama
 const Sidebar = ({ collapse, setCollapse }) => {
-const [activeMenu, setActiveMenu] = useState("Pesanan");
+  const [activeMenu, setActiveMenu] = useState("Pesanan");
 
   return (
     <Box
@@ -40,7 +40,8 @@ const [activeMenu, setActiveMenu] = useState("Pesanan");
       bg="white"
       borderRight="1px"
       borderColor="gray.200"
-      p={6}
+      paddingX={6}
+      paddingY={3}
       minH="100vh"
       transition="width 0.2s ease"
       boxShadow={"0px 4px 30px rgba(0, 0, 0, 0.05)"}
@@ -64,34 +65,36 @@ const [activeMenu, setActiveMenu] = useState("Pesanan");
         <Box w="100%" h="1px" bg="orange.500" transition="width 0.2s ease" />
 
         {/* Menu Item */}
-        <NavItem
-          Icon={House}
-          label="Beranda"
-          isActive={activeMenu === "Beranda"}
-          isExpanded={!collapse}
-          onClick={() => setActiveMenu("Beranda")}
-        />
-        <NavItem
-          Icon={ShoppingCart}
-          label="Produk"
-          isActive={activeMenu === "Produk"}
-          isExpanded={!collapse}
-          onClick={() => setActiveMenu("Produk")}
-        />
-        <NavItem
-          Icon={ClipboardText}
-          label="Pesanan"
-          isActive={activeMenu === "Pesanan"}
-          isExpanded={!collapse}
-          onClick={() => setActiveMenu("Pesanan")}
-        />
-        <NavItem
-          Icon={UsersThree}
-          label="Manajemen Pengguna"
-          isActive={activeMenu === "Manajemen Pengguna"}
-          isExpanded={!collapse}
-          onClick={() => setActiveMenu("Manajemen Pengguna")}
-        />
+        <VStack marginTop={"14px"}>
+          <NavItem
+            Icon={House}
+            label="Beranda"
+            isActive={activeMenu === "Beranda"}
+            isExpanded={!collapse}
+            onClick={() => setActiveMenu("Beranda")}
+          />
+          <NavItem
+            Icon={ShoppingCart}
+            label="Produk"
+            isActive={activeMenu === "Produk"}
+            isExpanded={!collapse}
+            onClick={() => setActiveMenu("Produk")}
+          />
+          <NavItem
+            Icon={ClipboardText}
+            label="Pesanan"
+            isActive={activeMenu === "Pesanan"}
+            isExpanded={!collapse}
+            onClick={() => setActiveMenu("Pesanan")}
+          />
+          <NavItem
+            Icon={UsersThree}
+            label="Manajemen Pengguna"
+            isActive={activeMenu === "Manajemen Pengguna"}
+            isExpanded={!collapse}
+            onClick={() => setActiveMenu("Manajemen Pengguna")}
+          />
+        </VStack>
       </VStack>
     </Box>
   );
