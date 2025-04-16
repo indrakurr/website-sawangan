@@ -65,7 +65,7 @@ const Sidebar = ({ collapse, setCollapse }) => {
         <Box w="100%" h="1px" bg="orange.500" transition="width 0.2s ease" />
 
         {/* Menu Item */}
-        <VStack marginTop={"14px"}>
+        <VStack marginTop={"14px"} w={"full"}>
           <NavItem
             Icon={House}
             label="Beranda"
@@ -75,21 +75,21 @@ const Sidebar = ({ collapse, setCollapse }) => {
           />
           <NavItem
             Icon={ShoppingCart}
-            label="Produk"
+            label="Kelola Produk"
             isActive={activeMenu === "Produk"}
             isExpanded={!collapse}
             onClick={() => setActiveMenu("Produk")}
           />
           <NavItem
             Icon={ClipboardText}
-            label="Pesanan"
+            label="Kelola Pesanan"
             isActive={activeMenu === "Pesanan"}
             isExpanded={!collapse}
             onClick={() => setActiveMenu("Pesanan")}
           />
           <NavItem
             Icon={UsersThree}
-            label="Manajemen Pengguna"
+            label="Kelola Pengguna"
             isActive={activeMenu === "Manajemen Pengguna"}
             isExpanded={!collapse}
             onClick={() => setActiveMenu("Manajemen Pengguna")}

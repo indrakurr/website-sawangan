@@ -5,17 +5,11 @@ import {
   Flex,
   Grid,
   GridItem,
-  Image,
-  IconButton,
-  Menu,
-  Portal,
   Text,
 } from "@chakra-ui/react";
-import SideBar from "../components/navigation/SideBar";
-import TopBar from "../components/navigation/TopBar";
-import CardInfo from "../components/card/CardInfo";
-import { ArrowDown2, Logout } from "iconsax-react";
-import { ArrowLeftSquare, ArrowRightSquare } from "react-iconly";
+import SideBar from "../../components/navigation/SideBar";
+import TopBar from "../../components/navigation/TopBar";
+import CardInfo from "../../components/card/CardInfo";
 import {
   ClipboardText,
   ShoppingCart,
@@ -24,7 +18,7 @@ import {
   Plus,
 } from "@phosphor-icons/react";
 
-import BgCard from "../assets/bg-card-dashboard.png";
+import BgCard from "../../assets/bg-card-dashboard.png";
 
 export default function Dashboard() {
   const [collapse, setCollapse] = useState(false);
