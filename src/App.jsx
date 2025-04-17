@@ -14,6 +14,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ChangePassword from "./pages/ChangePassword";
 import Dashboard from "./pages/admin/Dashboard";
 import ManageProduct from "./pages/admin/ManageProduct"
+import ManageOrder from "./pages/admin/ManageOrder"
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
         alignItems: "center",
       }}
     >
-      <ManageProduct />
+      <ManageOrder />
     </div>
   );
 }
