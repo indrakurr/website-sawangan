@@ -23,7 +23,7 @@ import BgCard from "../../assets/bg-card-dashboard.png";
 export default function Dashboard() {
   const [collapse, setCollapse] = useState(false);
 
-  const sidebarWidth = collapse ? 96 : 312;
+  
 
   return (
     <Flex w="100%" minH="100vh" bg="gray.100">

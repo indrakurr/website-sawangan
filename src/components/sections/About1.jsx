@@ -6,6 +6,8 @@ import {
   GridItem,
   Text,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom"; 
+import { scroller } from "react-scroll";
 import Image from "../../assets/about-img.png";
 
 export default function About1() {
@@ -14,6 +16,7 @@ export default function About1() {
       paddingX={{ base: "20px", lg: "72px" }}
       paddingY={{ base: "20px", lg: "100px" }}
       paddingTop={"96px"}
+      marginTop={{ base: "none", lg: "100px" }}
       bg="gray.100"
       borderRadius={{ base: "0px", lg: "32px" }}
     >
@@ -72,6 +75,8 @@ export default function About1() {
             alignItems="center"
           >
             <Button
+              as={RouterLink}
+              to="/produk"
               size={"sm"}
               bg={"orange.500"}
               color={"white"}
@@ -85,6 +90,14 @@ export default function About1() {
               </Text>
             </Button>
             <Button
+              onClick={() => {
+                scroller.scrollTo("kontak-kami", {
+                  duration: 800,
+                  delay: 0,
+                  smooth: "easeInOutQuart",
+                  offset: -135,
+                });
+              }}
               size={"sm"}
               bg={"transparent"}
               color={"orange.500"}

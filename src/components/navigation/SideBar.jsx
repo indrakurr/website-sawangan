@@ -8,6 +8,7 @@ import {
 } from "@phosphor-icons/react";
 import LogoThumb from "../../assets/logo.png";
 import LogoSawangan from "../../assets/logo-sawangan.png";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // Komponen Navigasi Sidebar
 const NavItem = ({ Icon, label, isActive, isExpanded, onClick }) => (
@@ -32,7 +33,22 @@ const NavItem = ({ Icon, label, isActive, isExpanded, onClick }) => (
 
 // Komponen Sidebar Utama
 const Sidebar = ({ collapse, setCollapse }) => {
-  const [activeMenu, setActiveMenu] = useState("Pesanan");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const path = location.pathname;
+
+  const [activeMenu, setActiveMenu] = useState(() => {
+    if (path.includes("/dashboard/produk")) return "Produk";
+    if (path.includes("/dashboard/pesanan")) return "Pesanan";
+    if (path.includes("/dashboard/pengguna")) return "Manajemen Pengguna";
+    return "Beranda";
+  });
+
+  const handleNavigation = (menuName, path) => {
+    setActiveMenu(menuName);
+    navigate(path);
+  };
 
   return (
     <Box
@@ -71,28 +87,30 @@ const Sidebar = ({ collapse, setCollapse }) => {
             label="Beranda"
             isActive={activeMenu === "Beranda"}
             isExpanded={!collapse}
-            onClick={() => setActiveMenu("Beranda")}
+            onClick={() => handleNavigation("Beranda", "/dashboard")}
           />
           <NavItem
             Icon={ShoppingCart}
             label="Kelola Produk"
             isActive={activeMenu === "Produk"}
             isExpanded={!collapse}
-            onClick={() => setActiveMenu("Produk")}
+            onClick={() => handleNavigation("Produk", "/dashboard/produk")}
           />
           <NavItem
             Icon={ClipboardText}
             label="Kelola Pesanan"
             isActive={activeMenu === "Pesanan"}
             isExpanded={!collapse}
-            onClick={() => setActiveMenu("Pesanan")}
+            onClick={() => handleNavigation("Pesanan", "/dashboard/pesanan")}
           />
           <NavItem
             Icon={UsersThree}
             label="Kelola Pengguna"
             isActive={activeMenu === "Manajemen Pengguna"}
             isExpanded={!collapse}
-            onClick={() => setActiveMenu("Manajemen Pengguna")}
+            onClick={() =>
+              handleNavigation("Manajemen Pengguna", "/dashboard/pengguna")
+            }
           />
         </VStack>
       </VStack>

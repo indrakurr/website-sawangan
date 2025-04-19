@@ -13,6 +13,7 @@ import { InputWithLogo } from "../components/inputs/InputWithLogo";
 import Banner from "../assets/login-bg.png";
 import { Message, Lock } from "react-iconly";
 import Logo from "../assets/logo-sawangan.svg";
+import { Link as RouterLink } from "react-router-dom"; 
 
 export default function LoginPage() {
   return (
@@ -139,7 +140,7 @@ export default function LoginPage() {
             width="full"
           >
             Belum punya akun?{" "}
-            <Link color="orange.500" fontWeight="semibold">
+            <Link as={RouterLink} to="/daftar" color="orange.500" fontWeight="semibold">
               Daftar
             </Link>
           </Text>

@@ -2,24 +2,23 @@ import { Container, Flex, Grid, GridItem, Text, Box } from "@chakra-ui/react";
 import Logo from "../../assets/logo-sawangan.svg";
 
 export default function Footer(props) {
-  const productLink = [
-    { text: "Makanan", link: "#" },
-    { text: "Minuman", link: "#" },
-    { text: "Aksesoris", link: "#" },
-  ];
-
   const aboutLink = [
-    { text: "Toko Sawangan 1", link: "#" },
-    { text: "Mengapa Kami", link: "#" },
-    { text: "Jam Operasional", link: "#" },
-    { text: "Galeri", link: "#" },
+    { text: "Toko Sawangan 1", link: "/tentang#toko-sawangan" },
+    { text: "Mengapa Kami", link: "/tentang#mengapa-kami" },
+    { text: "Jam Operasional", link: "/tentang#jam-operasional" },
+    { text: "Galeri", link: "/tentang#galeri" },
   ];
 
-  const socialMediaLink = [
-    { text: "Instagram", link: "#" },
-    { text: "YouTube", link: "#" },
-    { text: "Facebook", link: "#" },
-  ];
+
+ const socialMediaLink = [
+   { text: "Instagram", link: "https://www.instagram.com/sawangan_no1/" },
+   {
+     text: "YouTube",
+     link: "https://www.youtube.com/channel/UCEu-UZAiD6hNdFBg4BMFS-w",
+   },
+   { text: "Facebook", link: "https://www.facebook.com/SawanganSatu" },
+ ];
+
 
   return (
     <Box as="footer" bg="white" borderTop="2px solid #E2E8F0" {...props}>
@@ -62,7 +61,6 @@ export default function Footer(props) {
               direction="row"
               justify={{ base: "start", md: "end" }}
             >
-              <FooterColumn title="Produk" items={productLink} />
               <FooterColumn title="Tentang Kami" items={aboutLink} />
               <FooterColumn title="Media Sosial" items={socialMediaLink} />
             </Flex>

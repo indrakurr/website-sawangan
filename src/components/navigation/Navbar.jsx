@@ -3,13 +3,14 @@ import Logo from "../../assets/logo-sawangan.svg";
 import hamburger_active from "../../assets/x-bold.svg";
 import hamburger_non_active from "../../assets/list-bold.svg";
 import { Box, Button, Flex, Link, Text } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function Navbar() {
   const [toggleNavbar, setToggleNavbar] = useState(false);
 
   const menuItems = [
-    { text: "Beranda", href: "/beranda" },
-    { text: "Tentang Kami", href: "/tentang-kami" },
+    { text: "Beranda", href: "/" },
+    { text: "Tentang Kami", href: "/tentang" },
     { text: "Produk", href: "/produk" },
   ];
 
@@ -29,7 +30,9 @@ export default function Navbar() {
           borderColor={"gray.100"}
         >
           <div className="w-28 order-1 sm:order-2 lg:order-1">
-            <img src={Logo} alt="navbar-logo" />
+            <RouterLink to="/">
+              <img src={Logo} alt="navbar-logo" />
+            </RouterLink>
           </div>
 
           <div
@@ -47,7 +50,8 @@ export default function Navbar() {
               {menuItems.map((item, index) => (
                 <li key={index}>
                   <Link
-                    href={item.href}
+                    as={RouterLink}
+                    to={item.href}
                     fontSize="md"
                     fontWeight="medium"
                     color="black"
@@ -61,6 +65,8 @@ export default function Navbar() {
           </div>
           <div className="hidden sm:block order-3 lg:order-3">
             <Button
+              as={RouterLink}
+              to="/masuk"
               size={"sm"}
               bg={"orange.500"}
               color={"white"}
@@ -81,6 +87,8 @@ export default function Navbar() {
           <Box padding={4}>
             <ul className="text-start bg-white flex flex-col">
               <Button
+                as={RouterLink}
+                to="/masuk"
                 size={"sm"}
                 bg={"orange.500"}
                 color={"white"}
@@ -94,7 +102,8 @@ export default function Navbar() {
               {menuItems.map((item, index) => (
                 <li key={index}>
                   <Link
-                    href={item.href}
+                    as={RouterLink}
+                    to={item.href}
                     fontSize="md"
                     fontWeight="medium"
                     color="black"
