@@ -7,6 +7,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import CardProduk from "../card/CardProduk";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function ExploreProduct() {
   return (
@@ -46,6 +47,8 @@ export default function ExploreProduct() {
         </GridItem>
         <GridItem className="flex justify-center">
           <Button
+            as={RouterLink}
+            to="/produk"
             size={"sm"}
             bg={"orange.500"}
             color={"white"}

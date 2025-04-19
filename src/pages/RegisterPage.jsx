@@ -14,6 +14,7 @@ import { InputWithLogo } from "../components/inputs/InputWithLogo";
 import Banner from "../assets/login-bg.png";
 import { Message, User, Lock } from "react-iconly";
 import { PhoneCall } from "@phosphor-icons/react";
+import { Link as RouterLink } from "react-router-dom"; 
 import Logo from "../assets/logo-sawangan.svg";
 
 export default function RegisterPage() {
@@ -163,7 +164,7 @@ export default function RegisterPage() {
             width="full"
           >
             Sudah punya akun?{" "}
-            <Link color="orange.500" fontWeight="semibold">
+            <Link as={RouterLink} to="/masuk" color="orange.500" fontWeight="semibold">
               Masuk
             </Link>
           </Text>

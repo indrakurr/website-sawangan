@@ -16,6 +16,8 @@ export default function ContactUs() {
       marginBottom={"96px"}
       bg="gray.100"
       borderRadius={{ sm: "16px", lg: "32px" }}
+      as="section"
+      id="kontak-kami"
     >
       <Grid
         className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-rows-1 justify-start gap-8"
@@ -71,7 +73,7 @@ export default function ContactUs() {
               <WhatsappLogo
                 style={{ width: "24px", height: "24px" }}
                 color="white"
-                weight="light"
+                weight="fill"
               />
               WhatsApp
             </Button>
