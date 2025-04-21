@@ -28,6 +28,8 @@ export function TableOrderList({
     switch (status.toLowerCase()) {
       case "belum bayar":
         return "yellow";
+      case "dikemas":
+        return "azure";
       case "dikirim":
         return "blue";
       case "diterima":

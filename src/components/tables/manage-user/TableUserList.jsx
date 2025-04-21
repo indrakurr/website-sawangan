@@ -30,9 +30,6 @@ export function TableUserList({
           <TextCell content={user.email} />
           <LeftAlignCell>{user.phone}</LeftAlignCell>
           <CenteredCell>
-            <IconButton variant="ghost" _hover={{ bg: "transparent" }}>
-              <Eye color="black" />
-            </IconButton>
             <IconButton variant="ghost" _hover={{ bg: "transparent" }} ml={2}>
               <Trash color="red" />
             </IconButton>

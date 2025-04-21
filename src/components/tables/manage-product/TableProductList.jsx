@@ -19,11 +19,11 @@ export function TableProductList({
   const handleBadgeColor = (category) => {
     switch (category.toLowerCase()) {
       case "makanan":
-        return "yellow";
+        return "yellow2";
       case "minuman":
-        return "blue";
+        return "blue2";
       case "aksesoris":
-        return "green";
+        return "green2";
       default:
         return "gray";
     }
