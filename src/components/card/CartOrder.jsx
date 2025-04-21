@@ -99,7 +99,7 @@ const CartOrder = () => {
       </Box>
 
       {/* Modal Detail */}
-      <ModalOrderDetailCanceled
+      <ModalOrderDetailCompleted
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />

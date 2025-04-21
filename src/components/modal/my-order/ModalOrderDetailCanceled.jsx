@@ -52,11 +52,9 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose }) => {
                 top={{ base: 3, lg: 4 }}
                 right={{ base: 3, lg: 4 }}
               >
-                <Dialog.CloseTrigger asChild>
-                  <Box cursor="pointer">
-                    <CloseSquare size="32" color="#828282" />
-                  </Box>
-                </Dialog.CloseTrigger>
+                <Box cursor="pointer" onClick={onClose}>
+                  <CloseSquare size="32" color="#828282" />
+                </Box>
               </Box>
             </Dialog.Header>
 
