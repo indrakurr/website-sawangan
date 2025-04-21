@@ -64,7 +64,7 @@ const ModalOrderDetailCompleted = ({ isOpen, onClose }) => {
             <Dialog.Body as={VStack} align="stretch" gap={6} padding={0}>
               {/* Step Progress */}
               <Box w="full">
-                <StepProgressCustom activeStep={0} />
+                <StepProgressCustom activeStep={3} />
               </Box>
 
               <Box>

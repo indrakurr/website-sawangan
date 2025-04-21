@@ -13,9 +13,34 @@ import { InputWithLogo } from "../components/inputs/InputWithLogo";
 import Banner from "../assets/login-bg.png";
 import { Message, Lock } from "react-iconly";
 import Logo from "../assets/logo-sawangan.svg";
-import { Link as RouterLink } from "react-router-dom"; 
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Toaster, toaster } from "../components/ui/toaster";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    // Simulasi login
+    if (email === "admin@sawangan.id" && password === "admin123") {
+      toaster.success("Login Berhasil", {
+        duration: 2000,
+        position: "top-center",
+        style : { color: "#ffffff"},
+      });
+      navigate("/");
+    } else {
+      toaster.error("Login Gagal", {
+        description: "Email atau password salah",
+        duration: 3000,
+        position: "top-center",
+        style: { color: "#ffffff" },
+      });
+    }
+  };
+
   return (
     <div>
       <Grid
@@ -78,14 +103,23 @@ export default function LoginPage() {
               label="Masukkan Alamat Email Anda"
               type="email"
               icon={Message}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <InputWithLogo
               id="password"
               label="Masukkan Password"
               type="password"
               icon={Lock}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <Link width="full" justifyContent="end" fontWeight="semibold" color="orange.500">
+            <Link
+              width="full"
+              justifyContent="end"
+              fontWeight="semibold"
+              color="orange.500"
+            >
               Lupa Password?
             </Link>
           </VStack>
@@ -97,6 +131,7 @@ export default function LoginPage() {
             w={"full"}
             py={5}
             _hover={{ bg: "orange.600" }}
+            onClick={handleLogin}
           >
             <Text lineHeight="1" whiteSpace="nowrap">
               Masuk
@@ -140,12 +175,18 @@ export default function LoginPage() {
             width="full"
           >
             Belum punya akun?{" "}
-            <Link as={RouterLink} to="/daftar" color="orange.500" fontWeight="semibold">
+            <Link
+              as={RouterLink}
+              to="/daftar"
+              color="orange.500"
+              fontWeight="semibold"
+            >
               Daftar
             </Link>
           </Text>
         </GridItem>
       </Grid>
+      <Toaster />
     </div>
   );
 }

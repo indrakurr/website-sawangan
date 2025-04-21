@@ -13,7 +13,7 @@ import { CloseSquare } from "iconsax-react";
 import StepProgressCustom from "../../steps/StepProgress";
 import ProdukItem from "../../card/CartModal";
 
-const ModalOrderDetailShipped = ({ isOpen, onClose }) => {
+const ModalOrderDetailPacked = ({ isOpen, onClose }) => {
   const orderDetail = [
     { label: "Nama Penerima", value: ": Lorem Ipsum" },
     { label: "Nomor Telepon", value: ": 08123456789" },
@@ -53,18 +53,16 @@ const ModalOrderDetailShipped = ({ isOpen, onClose }) => {
                 top={{ base: 3, lg: 4 }}
                 right={{ base: 3, lg: 4 }}
               >
-                <Dialog.CloseTrigger asChild>
-                  <Box cursor="pointer">
-                    <CloseSquare size="32" color="#828282" />
-                  </Box>
-                </Dialog.CloseTrigger>
+                <Box cursor="pointer" onClick={onClose}>
+                  <CloseSquare size="32" color="#828282" />
+                </Box>
               </Box>
             </Dialog.Header>
 
             <Dialog.Body as={VStack} align="stretch" gap={6} padding={0}>
               {/* Step Progress */}
               <Box w="full">
-                <StepProgressCustom activeStep={2} />
+                <StepProgressCustom activeStep={1} />
               </Box>
 
               <Box>
@@ -119,20 +117,7 @@ const ModalOrderDetailShipped = ({ isOpen, onClose }) => {
                     _hover={{ bg: "orange.600" }}
                   >
                     <Text lineHeight="1" whiteSpace="nowrap">
-                      Lacak Pesanan
-                    </Text>
-                  </Button>
-                  <Button
-                    size={"sm"}
-                    bg={"orange.500"}
-                    color={"white"}
-                    rounded={"xl"}
-                    px={5}
-                    py={4}
-                    _hover={{ bg: "orange.600" }}
-                  >
-                    <Text lineHeight="1" whiteSpace="nowrap">
-                      Pesanan Diterima
+                      Kembali
                     </Text>
                   </Button>
                 </HStack>
@@ -145,4 +130,4 @@ const ModalOrderDetailShipped = ({ isOpen, onClose }) => {
   );
 };
 
-export default ModalOrderDetailShipped;
+export default ModalOrderDetailPacked;
