@@ -1,7 +1,11 @@
 import { Button, Box, Flex, Image, Text } from "@chakra-ui/react";
 import { Show } from "react-iconly";
-import ModalOrderDetailPending from "../modal/my-order/ModalOrderDetailPending";
 import { useState } from "react";
+import ModalOrderDetailPending from "../modal/my-order/ModalOrderDetailPending";
+import ModalOrderDetailPacked from "../modal/my-order/ModalOrderDetailPacked";
+import ModalOrderDetailShipped from "../modal/my-order/ModalOrderDetailShipped";
+import ModalOrderDetailCompleted from "../modal/my-order/ModalOrderDetailCompleted";
+import ModalOrderDetailCanceled from "../modal/my-order/ModalOrderDetailCanceled";
 
 const CartOrder = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -95,7 +99,7 @@ const CartOrder = () => {
       </Box>
 
       {/* Modal Detail */}
-      <ModalOrderDetailPending
+      <ModalOrderDetailCanceled
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />

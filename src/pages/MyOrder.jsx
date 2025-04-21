@@ -13,7 +13,7 @@ import CartOrder from "../components/card/CartOrder";
 
 export default function MyOrder() {
   const [activeFilter, setActiveFilter] = useState("Dikirim");
-  const buttonLabels = ["Belum Bayar", "Dikirim", "Selesai", "Dibatalkan"];
+  const buttonLabels = ["Belum Bayar", "Dikemas", "Dikirim", "Selesai", "Dibatalkan"];
 
   return (
     <>

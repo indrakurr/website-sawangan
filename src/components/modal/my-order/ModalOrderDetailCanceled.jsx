@@ -72,9 +72,10 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose }) => {
                   Pembatalan Berhasil
                 </Text>
                 <Text
+                  marginTop="12px"
                   fontSize={{ base: 12, lg: 14 }}
                   fontWeight="semibold"
-                  color="gray.300"
+                  color="orange.500"
                   lineHeight={1}
                 >
                   22 Januari 2025 - 10.30
@@ -119,6 +120,24 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose }) => {
                 </Text>
                 <ProdukItem />
               </Box>
+              {/* Footer */}
+              <Flex w="full" justifyContent="end">
+                <HStack spacing={3}>
+                  <Button
+                    size={"sm"}
+                    bg={"orange.500"}
+                    color={"white"}
+                    rounded={"xl"}
+                    px={5}
+                    py={4}
+                    _hover={{ bg: "orange.600" }}
+                  >
+                    <Text lineHeight="1" whiteSpace="nowrap">
+                      Kembali
+                    </Text>
+                  </Button>
+                </HStack>
+              </Flex>
             </Dialog.Body>
           </Dialog.Content>
         </Dialog.Positioner>
