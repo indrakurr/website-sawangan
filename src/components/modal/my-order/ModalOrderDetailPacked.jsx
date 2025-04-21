@@ -115,6 +115,7 @@ const ModalOrderDetailPacked = ({ isOpen, onClose }) => {
                     px={5}
                     py={4}
                     _hover={{ bg: "orange.600" }}
+                    onClick={onClose}
                   >
                     <Text lineHeight="1" whiteSpace="nowrap">
                       Kembali
