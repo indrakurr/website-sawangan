@@ -36,11 +36,14 @@ export function BadgeCell({ colorScheme, content }) {
   );
 
   const schemes = {
-    green: ["#154C3C", "#C7EBD1"],
-    yellow: ["#5F5207", "#FBF5D0"],
-    red: ["#76170F", "#FADCD9"],
-    blue: ["#19365D", "#D4E4FA"],
-    azure: ["#fff", "#5BD4EF", "9px", "5px", "2xl"],
+    green: ["#154C3C", "#C7EBD1", "9px", "5px", "2xl"],
+    green2: ["#fff", "#28A745", "9px", "5px", "2xl"],
+    yellow: ["#5F5207", "#FBF5D0", "9px", "5px", "2xl"],
+    yellow2: ["#fff", "#FFC107", "9px", "5px", "2xl"],
+    red: ["#76170F", "#FADCD9", "9px", "5px", "2xl"],
+    blue: ["#0A3A6D", "#D6EAFB", "9px", "5px", "2xl"],
+    blue2: ["#fff", "#007BFF", "9px", "5px", "2xl"],
+    azure: ["#6C3483", "#E8DAEF", "9px", "5px", "2xl"],
     gold: ["#fff", "#D4AF35", "9px", "5px", "2xl"],
     silver: ["#fff", "#BBBBBB", "9px", "5px", "2xl"],
     bronze: ["#fff", "#C97513", "9px", "5px", "2xl"],

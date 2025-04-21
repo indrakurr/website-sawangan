@@ -18,6 +18,7 @@ export default function ManageOrder() {
   const statusOptions = [
     "Semua",
     "Belum Bayar",
+    "Dikemas",
     "Dikirim",
     "Diterima",
     "Dibatalkan",
@@ -144,6 +145,27 @@ export default function ManageOrder() {
       customerName: "Nanda Pratama",
       total: "Rp11.000",
       status: "Belum Bayar",
+    },
+    {
+      id: "ORD678912345",
+      productName: "Batik Tulis",
+      customerName: "Dewi Lestari",
+      total: "Rp120.000",
+      status: "Dikemas",
+    },
+    {
+      id: "ORD789123456",
+      productName: "Sambal Pecel",
+      customerName: "Andi Wijaya",
+      total: "Rp18.000",
+      status: "Dikemas",
+    },
+    {
+      id: "ORD891234567",
+      productName: "Wedang Uwuh",
+      customerName: "Tasya Kamila",
+      total: "Rp22.000",
+      status: "Dikemas",
     },
   ];
 
