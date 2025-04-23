@@ -16,12 +16,13 @@ import {
 import { CloseSquare } from "iconsax-react";
 import { InputWithLogo } from "../../inputs/InputWithLogo";
 import { InputTextArea } from "../../inputs/InputTextArea";
-import { ShoppingCart } from "@phosphor-icons/react";
+import { InputWithElement } from "../../inputs/InputWithElement";
+import { ShoppingCart, Package } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
 import { useRef } from "react";
 import { useState } from "react";
 import { ImageField } from "../../inputs/ImageField";
-import { Category2, ArrowDown2 } from "iconsax-react";
+import { Category2, ArrowDown2, WeightMeter } from "iconsax-react";
 
 const ModalEditProduct = ({ isOpen, onClose }) => {
   const { control } = useForm();
@@ -29,7 +30,7 @@ const ModalEditProduct = ({ isOpen, onClose }) => {
   const handleImageRef = () => imageRef.current?.click();
 
   const kategoriList = ["Makanan", "Minuman", "Aksesoris"];
-  const [selected, setSelected] = useState("Kategori");
+  const [selected, setSelected] = useState("Pilih Kategori");
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -105,56 +106,136 @@ const ModalEditProduct = ({ isOpen, onClose }) => {
                         Spesifikasi Produk
                       </Fieldset.Legend>
                       <Field.Root>
-                        <Menu.Root>
-                          <Menu.Trigger
-                            as={Button}
-                            variant="outline"
-                            borderRadius="lg"
-                            borderColor="gray.300"
-                            _hover={{ bg: "gray.50" }}
-                            _open={{ bg: "white" }}
-                            px="4"
-                            py="6"
-                            w="250px"
-                            justifyContent="space-between"
-                          >
-                            <HStack spacing={2}>
-                              <Category2 size="20" color="#949494" />
-                              <Text color="gray.600" fontWeight="medium">
-                                {selected}
-                              </Text>
-                            </HStack>
-                            <ArrowDown2 size="20" color="#949494" />
-                          </Menu.Trigger>
-
-                          <Menu.Positioner>
-                            <Menu.Content
-                              borderRadius="md"
-                              boxShadow="0 4px 12px rgba(0, 0, 0, 0.3)"
-                              bg="white"
+                        <Flex gap={3} w={"full"}>
+                          <div className="w-1/2">
+                            <Field.Label
+                              color="gray.500"
+                              fontSize="12px"
+                              fontWeight="normal"
+                              marginBottom={1}
                             >
-                              {kategoriList.map((kategori) => (
-                                <Menu.Item
-                                  key={kategori}
-                                  onClick={() => setSelected(kategori)}
-                                  color="black"
-                                  _focus={{ bg: "gray.100" }}
-                                  _hover={{ bg: "gray.100" }}
-                                  fontWeight={
-                                    selected === kategori ? "semibold" : "normal"
-                                  }
+                              Kategori Produk
+                            </Field.Label>
+                            <Menu.Root>
+                              <Menu.Trigger
+                                as={Button}
+                                variant="outline"
+                                borderRadius="lg"
+                                borderColor="gray.300"
+                                _hover={{ bg: "gray.50" }}
+                                _open={{ bg: "white" }}
+                                px="4"
+                                py="6"
+                                w="full"
+                                justifyContent="space-between"
+                              >
+                                <HStack spacing={2}>
+                                  <Category2 size="20" color="#949494" />
+                                  <Text color="gray.500" fontWeight="normal">
+                                    {selected}
+                                  </Text>
+                                </HStack>
+                                <ArrowDown2 size="20" color="#949494" />
+                              </Menu.Trigger>
+
+                              <Menu.Positioner>
+                                <Menu.Content
+                                  borderRadius="md"
+                                  boxShadow="0 4px 12px rgba(0, 0, 0, 0.3)"
+                                  bg="white"
                                 >
-                                  {kategori}
-                                </Menu.Item>
-                              ))}
-                            </Menu.Content>
-                          </Menu.Positioner>
-                        </Menu.Root>
+                                  {kategoriList.map((kategori) => (
+                                    <Menu.Item
+                                      key={kategori}
+                                      onClick={() => setSelected(kategori)}
+                                      color="black"
+                                      _focus={{ bg: "gray.100" }}
+                                      _hover={{ bg: "gray.100" }}
+                                      fontWeight={
+                                        selected === kategori
+                                          ? "semibold"
+                                          : "normal"
+                                      }
+                                    >
+                                      {kategori}
+                                    </Menu.Item>
+                                  ))}
+                                </Menu.Content>
+                              </Menu.Positioner>
+                            </Menu.Root>
+                          </div>
+                          <div className="w-1/2">
+                            <Field.Label
+                              color="gray.500"
+                              fontSize="12px"
+                              fontWeight="normal"
+                              marginBottom={1}
+                            >
+                              Berat Produk
+                            </Field.Label>
+                            <InputWithElement
+                              startElement={
+                                <WeightMeter size={20} color="black" />
+                              }
+                              endElement={<Text color={"gray.500"}>gram</Text>}
+                              placeholder="Masukkan berat produk"
+                            />
+                          </div>
+                        </Flex>
+                        <Flex gap={3} w={"full"} marginTop={3}>
+                          <div className="w-1/2">
+                            <Field.Label
+                              color="gray.500"
+                              fontSize="12px"
+                              fontWeight="normal"
+                              marginBottom={1}
+                            >
+                              Stok Produk
+                            </Field.Label>
+                            <InputWithElement
+                              startElement={<Package size={20} color="black" />}
+                              endElement={<Text color={"gray.500"}>gram</Text>}
+                              placeholder="Masukkan stok produk"
+                            />
+                          </div>
+                        </Flex>
                       </Field.Root>
                     </Fieldset.Root>
                   </VStack>
                 </GridItem>
               </Grid>
+              <Flex w="full" justifyContent="end">
+                <HStack spacing={3}>
+                  <Button
+                    size={"sm"}
+                    bg={"transparent"}
+                    color={"orange.500"}
+                    borderColor={"orange.500"}
+                    rounded={"xl"}
+                    px={5}
+                    py={4}
+                    _hover={{ bg: "orange.500", color: "white" }}
+                    onClick={onClose}
+                  >
+                    <Text lineHeight="1" whiteSpace="nowrap">
+                      Kembali
+                    </Text>
+                  </Button>
+                  <Button
+                    size={"sm"}
+                    bg={"orange.500"}
+                    color={"white"}
+                    rounded={"xl"}
+                    px={5}
+                    py={4}
+                    _hover={{ bg: "orange.600" }}
+                  >
+                    <Text lineHeight="1" whiteSpace="nowrap">
+                      Simpan
+                    </Text>
+                  </Button>
+                </HStack>
+              </Flex>
             </Dialog.Body>
           </Dialog.Content>
         </Dialog.Positioner>
