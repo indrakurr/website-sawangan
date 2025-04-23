@@ -11,7 +11,7 @@ import CardProduk from "../card/CardProduk";
 
 export default function BestProduct() {
   return (
-    <Container marginY={{ base: "32px", lg: "48px" }}>
+    <Container marginY={{ base: "32px", lg: "96px" }}>
       <Grid gap={10}>
         {/* Headline */}
         <GridItem textAlign="center">

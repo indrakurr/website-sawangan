@@ -8,6 +8,8 @@ import {
 } from "../base-table/TableCells";
 import { Edit2, Trash } from "iconsax-react";
 import { TableBodyRow } from "../base-table/TableRows";
+import ModalEditProduct from "../../modal/manage-product/ModalEditProduct";
+import { useState } from "react";
 
 const TABLEHEADS = ["No", "Nama Produk", "Harga", "Kategori", "Stok", "Aksi"];
 
@@ -29,36 +31,44 @@ export function TableProductList({
     }
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
   // Hitung data yang ditampilkan di halaman sekarang
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedProducts = products.slice(startIndex, endIndex);
 
   return (
-    <BaseTable data={displayedProducts} heads={TABLEHEADS}>
-      {displayedProducts.map((item, index) => (
-        <TableBodyRow key={item.id} index={index}>
-          <CenteredCell>
-            {(currentPage - 1) * itemsPerPage + index + 1}
-          </CenteredCell>
-          <TextCell content={item.name} />
-          <TextCell content={item.price} />
-          <BadgeCell
-            content={item.category}
-            colorScheme={handleBadgeColor(item.category)}
-          />
-          <LeftAlignCell>{item.stock}</LeftAlignCell>
-          <CenteredCell>
-            <IconButton variant="ghost" _hover={{ bg: "transparent" }}>
-              <Edit2 color="black" />
-            </IconButton>
-            <IconButton variant="ghost" _hover={{ bg: "transparent" }}>
-              <Trash color="red" />
-            </IconButton>
-          </CenteredCell>
-        </TableBodyRow>
-      ))}
-    </BaseTable>
+    <>
+      <BaseTable data={displayedProducts} heads={TABLEHEADS}>
+        {displayedProducts.map((item, index) => (
+          <TableBodyRow key={item.id} index={index}>
+            <CenteredCell>
+              {(currentPage - 1) * itemsPerPage + index + 1}
+            </CenteredCell>
+            <TextCell content={item.name} />
+            <TextCell content={item.price} />
+            <BadgeCell
+              content={item.category}
+              colorScheme={handleBadgeColor(item.category)}
+            />
+            <LeftAlignCell>{item.stock}</LeftAlignCell>
+            <CenteredCell>
+              <IconButton variant="ghost" _hover={{ bg: "transparent" }} onClick={() => setIsOpen(true)}>
+                <Edit2 color="black" />
+              </IconButton>
+              <IconButton variant="ghost" _hover={{ bg: "transparent" }}>
+                <Trash color="red" />
+              </IconButton>
+            </CenteredCell>
+          </TableBodyRow>
+        ))}
+      </BaseTable>
+      <ModalEditProduct 
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
+    </>
   );
 }
 

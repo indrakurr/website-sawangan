@@ -29,12 +29,12 @@ const floatingStyles = defineStyle({
 });
 
 export const InputWithLogo = forwardRef(
-  ({ label, icon: Icon, type, ...props }, ref) => {
+  ({ label, icon: Icon, type, w = "full", ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === "password";
 
     return (
-      <Box pos="relative" w="full">
+      <Box pos="relative" w={w}>
         {/* Icon */}
         {Icon && (
           <Box

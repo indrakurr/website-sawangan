@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 
 const CardInfo = ({
-  icon: Icon, // Komponen ikon (e.g., Wallet)
+  icon: Icon, 
   iconBg = "#D61C4E", // Warna latar ikon
   iconColor = "white", // Warna ikon
   title = "Judul",
