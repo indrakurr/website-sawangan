@@ -17,12 +17,13 @@ import { CloseSquare } from "iconsax-react";
 import { InputWithLogo } from "../../inputs/InputWithLogo";
 import { InputTextArea } from "../../inputs/InputTextArea";
 import { InputWithElement } from "../../inputs/InputWithElement";
+import { InputDateFormat } from "../../inputs/InputDateFormat";
 import { ShoppingCart, Package } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
 import { useRef } from "react";
 import { useState } from "react";
 import { ImageField } from "../../inputs/ImageField";
-import { Category2, ArrowDown2, WeightMeter } from "iconsax-react";
+import { Category2, ArrowDown2, WeightMeter, Calendar2 } from "iconsax-react";
 
 const ModalEditProduct = ({ isOpen, onClose }) => {
   const { control } = useForm();
@@ -175,7 +176,7 @@ const ModalEditProduct = ({ isOpen, onClose }) => {
                             </Field.Label>
                             <InputWithElement
                               startElement={
-                                <WeightMeter size={20} color="black" />
+                                <WeightMeter size={20} color="#949494" />
                               }
                               endElement={<Text color={"gray.500"}>gram</Text>}
                               placeholder="Masukkan berat produk"
@@ -193,10 +194,23 @@ const ModalEditProduct = ({ isOpen, onClose }) => {
                               Stok Produk
                             </Field.Label>
                             <InputWithElement
-                              startElement={<Package size={20} color="black" />}
-                              endElement={<Text color={"gray.500"}>gram</Text>}
+                              startElement={
+                                <Package size={20} color="#949494" />
+                              }
+
                               placeholder="Masukkan stok produk"
                             />
+                          </div>
+                          <div className="w-1/2">
+                            <Field.Label
+                              color="gray.500"
+                              fontSize="12px"
+                              fontWeight="normal"
+                              marginBottom={1}
+                            >
+                              Tanggal Kadaluarsa
+                            </Field.Label>
+                            <InputDateFormat />
                           </div>
                         </Flex>
                       </Field.Root>
