@@ -9,6 +9,7 @@ import {
 import { Edit2, Trash } from "iconsax-react";
 import { TableBodyRow } from "../base-table/TableRows";
 import ModalEditProduct from "../../modal/manage-product/ModalEditProduct";
+import ModalDeleteProduct from "../../modal/manage-product/ModalDeleteProduct"; 
 import { useState } from "react";
 
 const TABLEHEADS = ["No", "Nama Produk", "Harga", "Kategori", "Stok", "Aksi"];
@@ -31,9 +32,9 @@ export function TableProductList({
     }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
-  // Hitung data yang ditampilkan di halaman sekarang
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedProducts = products.slice(startIndex, endIndex);
@@ -54,21 +55,36 @@ export function TableProductList({
             />
             <LeftAlignCell>{item.stock}</LeftAlignCell>
             <CenteredCell>
-              <IconButton variant="ghost" _hover={{ bg: "transparent" }} onClick={() => setIsOpen(true)}>
+              <IconButton
+                variant="ghost"
+                _hover={{ bg: "transparent" }}
+                onClick={() => setIsOpenEdit(true)}
+              >
                 <Edit2 color="black" />
               </IconButton>
-              <IconButton variant="ghost" _hover={{ bg: "transparent" }}>
+              <IconButton
+                variant="ghost"
+                _hover={{ bg: "transparent" }}
+                onClick={() => setIsOpenDelete(true)}
+              >
                 <Trash color="red" />
               </IconButton>
             </CenteredCell>
           </TableBodyRow>
         ))}
       </BaseTable>
-      <ModalEditProduct 
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+
+      {/* Modal Edit */}
+      <ModalEditProduct
+        isOpen={isOpenEdit}
+        onClose={() => setIsOpenEdit(false)}
+      />
+
+      {/* Modal Delete */}
+      <ModalDeleteProduct
+        isOpen={isOpenDelete}
+        onClose={() => setIsOpenDelete(false)}
       />
     </>
   );
 }
-
