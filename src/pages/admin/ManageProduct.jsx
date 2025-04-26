@@ -3,6 +3,7 @@ import { Button, Box, Flex, Text } from "@chakra-ui/react";
 import SideBar from "../../components/navigation/SideBar";
 import TopBar from "../../components/navigation/TopBar";
 import SearchInput from "../../components/inputs/SearchInput";
+import ModalAddProduct from "../../components/modal/manage-product/ModalAddProduct";
 import { TableProductList } from "../../components/tables/manage-product/TableProductList";
 import Pagination from "../../components/pagination/Pagination";
 import { Plus } from "@phosphor-icons/react";
@@ -11,6 +12,8 @@ export default function ManageProduct() {
   const [collapse, setCollapse] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+
+   const [isOpen, setIsOpen] = useState(false);
 
   // Jumlah total produk dummy
   const totalCount = 15;
@@ -131,73 +134,77 @@ export default function ManageProduct() {
   );
 
   return (
-    <Flex w="100%" h="100vh" bg="gray.100" overflow="hidden">
-      {/* Sidebar */}
-      <Box position="sticky" top={0} h="100vh" zIndex={10}>
-        <SideBar collapse={collapse} setCollapse={setCollapse} />
-      </Box>
-
-      {/* Main content */}
-      <Box flex="1" display="flex" flexDirection="column" maxH="100vh">
-        {/* TopBar */}
-        <Box position="sticky" top={0} zIndex={10} bg="white">
-          <TopBar collapse={collapse} setCollapse={setCollapse} />
+    <>
+      <Flex w="100%" h="100vh" bg="gray.100" overflow="hidden">
+        {/* Sidebar */}
+        <Box position="sticky" top={0} h="100vh" zIndex={10}>
+          <SideBar collapse={collapse} setCollapse={setCollapse} />
         </Box>
 
-        {/* Scrollable content */}
-        <Box flex="1" overflowY="auto" p={6} bg="gray.100">
-          <Text fontSize="24px" fontWeight="bold" color="black">
-            Kelola Daftar Produk
-          </Text>
+        {/* Main content */}
+        <Box flex="1" display="flex" flexDirection="column" maxH="100vh">
+          {/* TopBar */}
+          <Box position="sticky" top={0} zIndex={10} bg="white">
+            <TopBar collapse={collapse} setCollapse={setCollapse} />
+          </Box>
 
-          <Flex
-            bg="white"
-            borderRadius="xl"
-            boxShadow="0px 4px 30px rgba(0, 0, 0, 0.1)"
-            direction="column"
-            gap="1.5rem"
-            p="1.5rem"
-            mt={6}
-          >
-            <Flex alignItems={"center"} justifyContent={"space-between"}>
-              <div className="wrapper w-4/12">
-                <SearchInput
-                  value={searchQuery}
-                  onSearch={setSearchQuery} // Update search query state
-                />
-              </div>
-              <Button
-                size={"sm"}
-                bg={"orange.500"}
-                color={"white"}
-                rounded={"xl"}
-                py={5}
-                _hover={{ bg: "orange.600" }}
-              >
-                <Plus weight="bold" />
-                <Text lineHeight="1" whiteSpace="nowrap">
-                  Tambah Produk
-                </Text>
-              </Button>
-            </Flex>
+          {/* Scrollable content */}
+          <Box flex="1" overflowY="auto" p={6} bg="gray.100">
+            <Text fontSize="24px" fontWeight="bold" color="black">
+              Kelola Daftar Produk
+            </Text>
 
-            {/* Tabel dan pagination */}
-            <TableProductList
-              currentPage={currentPage}
-              itemsPerPage={itemsPerPage}
-              products={filteredProducts} // Pass filtered products
-            />
-            <Flex justifyContent="center" mt={4}>
-              <Pagination
-                totalCount={filteredProducts.length} // Use filtered product count
-                pageSize={itemsPerPage}
+            <Flex
+              bg="white"
+              borderRadius="xl"
+              boxShadow="0px 4px 30px rgba(0, 0, 0, 0.1)"
+              direction="column"
+              gap="1.5rem"
+              p="1.5rem"
+              mt={6}
+            >
+              <Flex alignItems={"center"} justifyContent={"space-between"}>
+                <div className="wrapper w-4/12">
+                  <SearchInput
+                    value={searchQuery}
+                    onSearch={setSearchQuery} // Update search query state
+                  />
+                </div>
+                <Button
+                  size={"sm"}
+                  bg={"orange.500"}
+                  color={"white"}
+                  rounded={"xl"}
+                  py={5}
+                  _hover={{ bg: "orange.600" }}
+                  onClick={() => setIsOpen(true)}
+                >
+                  <Plus weight="bold" />
+                  <Text lineHeight="1" whiteSpace="nowrap">
+                    Tambah Produk
+                  </Text>
+                </Button>
+              </Flex>
+
+              {/* Tabel dan pagination */}
+              <TableProductList
                 currentPage={currentPage}
-                onPageChange={(page) => setCurrentPage(page)}
+                itemsPerPage={itemsPerPage}
+                products={filteredProducts} // Pass filtered products
               />
+              <Flex justifyContent="center" mt={4}>
+                <Pagination
+                  totalCount={filteredProducts.length} // Use filtered product count
+                  pageSize={itemsPerPage}
+                  currentPage={currentPage}
+                  onPageChange={(page) => setCurrentPage(page)}
+                />
+              </Flex>
             </Flex>
-          </Flex>
+          </Box>
         </Box>
-      </Box>
-    </Flex>
+      </Flex>
+      <ModalAddProduct isOpen={isOpen} onClose={() => setIsOpen(false)} />
+    </>
   );
 }
