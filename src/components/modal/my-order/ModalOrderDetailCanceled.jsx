@@ -62,8 +62,8 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose }) => {
               {/* Step Progress */}
               <Box w="full">
                 <Text
-                  fontSize={{ base: "16px", lg: "20px" }}
-                  fontWeight="bold"
+                  fontSize={{ base: "16px", lg: "18px" }}
+                  fontWeight="semibold"
                   color="black"
                   lineHeight={1}
                 >
@@ -82,8 +82,8 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose }) => {
 
               <Box>
                 <Text
-                  fontSize={{ base: "16px", lg: "20px" }}
-                  fontWeight="bold"
+                  fontSize={{ base: "16px", lg: "18px" }}
+                  fontWeight="semibold"
                   color="black"
                   lineHeight={1}
                 >
@@ -109,8 +109,8 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose }) => {
               {/* Produk */}
               <Box w="full">
                 <Text
-                  fontSize={{ base: "16px", lg: "20px" }}
-                  fontWeight="bold"
+                  fontSize={{ base: "16px", lg: "18px" }}
+                  fontWeight="semibold"
                   color="black"
                   lineHeight={1}
                 >

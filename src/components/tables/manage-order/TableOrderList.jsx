@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { IconButton } from "@chakra-ui/react";
 import { BaseTable } from "../base-table/BaseTable";
 import {
@@ -8,6 +9,7 @@ import {
 } from "../base-table/TableCells";
 import { Show } from "react-iconly";
 import { TableBodyRow } from "../base-table/TableRows";
+import ModalOrderPending from "../../modal/manage-order/ModalOrderPending";
 
 const TABLEHEADS = [
   "No",
@@ -47,28 +49,40 @@ export function TableOrderList({
 
   const truncateId = (id) => (id.length > 7 ? `${id.slice(0, 7)}...` : id);
 
+  const [isOpenView, setIsOpenView] = useState(false);
+
   return (
-    <BaseTable data={displayedOrders} heads={TABLEHEADS}>
-      {displayedOrders.map((item, index) => (
-        <TableBodyRow key={item.id} index={index}>
-          <CenteredCell>
-            {(currentPage - 1) * itemsPerPage + index + 1}
-          </CenteredCell>
-          <TextCell content={truncateId(item.id)} />
-          <TextCell content={item.productName} />
-          <TextCell content={item.customerName} />
-          <LeftAlignCell>{item.total}</LeftAlignCell>
-          <BadgeCell
-            content={item.status}
-            colorScheme={handleBadgeColor(item.status)}
-          />
-          <CenteredCell>
-            <IconButton variant="ghost" _hover={{ bg: "transparent" }}>
-              <Show color="black" />
-            </IconButton>
-          </CenteredCell>
-        </TableBodyRow>
-      ))}
-    </BaseTable>
+    <>
+      <BaseTable data={displayedOrders} heads={TABLEHEADS}>
+        {displayedOrders.map((item, index) => (
+          <TableBodyRow key={item.id} index={index}>
+            <CenteredCell>
+              {(currentPage - 1) * itemsPerPage + index + 1}
+            </CenteredCell>
+            <TextCell content={truncateId(item.id)} />
+            <TextCell content={item.productName} />
+            <TextCell content={item.customerName} />
+            <LeftAlignCell>{item.total}</LeftAlignCell>
+            <BadgeCell
+              content={item.status}
+              colorScheme={handleBadgeColor(item.status)}
+            />
+            <CenteredCell>
+              <IconButton
+                variant="ghost"
+                _hover={{ bg: "transparent" }}
+                onClick={() => setIsOpenView(true)}
+              >
+                <Show color="black" />
+              </IconButton>
+            </CenteredCell>
+          </TableBodyRow>
+        ))}
+      </BaseTable>
+      <ModalOrderPending
+        isOpen={isOpenView}
+        onClose={() => setIsOpenView(false)}
+      />
+    </>
   );
 }

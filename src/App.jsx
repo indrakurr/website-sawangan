@@ -38,7 +38,7 @@ function App() {
         <Route path="/produk/:id" element={<ProductDetail />} />
         <Route path="/daftar" element={<RegisterPage />} />
         <Route path="/masuk" element={<LoginPage />} />
-        <Route path="/lupa-password" element={<ForgotPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verifikasi" element={<Verification />} />
         <Route path="/buat-password-baru" element={<NewPassword />} />
         <Route path="/keranjang" element={<Cart />} />
