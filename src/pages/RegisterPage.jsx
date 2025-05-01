@@ -14,10 +14,70 @@ import { InputWithLogo } from "../components/inputs/InputWithLogo";
 import Banner from "../assets/login-bg.png";
 import { Message, User, Lock } from "react-iconly";
 import { PhoneCall } from "@phosphor-icons/react";
-import { Link as RouterLink } from "react-router-dom"; 
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo-sawangan.svg";
+import { useState } from "react";
+import { toaster, Toaster } from "../components/ui/toaster";
+
+// ✅ Import hook register
+import { useRegisterMutation } from "../store/store"; 
 
 export default function RegisterPage() {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+
+  const [register, { isLoading }] = useRegisterMutation();
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleRegister = async () => {
+    if (formData.password !== formData.confirmPassword) {
+      return toaster.error("Gagal Daftar", {
+        description: "Password dan Konfirmasi Password tidak sama",
+        duration: 3000,
+        position: "top-center",
+        style: { color: "#ffffff" },
+      });
+    }
+
+    try {
+      const payload = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+      };
+
+      await register(payload).unwrap();
+
+      toaster.success("Pendaftaran Berhasil", {
+        duration: 3000,
+        position: "top-center",
+        style: { color: "#ffffff" },
+      });
+
+      navigate("/masuk");
+    } catch (err) {
+      toaster.error("Pendaftaran Gagal", {
+        description: err?.data?.errors || "Terjadi kesalahan saat mendaftar",
+        duration: 3000,
+        position: "top-center",
+        style: { color: "#ffffff" },
+      });
+    }
+  };
+
   return (
     <div>
       <Grid
@@ -73,38 +133,50 @@ export default function RegisterPage() {
               khas Purwokerto secara online
             </Text>
           </Flex>
+
           <VStack align="start" spacing={3} w="full">
             <InputWithLogo
-              id="username"
+              id="fullName"
               label="Masukkan Nama Lengkap Anda"
               type="text"
               icon={User}
+              value={formData.fullName}
+              onChange={handleChange}
             />
             <InputWithLogo
               id="email"
               label="Masukkan Alamat Email Anda"
               type="email"
               icon={Message}
+              value={formData.email}
+              onChange={handleChange}
             />
             <InputWithLogo
-              id="telephone"
+              id="phone"
               label="Masukkan Nomor Telepon Anda"
               type="tel"
               icon={PhoneCall}
+              value={formData.phone}
+              onChange={handleChange}
             />
             <InputWithLogo
               id="password"
               label="Masukkan Password"
               type="password"
               icon={Lock}
+              value={formData.password}
+              onChange={handleChange}
             />
             <InputWithLogo
-              id="confirm-password"
+              id="confirmPassword"
               label="Konfirmasi Password"
               type="password"
               icon={Lock}
+              value={formData.confirmPassword}
+              onChange={handleChange}
             />
           </VStack>
+
           <Checkbox.Root colorPalette="orange" variant="solid">
             <Checkbox.HiddenInput />
             <Checkbox.Control color="white" />
@@ -113,6 +185,7 @@ export default function RegisterPage() {
               berlaku
             </Checkbox.Label>
           </Checkbox.Root>
+
           <Button
             size={"sm"}
             bg={"orange.500"}
@@ -121,11 +194,14 @@ export default function RegisterPage() {
             w={"full"}
             py={5}
             _hover={{ bg: "orange.600" }}
+            onClick={handleRegister}
+            isLoading={isLoading}
           >
             <Text lineHeight="1" whiteSpace="nowrap">
               Daftar
             </Text>
           </Button>
+
           <Flex width="full" align="center" gap={2}>
             <Box flex="1" height="1px" bg="gray.300"></Box>
             <Text
@@ -137,6 +213,7 @@ export default function RegisterPage() {
             </Text>
             <Box flex="1" height="1px" bg="gray.300"></Box>
           </Flex>
+
           <Button
             size={"sm"}
             bg={"gray.200"}
@@ -154,6 +231,7 @@ export default function RegisterPage() {
               Daftar menggunakan Google
             </Text>
           </Button>
+
           <Text
             fontSize={{ base: "12px", lg: "16px" }}
             fontWeight="light"
@@ -164,12 +242,18 @@ export default function RegisterPage() {
             width="full"
           >
             Sudah punya akun?{" "}
-            <Link as={RouterLink} to="/masuk" color="orange.500" fontWeight="semibold">
+            <Link
+              as={RouterLink}
+              to="/masuk"
+              color="orange.500"
+              fontWeight="semibold"
+            >
               Masuk
             </Link>
           </Text>
         </GridItem>
       </Grid>
+      <Toaster />
     </div>
   );
 }

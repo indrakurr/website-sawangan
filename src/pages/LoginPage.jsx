@@ -1,3 +1,5 @@
+// src/pages/LoginPage.jsx
+
 import {
   Button,
   Box,
@@ -17,23 +19,32 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Toaster, toaster } from "../components/ui/toaster";
 
+// ✅ Tambahkan ini
+import { useLoginMutation } from "../store/store";
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // Simulasi login
-    if (email === "admin@sawangan.id" && password === "admin123") {
+  const [login, { isLoading }] = useLoginMutation(); // hook login API
+
+  const handleLogin = async () => {
+    try {
+      const response = await login({ email, password }).unwrap(); // panggil API
+
+      localStorage.setItem("token", response.token); // simpan token ke localStorage
+
       toaster.success("Login Berhasil", {
         duration: 2000,
         position: "top-center",
-        style : { color: "#ffffff"},
+        style: { color: "#ffffff" },
       });
-      navigate("/");
-    } else {
+
+      navigate("/"); 
+    } catch (err) {
       toaster.error("Login Gagal", {
-        description: "Email atau password salah",
+        description: err?.data?.errors || "Email atau password salah.",
         duration: 3000,
         position: "top-center",
         style: { color: "#ffffff" },
@@ -132,6 +143,7 @@ export default function LoginPage() {
             py={5}
             _hover={{ bg: "orange.600" }}
             onClick={handleLogin}
+            isLoading={isLoading} // indikator loading
           >
             <Text lineHeight="1" whiteSpace="nowrap">
               Masuk
