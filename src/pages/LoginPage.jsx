@@ -18,8 +18,6 @@ import Logo from "../assets/logo-sawangan.svg";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Toaster, toaster } from "../components/ui/toaster";
-
-// ✅ Tambahkan ini
 import { useLoginMutation } from "../store/store";
 
 export default function LoginPage() {
@@ -27,29 +25,37 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const [login, { isLoading }] = useLoginMutation(); // hook login API
+  const [login, { isLoading }] = useLoginMutation();
 
   const handleLogin = async () => {
     try {
-      const response = await login({ email, password }).unwrap(); // panggil API
+      const response = await login({ email, password }).unwrap();
+      localStorage.setItem("token", response.token);
 
-      localStorage.setItem("token", response.token); // simpan token ke localStorage
-
-      toaster.success("Login Berhasil", {
-        duration: 2000,
-        position: "top-center",
-        style: { color: "#ffffff" },
+      toaster.success({
+        title: "Login Berhasil",
       });
 
-      navigate("/"); 
+
+      navigate("/");
     } catch (err) {
-      toaster.error("Login Gagal", {
+      toaster.error({
+        title: "Login Gagal",
         description: err?.data?.errors || "Email atau password salah.",
-        duration: 3000,
-        position: "top-center",
-        style: { color: "#ffffff" },
       });
+
     }
+  };
+
+  const handleGoogleRedirect = () => {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const redirectUri = `${window.location.origin}/auth/callback`;
+
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&response_type=code&scope=email%20profile&prompt=select_account`;
+
+    window.location.href = url;
   };
 
   return (
@@ -69,6 +75,7 @@ export default function LoginPage() {
             borderRadius="32px"
           />
         </GridItem>
+
         <GridItem
           className="flex flex-col"
           alignItems={{ base: "center", lg: "start" }}
@@ -108,6 +115,7 @@ export default function LoginPage() {
               Purwokerto yang mudah dan cepat
             </Text>
           </Flex>
+
           <VStack align="start" gap={3} w="full">
             <InputWithLogo
               id="email"
@@ -126,6 +134,8 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
             />
             <Link
+              as={RouterLink}
+              to="/forgot-password"
               width="full"
               justifyContent="end"
               fontWeight="semibold"
@@ -134,6 +144,7 @@ export default function LoginPage() {
               Lupa Password?
             </Link>
           </VStack>
+
           <Button
             size={"sm"}
             bg={"orange.500"}
@@ -143,12 +154,13 @@ export default function LoginPage() {
             py={5}
             _hover={{ bg: "orange.600" }}
             onClick={handleLogin}
-            isLoading={isLoading} // indikator loading
+            isLoading={isLoading}
           >
             <Text lineHeight="1" whiteSpace="nowrap">
               Masuk
             </Text>
           </Button>
+
           <Flex width="full" align="center" gap={2}>
             <Box flex="1" height="1px" bg="gray.300"></Box>
             <Text
@@ -160,6 +172,7 @@ export default function LoginPage() {
             </Text>
             <Box flex="1" height="1px" bg="gray.300"></Box>
           </Flex>
+
           <Button
             size={"sm"}
             bg={"gray.200"}
@@ -168,15 +181,18 @@ export default function LoginPage() {
             w={"full"}
             py={5}
             _hover={{ bg: "gray.300" }}
+            onClick={handleGoogleRedirect}
           >
             <Image
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               boxSize="20px"
+              mr={2}
             />
             <Text lineHeight="1" whiteSpace="nowrap">
               Masuk menggunakan Google
             </Text>
           </Button>
+
           <Text
             fontSize={{ base: "12px", lg: "16px" }}
             fontWeight="light"
@@ -189,7 +205,7 @@ export default function LoginPage() {
             Belum punya akun?{" "}
             <Link
               as={RouterLink}
-              to="/daftar"
+              to="/register"
               color="orange.500"
               fontWeight="semibold"
             >

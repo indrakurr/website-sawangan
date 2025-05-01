@@ -12,8 +12,35 @@ import Banner from "../assets/login-bg.png";
 import { Message } from "react-iconly";
 import Logo from "../assets/logo-sawangan.svg";
 import { ArrowLeft2 } from "iconsax-react";
+import { useState } from "react";
+import { useForgotPasswordMutation } from "../store/store";
+import { toaster, Toaster } from "../components/ui/toaster";
+import { useNavigate } from "react-router-dom";
 
 export default function ForgotPassword() {
+  const [email, setEmail] = useState("");
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    try {
+      await forgotPassword({ email }).unwrap();
+
+      toaster.success({
+        title: "Email Terkirim",
+        description: "Cek email Anda untuk mengatur ulang password.",
+      });
+
+
+      navigate("/login");
+    } catch (err) {
+      toaster.error({
+        title: "Gagal Mengirim Email",
+        description: err?.data?.errors || "Terjadi kesalahan",
+      });
+    }
+  };
+
   return (
     <div>
       <Grid
@@ -55,6 +82,7 @@ export default function ForgotPassword() {
                 py={0}
                 _hover={{ bg: "orange.600" }}
                 border={"none"}
+                onClick={() => navigate(-1)}
               >
                 <ArrowLeft2
                   style={{ width: "24px", height: "24px" }}
@@ -73,6 +101,7 @@ export default function ForgotPassword() {
                 border={"none"}
                 display={{ base: "none", lg: "flex" }}
                 marginBottom="24px"
+                onClick={() => navigate(-1)}
               >
                 <ArrowLeft2
                   style={{ width: "24px", height: "24px" }}
@@ -107,8 +136,8 @@ export default function ForgotPassword() {
               color="gray.400"
               marginY={"12px"}
             >
-              Masukkan alamat email Anda untuk menerima tautan
-              pengaturan ulang password
+              Masukkan alamat email Anda untuk menerima tautan pengaturan ulang
+              password
             </Text>
           </Flex>
           <VStack align="start" gap={3} w="full">
@@ -117,6 +146,8 @@ export default function ForgotPassword() {
               label="Masukkan Alamat Email Anda"
               type="email"
               icon={Message}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </VStack>
           <Button
@@ -127,6 +158,8 @@ export default function ForgotPassword() {
             w={"full"}
             py={5}
             _hover={{ bg: "orange.600" }}
+            onClick={handleSubmit}
+            isLoading={isLoading}
           >
             <Text lineHeight="1" whiteSpace="nowrap">
               Lanjutkan
@@ -134,6 +167,7 @@ export default function ForgotPassword() {
           </Button>
         </GridItem>
       </Grid>
+      <Toaster />
     </div>
   );
 }

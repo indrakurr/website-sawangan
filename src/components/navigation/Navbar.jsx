@@ -66,7 +66,7 @@ export default function Navbar() {
           <div className="hidden sm:block order-3 lg:order-3">
             <Button
               as={RouterLink}
-              to="/masuk"
+              to="/login"
               size={"sm"}
               bg={"orange.500"}
               color={"white"}
@@ -88,7 +88,7 @@ export default function Navbar() {
             <ul className="text-start bg-white flex flex-col">
               <Button
                 as={RouterLink}
-                to="/masuk"
+                to="/login"
                 size={"sm"}
                 bg={"orange.500"}
                 color={"white"}
