@@ -19,7 +19,7 @@ import Logo from "../assets/logo-sawangan.svg";
 import { useState } from "react";
 import { toaster, Toaster } from "../components/ui/toaster";
 
-// ✅ Import hook register
+
 import { useRegisterMutation } from "../store/store"; 
 
 export default function RegisterPage() {
@@ -42,12 +42,11 @@ export default function RegisterPage() {
 
   const handleRegister = async () => {
     if (formData.password !== formData.confirmPassword) {
-      return toaster.error("Gagal Daftar", {
+      return toaster.error({
+        title: "Gagal Daftar",
         description: "Password dan Konfirmasi Password tidak sama",
-        duration: 3000,
-        position: "top-center",
-        style: { color: "#ffffff" },
       });
+
     }
 
     try {
@@ -61,20 +60,19 @@ export default function RegisterPage() {
 
       await register(payload).unwrap();
 
-      toaster.success("Pendaftaran Berhasil", {
-        duration: 3000,
-        position: "top-center",
-        style: { color: "#ffffff" },
+      toaster.success({
+        title: "Pendaftaran Berhasil",
+        description: "Silakan login untuk mulai belanja!",
       });
 
-      navigate("/masuk");
+
+      navigate("/login");
     } catch (err) {
-      toaster.error("Pendaftaran Gagal", {
+      toaster.error({
+        title: "Pendaftaran Gagal",
         description: err?.data?.errors || "Terjadi kesalahan saat mendaftar",
-        duration: 3000,
-        position: "top-center",
-        style: { color: "#ffffff" },
       });
+
     }
   };
 
@@ -244,7 +242,7 @@ export default function RegisterPage() {
             Sudah punya akun?{" "}
             <Link
               as={RouterLink}
-              to="/masuk"
+              to="/login"
               color="orange.500"
               fontWeight="semibold"
             >

@@ -12,8 +12,53 @@ import Banner from "../assets/login-bg.png";
 import { Lock } from "react-iconly";
 import Logo from "../assets/logo-sawangan.svg";
 import { ArrowLeft2 } from "iconsax-react";
+import { useState } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { useResetPasswordMutation } from "../store/store";
+import { toaster, Toaster } from "../components/ui/toaster";
 
 export default function NewPassword() {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+  const token = searchParams.get("token");
+
+  const handleReset = async () => {
+    if (!token) {
+      return toaster.error({
+        title: "Token tidak ditemukan",
+      });
+
+    }
+
+    if (password !== confirmPassword) {
+      return toaster.error({
+        title: "Password tidak sama",
+      });
+
+    }
+
+    try {
+      await resetPassword({ token, password, confirmPassword }).unwrap();
+
+      toaster.success({
+        title: "Password berhasil diubah",
+      });
+
+
+      navigate("/login");
+    } catch (err) {
+      toaster.error({
+        title: "Gagal mengubah password",
+        description: err?.data?.errors || "Terjadi kesalahan",
+      });
+
+    }
+  };
+
   return (
     <div>
       <Grid
@@ -55,6 +100,7 @@ export default function NewPassword() {
                 py={0}
                 _hover={{ bg: "orange.600" }}
                 border={"none"}
+                onClick={() => navigate(-1)}
               >
                 <ArrowLeft2
                   style={{ width: "24px", height: "24px" }}
@@ -73,6 +119,7 @@ export default function NewPassword() {
                 border={"none"}
                 display={{ base: "none", lg: "flex" }}
                 marginBottom="24px"
+                onClick={() => navigate(-1)}
               >
                 <ArrowLeft2
                   style={{ width: "24px", height: "24px" }}
@@ -111,20 +158,26 @@ export default function NewPassword() {
               buat kuat dan mudah diingat
             </Text>
           </Flex>
+
           <VStack align="start" gap={3} w="full">
             <InputWithLogo
               id="new-password"
               label="Masukkan Password Baru"
               type="password"
               icon={Lock}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <InputWithLogo
               id="confirm-new-password"
               label="Konfirmasi Password Baru"
               type="password"
               icon={Lock}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </VStack>
+
           <Button
             size={"sm"}
             bg={"orange.500"}
@@ -133,6 +186,8 @@ export default function NewPassword() {
             w={"full"}
             py={5}
             _hover={{ bg: "orange.600" }}
+            onClick={handleReset}
+            isLoading={isLoading}
           >
             <Text lineHeight="1" whiteSpace="nowrap">
               Ubah Password
@@ -140,6 +195,7 @@ export default function NewPassword() {
           </Button>
         </GridItem>
       </Grid>
+      <Toaster />
     </div>
   );
 }

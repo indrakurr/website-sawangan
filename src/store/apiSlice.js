@@ -18,11 +18,39 @@ export const apiSlice = createApi({
         body: credentials,
       }),
     }),
+    oauthGoogle: builder.mutation({
+      query: (payload) => ({
+        url: "/auth/google",
+        method: "POST",
+        body: payload,
+      }),
+    }),
+    forgotPassword: builder.mutation({
+      query: (payload) => ({
+        url: "/auth/forgot-password",
+        method: "POST",
+        body: payload,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (payload) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        body: payload,
+      }),
+    }),
     getProducts: builder.query({
       query: () => "/products",
     }),
+
     // dst...
   }),
 });
 
-export const { useLoginMutation, useGetProductsQuery } = apiSlice;
+export const {
+  useLoginMutation,
+  useGetProductsQuery,
+  useOauthGoogleMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+} = apiSlice;
