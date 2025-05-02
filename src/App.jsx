@@ -45,7 +45,7 @@ function App() {
         <Route path="/keranjang" element={<Cart />} />
         <Route path="/pembayaran" element={<Checkout />} />
         <Route path="/pesanan-saya" element={<MyOrder />} />
-        <Route path="/profil" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/ubah-password" element={<ChangePassword />} />
         <Route path="/auth/callback" element={<OauthCallback />} />
         {/* Admin Routes */}

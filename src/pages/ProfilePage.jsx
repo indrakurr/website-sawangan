@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -17,12 +17,75 @@ import Navbar from "../components/navigation/Navbar";
 import { InputWithLogo } from "../components/inputs/InputWithLogo";
 import { Message, User } from "react-iconly";
 import { PhoneCall } from "@phosphor-icons/react";
-import { PasswordCheck, Logout } from "iconsax-react";
+import { PasswordCheck, Logout, Category2, ArrowDown2 } from "iconsax-react";
+import { Toaster, toaster } from "../components/ui/toaster";
 import Footer from "../components/sections/Footer";
-import { Category2, ArrowDown2 } from "iconsax-react";
+import { useNavigate } from "react-router-dom";
+import {
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+  useUploadAvatarMutation,
+  useLogoutMutation,
+} from "../store/store";
 
 export default function ProfilePage() {
+  const { data, isLoading, error, refetch } = useGetProfileQuery();
+  const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
+  const [uploadAvatar, { isLoading: isUploading }] = useUploadAvatarMutation();
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
+
   const [activePage, setActivePage] = useState("profil");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [avatar, setAvatar] = useState(null);
+
+  useEffect(() => {
+    if (data?.data) {
+      setFullName(data.data.fullName || "");
+      setEmail(data.data.email || "");
+      setPhone(data.data.phone || "");
+      setAvatar(data.data.avatar);
+    }
+  }, [data]);
+
+  const avatarUrl =
+    avatar ||
+    "https://ui-avatars.com/api/?name=" + encodeURIComponent(fullName);
+
+  const handleUploadAvatar = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+      await uploadAvatar(formData).unwrap();
+      toaster.success({ title: "Foto profil berhasil diperbarui" });
+      refetch();
+    } catch (err) {
+      toaster.error({
+        title: "Gagal upload foto",
+        description: err?.data?.errors || "Terjadi kesalahan",
+      });
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap(); 
+      localStorage.removeItem("token"); 
+      toaster.success({ title: "Berhasil logout" });
+      navigate("/login"); 
+    } catch (err) {
+      toaster.error({
+        title: "Gagal logout",
+        description: err?.data?.errors || "Terjadi kesalahan saat logout",
+      });
+    }
+  };
 
   return (
     <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
@@ -51,7 +114,7 @@ export default function ProfilePage() {
                   <Image
                     boxSize={{ base: "40px", lg: "60px" }}
                     borderRadius="full"
-                    src="https://i.pravatar.cc/300?u=111"
+                    src={avatarUrl}
                     alt="profile-image"
                   />
                   <Box marginLeft={3} alignSelf={"center"}>
@@ -61,7 +124,7 @@ export default function ProfilePage() {
                       color="black"
                       wordBreak="break-word"
                     >
-                      Lorem Ipsum
+                      {fullName}
                     </Text>
                     <Text
                       fontSize={{ base: "12px", lg: "14px" }}
@@ -69,10 +132,11 @@ export default function ProfilePage() {
                       color="gray.400"
                       wordBreak="break-word"
                     >
-                      loremipsum@gmail.com
+                      {email}
                     </Text>
                   </Box>
                 </Flex>
+
                 <Box display={{ base: "block", lg: "none" }}>
                   <Menu.Root>
                     <Menu.Trigger asChild>
@@ -94,24 +158,16 @@ export default function ProfilePage() {
                           backgroundColor="white"
                           boxShadow="0px 4px 15px rgba(0, 0, 0, 0.1)"
                         >
-                          <Menu.Item
-                            color="black"
-                            value="new-txt"
-                            _hover={{ bg: "#FFFEE5" }}
-                          >
+                          <Menu.Item color="black" _hover={{ bg: "#FFFEE5" }}>
                             Profil
                           </Menu.Item>
-                          <Menu.Item
-                            color="black"
-                            value="new-file"
-                            _hover={{ bg: "#FFFEE5" }}
-                          >
+                          <Menu.Item color="black" _hover={{ bg: "#FFFEE5" }}>
                             Ubah Password
                           </Menu.Item>
                           <Menu.Item
                             color="red"
-                            value="new-win"
                             _hover={{ bg: "#FFFEE5" }}
+                            onClick={handleLogout}
                           >
                             Keluar
                           </Menu.Item>
@@ -129,12 +185,8 @@ export default function ProfilePage() {
                 marginTop={4}
                 display={{ base: "none", lg: "block" }}
               />
-              <VStack
-                marginTop={4}
-                display={{ base: "none", lg: "block" }}
-                spaceY={2}
-              >
-                {/* Button group for larger screens */}
+
+              <VStack marginTop={4} display={{ base: "none", lg: "block" }}>
                 <Button
                   size="sm"
                   width="full"
@@ -161,7 +213,6 @@ export default function ProfilePage() {
                     Profil
                   </Text>
                 </Button>
-
                 <Button
                   size="sm"
                   width="full"
@@ -191,7 +242,6 @@ export default function ProfilePage() {
                     Ubah Password
                   </Text>
                 </Button>
-
                 <Button
                   size="sm"
                   width="full"
@@ -204,7 +254,7 @@ export default function ProfilePage() {
                     bg: activePage === "keluar" ? "orange.600" : "gray.100",
                   }}
                   justifyContent="start"
-                  onClick={() => setActivePage("keluar")}
+                  onClick={handleLogout}
                 >
                   <Logout
                     style={{ width: "24px", height: "24px" }}
@@ -221,6 +271,7 @@ export default function ProfilePage() {
               </VStack>
             </Box>
           </GridItem>
+
           <GridItem colSpan={3} className="flex flex-col">
             <Box
               bg="white"
@@ -230,12 +281,12 @@ export default function ProfilePage() {
             >
               <Box display={{ base: "block", lg: "none" }}>
                 <Button
-                  size={"sm"}
+                  size="sm"
                   bg="transparent"
-                  rounded={"xl"}
+                  rounded="xl"
                   px={0}
                   py={0}
-                  border={"none"}
+                  border="none"
                   fontWeight="semibold"
                 >
                   <ArrowLeft2
@@ -246,21 +297,18 @@ export default function ProfilePage() {
                 </Button>
               </Box>
               <Text
-                textAlign={{ base: "start", lg: "start" }}
+                textAlign="start"
                 fontSize={{ base: "16px", lg: "20px" }}
                 fontWeight="bold"
                 color="black"
-                lineHeight={1}
                 display={{ base: "none", lg: "block" }}
               >
                 Profil Saya
               </Text>
               <Text
-                textAlign={{ base: "start", lg: "start" }}
                 fontSize={{ base: "12px", lg: "16px" }}
-                fontWeight={"regular"}
                 color="gray.400"
-                marginY={"12px"}
+                marginY="12px"
                 display={{ base: "none", lg: "block" }}
               >
                 Kelola informasi profil Anda untuk mengontrol, melindungi dan
@@ -272,30 +320,35 @@ export default function ProfilePage() {
                     <Image
                       boxSize={{ base: "100px", lg: "160px" }}
                       borderRadius="full"
-                      src="https://i.pravatar.cc/300?u=111"
+                      src={avatarUrl}
                       alt="profile-image"
                     />
-                    <Button
-                      size={"sm"}
-                      bg={"transparent"}
-                      color={"orange.500"}
-                      borderColor={{ base: "transparent", lg: "orange.500" }}
-                      rounded={"xl"}
-                      px={5}
-                      py={4}
-                    >
-                      <Text lineHeight="1" whiteSpace="nowrap">
-                        Ubah Foto Profil
-                      </Text>
-                    </Button>
-                    <Text
-                      textAlign="center"
-                      fontSize="12px"
-                      fontWeight={"regular"}
-                      color="gray.400"
-                      paddingX="20px"
-                    >
-                      Ukuran gambar: maks. 1 MB Format gambar: .JPG .JPEG .PNG
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="avatar"
+                      hidden
+                      onChange={handleUploadAvatar}
+                    />
+                    <label htmlFor="avatar">
+                      <Button
+                        size="sm"
+                        bg="transparent"
+                        color="orange.500"
+                        borderRadius="xl"
+                        px={5}
+                        py={4}
+                        isLoading={isUploading}
+                        cursor="pointer"
+                        as="span"
+                      >
+                        <Text lineHeight="1" whiteSpace="nowrap">
+                          Ubah Foto Profil
+                        </Text>
+                      </Button>
+                    </label>
+                    <Text fontSize="12px" color="gray.400" textAlign="center">
+                      Ukuran gambar: maks. 1 MB. Format gambar: .JPG .JPEG .PNG
                     </Text>
                   </VStack>
                 </GridItem>
@@ -306,29 +359,50 @@ export default function ProfilePage() {
                       label="Nama Lengkap"
                       type="text"
                       icon={User}
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
                     />
                     <InputWithLogo
                       id="email"
                       label="Alamat Email"
                       type="email"
                       icon={Message}
+                      value={email}
+                      isReadOnly
                     />
                     <InputWithLogo
                       id="telephone"
                       label="Nomor Telepon"
                       type="tel"
                       icon={PhoneCall}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
                     />
                     <Button
-                      size={"sm"}
-                      width={"max-content"}
-                      bg={"orange.500"}
-                      color={"white"}
-                      rounded={"xl"}
+                      size="sm"
+                      bg="orange.500"
+                      color="white"
+                      rounded="xl"
                       px={5}
                       py={5}
                       _hover={{ bg: "orange.600" }}
                       alignSelf={{ base: "center", lg: "start" }}
+                      isLoading={isUpdating}
+                      onClick={async () => {
+                        try {
+                          await updateProfile({ fullName, phone }).unwrap();
+                          toaster.success({
+                            title: "Profil berhasil diperbarui",
+                          });
+                          refetch();
+                        } catch (err) {
+                          toaster.error({
+                            title: "Gagal memperbarui profil",
+                            description:
+                              err?.data?.errors || "Terjadi kesalahan",
+                          });
+                        }
+                      }}
                     >
                       <Text lineHeight="1" whiteSpace="nowrap">
                         Simpan Perubahan
@@ -342,6 +416,7 @@ export default function ProfilePage() {
         </Grid>
       </Container>
       <Footer />
+      <Toaster />
     </div>
   );
 }

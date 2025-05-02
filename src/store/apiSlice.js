@@ -10,20 +10,41 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: [
+    "Auth",
+    "Profile",
+    "Products",
+    "Wishlist",
+    "Cart",
+    "Order",
+    "Review",
+    "RajaOngkir",
+    "Admin",
+  ],
   endpoints: (builder) => ({
+    // === AUTH ===
+    register: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/register",
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: ["Auth"],
+    }),
     login: builder.mutation({
       query: (credentials) => ({
         url: "/auth/login",
         method: "POST",
         body: credentials,
       }),
+      invalidatesTags: ["Auth"],
     }),
-    oauthGoogle: builder.mutation({
-      query: (payload) => ({
-        url: "/auth/google",
-        method: "POST",
-        body: payload,
+    logout: builder.mutation({
+      query: () => ({
+        url: "/auth/logout",
+        method: "DELETE",
       }),
+      invalidatesTags: ["Auth"],
     }),
     forgotPassword: builder.mutation({
       query: (payload) => ({
@@ -39,18 +60,69 @@ export const apiSlice = createApi({
         body: payload,
       }),
     }),
-    getProducts: builder.query({
-      query: () => "/products",
+    oauthGoogle: builder.mutation({
+      query: (payload) => ({
+        url: "/auth/google-oauth",
+        method: "POST",
+        body: payload,
+      }),
     }),
 
-    // dst...
+    // === PROFILE ===
+    getProfile: builder.query({
+      query: () => "/profile",
+      providesTags: ["Profile"],
+    }),
+    updateProfile: builder.mutation({
+      query: (payload) => ({
+        url: "/profile",
+        method: "PATCH",
+        body: payload,
+      }),
+      invalidatesTags: ["Profile"],
+    }),
+    changePassword: builder.mutation({
+      query: (payload) => ({
+        url: "/profile/change-password",
+        method: "PATCH",
+        body: payload,
+      }),
+    }),
+    uploadAvatar: builder.mutation({
+      query: (formData) => ({
+        url: "/profile/avatar",
+        method: "POST",
+        body: formData,
+        formData: true,
+      }),
+      invalidatesTags: ["Profile"],
+    }),
+
+    // === PRODUCTS ===
+    getProducts: builder.query({
+      query: () => "/products",
+      providesTags: ["Products"],
+    }),
+    getProductById: builder.query({
+      query: (id) => `/products/${id}`,
+      providesTags: (result, error, id) => [{ type: "Products", id }],
+    }),
+
+    // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),
 });
 
 export const {
+  useRegisterMutation,
   useLoginMutation,
-  useGetProductsQuery,
-  useOauthGoogleMutation,
+  useLogoutMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
+  useOauthGoogleMutation,
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+  useChangePasswordMutation,
+  useUploadAvatarMutation,
+  useGetProductsQuery,
+  useGetProductByIdQuery,
 } = apiSlice;
