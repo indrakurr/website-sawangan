@@ -30,12 +30,17 @@ export default function LoginPage() {
   const handleLogin = async () => {
     try {
       const response = await login({ email, password }).unwrap();
-      localStorage.setItem("token", response.token);
+
+      const token = response?.data?.token;
+      if (token) {
+        localStorage.setItem("token", token);
+      } else {
+        console.warn("Token tidak ditemukan:", response);
+      }
 
       toaster.success({
         title: "Login Berhasil",
       });
-
 
       navigate("/");
     } catch (err) {
@@ -43,9 +48,9 @@ export default function LoginPage() {
         title: "Login Gagal",
         description: err?.data?.errors || "Email atau password salah.",
       });
-
     }
   };
+
 
   const handleGoogleRedirect = () => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;

@@ -2,11 +2,13 @@ import { useState } from "react";
 import Logo from "../../assets/logo-sawangan.svg";
 import hamburger_active from "../../assets/x-bold.svg";
 import hamburger_non_active from "../../assets/list-bold.svg";
-import { Box, Button, Flex, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Link, Text, Icon } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import { ShoppingCart, User } from "@phosphor-icons/react";
 
 export default function Navbar() {
   const [toggleNavbar, setToggleNavbar] = useState(false);
+  const isLoggedIn = !!localStorage.getItem("token");
 
   const menuItems = [
     { text: "Beranda", href: "/" },
@@ -14,59 +16,57 @@ export default function Navbar() {
     { text: "Produk", href: "/produk" },
   ];
 
-  return (
-    <>
-      <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
-        <Flex
-          w="full"
-          maxW="1600px"
-          mx="auto"
-          px={{ base: "16px", sm: "32px", lg: "160px" }}
-          py={{ base: "12px", sm: "14px", lg: "16px" }}
-          justify="space-between"
-          align="center"
-          borderBottom={1}
-          borderStyle={"solid"}
-          borderColor={"gray.100"}
-        >
-          <div className="w-28 order-1 sm:order-2 lg:order-1">
-            <RouterLink to="/">
-              <img src={Logo} alt="navbar-logo" />
-            </RouterLink>
-          </div>
+  const mobileItems = isLoggedIn
+    ? [...menuItems, { text: "Profil", href: "/profile" }]
+    : menuItems;
 
-          <div
-            className="cursor-pointer order-2 sm:order-1 lg:hidden"
-            onClick={() => setToggleNavbar(toggleNavbar ? false : true)}
-          >
-            <img
-              className="w-9"
-              src={toggleNavbar ? hamburger_active : hamburger_non_active}
-              alt="toggle"
-            />
-          </div>
-          <div className="hidden lg:block lg:order-2">
-            <ul className="flex gap-8">
-              {menuItems.map((item, index) => (
-                <li key={index}>
-                  <Link
-                    as={RouterLink}
-                    to={item.href}
-                    fontSize="md"
-                    fontWeight="medium"
-                    color="black"
-                    _hover={{ color: "orange.500", textDecoration: "none" }}
-                  >
-                    {item.text}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="hidden sm:block order-3 lg:order-3">
+  return (
+    <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+      <Flex
+        w="full"
+        maxW="1600px"
+        mx="auto"
+        px={{ base: "16px", sm: "32px", lg: "160px" }}
+        py={{ base: "12px", sm: "14px", lg: "16px" }}
+        justify="space-between"
+        align="center"
+        borderBottom={1}
+        borderStyle={"solid"}
+        borderColor={"gray.100"}
+      >
+        {/* LOGO */}
+        <div className="w-28">
+          <RouterLink to="/">
+            <img src={Logo} alt="navbar-logo" />
+          </RouterLink>
+        </div>
+
+        {/* DESKTOP MENU */}
+        <div className="hidden lg:block">
+          <ul className="flex gap-8">
+            {menuItems.map((item, index) => (
+              <li key={index}>
+                <Link
+                  as={RouterLink}
+                  to={item.href}
+                  fontSize="md"
+                  fontWeight="medium"
+                  color="black"
+                  _hover={{ color: "orange.500", textDecoration: "none" }}
+                >
+                  {item.text}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* DESKTOP CTA / ICON */}
+        <div className="hidden sm:flex items-center gap-4">
+          {!isLoggedIn ? (
             <Button
               as={RouterLink}
-              to="/login"
+              to="/masuk"
               size={"sm"}
               bg={"orange.500"}
               color={"white"}
@@ -79,16 +79,59 @@ export default function Navbar() {
                 Masuk
               </Text>
             </Button>
+          ) : (
+            <>
+              <Link as={RouterLink} to="/keranjang">
+                <Icon as={ShoppingCart} boxSize={6} color="black" />
+              </Link>
+              <Link as={RouterLink} to="/profile">
+                <Icon as={User} boxSize={6} color="black" />
+              </Link>
+            </>
+          )}
+        </div>
+
+        {/* MOBILE RIGHT SIDE: CART + HAMBURGER */}
+        {isLoggedIn ? (
+          <div className="flex gap-4 items-center lg:hidden">
+            <Link as={RouterLink} to="/keranjang">
+              <Icon as={ShoppingCart} boxSize={6} color="black" />
+            </Link>
+            <div
+              className="cursor-pointer"
+              onClick={() => setToggleNavbar((prev) => !prev)}
+            >
+              <img
+                className="w-8"
+                src={toggleNavbar ? hamburger_active : hamburger_non_active}
+                alt="toggle"
+              />
+            </div>
           </div>
-        </Flex>
-        <div
-          className={`${toggleNavbar ? "block" : "hidden"} lg:hidden bg-white`}
-        >
-          <Box padding={4}>
-            <ul className="text-start bg-white flex flex-col">
+        ) : (
+          <div
+            className="cursor-pointer lg:hidden"
+            onClick={() => setToggleNavbar((prev) => !prev)}
+          >
+            <img
+              className="w-9"
+              src={toggleNavbar ? hamburger_active : hamburger_non_active}
+              alt="toggle"
+            />
+          </div>
+        )}
+      </Flex>
+
+      {/* MOBILE MENU */}
+      <div
+        className={`${toggleNavbar ? "block" : "hidden"} lg:hidden bg-white`}
+      >
+        <Box padding={4}>
+          <ul className="text-start bg-white flex flex-col gap-2">
+            {!isLoggedIn && (
               <Button
                 as={RouterLink}
-                to="/login"
+                to="/masuk"
                 size={"sm"}
                 bg={"orange.500"}
                 color={"white"}
@@ -99,26 +142,26 @@ export default function Navbar() {
               >
                 Masuk
               </Button>
-              {menuItems.map((item, index) => (
-                <li key={index}>
-                  <Link
-                    as={RouterLink}
-                    to={item.href}
-                    fontSize="md"
-                    fontWeight="medium"
-                    color="black"
-                    px={4}
-                    py={2}
-                    _hover={{ color: "orange.500", textDecoration: "none" }}
-                  >
-                    {item.text}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </Box>
-        </div>
-      </nav>
-    </>
+            )}
+            {mobileItems.map((item, index) => (
+              <li key={index}>
+                <Link
+                  as={RouterLink}
+                  to={item.href}
+                  fontSize="md"
+                  fontWeight="medium"
+                  color="black"
+                  px={4}
+                  py={2}
+                  _hover={{ color: "orange.500", textDecoration: "none" }}
+                >
+                  {item.text}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Box>
+      </div>
+    </nav>
   );
 }
