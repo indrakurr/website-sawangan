@@ -10,8 +10,8 @@ export default function Navbar() {
 
   const menuItems = [
     { text: "Beranda", href: "/" },
-    { text: "Tentang Kami", href: "/tentang" },
-    { text: "Produk", href: "/produk" },
+    { text: "Tentang Kami", href: "/about" },
+    { text: "Produk", href: "/products" },
   ];
 
   const mobileItems = isLoggedIn
@@ -79,7 +79,7 @@ export default function Navbar() {
             </Button>
           ) : (
             <>
-              <Link as={RouterLink} to="/keranjang">
+              <Link as={RouterLink} to="/cart">
                 <Icon as={ShoppingCart} boxSize={6} color="black" />
               </Link>
               <Link as={RouterLink} to="/profile">
@@ -92,7 +92,7 @@ export default function Navbar() {
         {/* MOBILE RIGHT SIDE: CART + HAMBURGER */}
         {isLoggedIn ? (
           <div className="flex gap-4 items-center lg:hidden">
-            <Link as={RouterLink} to="/keranjang">
+            <Link as={RouterLink} to="/cart">
               <Icon as={ShoppingCart} boxSize={6} color="black" />
             </Link>
             <div
@@ -104,7 +104,7 @@ export default function Navbar() {
           </div>
         ) : (
           <div
-            className="cursor-pointer"
+            className="cursor-pointer lg:hidden"
             onClick={() => setToggleNavbar((prev) => !prev)}
           >
             <Icon as={toggleNavbar ? X : List} boxSize={6} color="black" />

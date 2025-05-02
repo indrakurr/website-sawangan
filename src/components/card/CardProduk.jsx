@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export default function CardProduk() {
   return (
-    <Link to="/produk/1">
+    <Link to="/products/1">
       <Card.Root
         maxW="sm"
         overflow="hidden"

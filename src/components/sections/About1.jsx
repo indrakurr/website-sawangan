@@ -76,7 +76,7 @@ export default function About1() {
           >
             <Button
               as={RouterLink}
-              to="/produk"
+              to="/products"
               size={"sm"}
               bg={"orange.500"}
               color={"white"}

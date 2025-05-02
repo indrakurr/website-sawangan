@@ -39,9 +39,9 @@ const Sidebar = ({ collapse, setCollapse }) => {
   const path = location.pathname;
 
   const [activeMenu, setActiveMenu] = useState(() => {
-    if (path.includes("/dashboard/produk")) return "Produk";
-    if (path.includes("/dashboard/pesanan")) return "Pesanan";
-    if (path.includes("/dashboard/pengguna")) return "Manajemen Pengguna";
+    if (path.includes("/dashboard/product")) return "Produk";
+    if (path.includes("/dashboard/orders")) return "Pesanan";
+    if (path.includes("/dashboard/users")) return "Manajemen Pengguna";
     return "Beranda";
   });
 
@@ -94,14 +94,14 @@ const Sidebar = ({ collapse, setCollapse }) => {
             label="Kelola Produk"
             isActive={activeMenu === "Produk"}
             isExpanded={!collapse}
-            onClick={() => handleNavigation("Produk", "/dashboard/produk")}
+            onClick={() => handleNavigation("Produk", "/dashboard/products")}
           />
           <NavItem
             Icon={ClipboardText}
             label="Kelola Pesanan"
             isActive={activeMenu === "Pesanan"}
             isExpanded={!collapse}
-            onClick={() => handleNavigation("Pesanan", "/dashboard/pesanan")}
+            onClick={() => handleNavigation("Pesanan", "/dashboard/orders")}
           />
           <NavItem
             Icon={UsersThree}
@@ -109,7 +109,7 @@ const Sidebar = ({ collapse, setCollapse }) => {
             isActive={activeMenu === "Manajemen Pengguna"}
             isExpanded={!collapse}
             onClick={() =>
-              handleNavigation("Manajemen Pengguna", "/dashboard/pengguna")
+              handleNavigation("Manajemen Pengguna", "/dashboard/users")
             }
           />
         </VStack>

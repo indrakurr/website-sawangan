@@ -48,7 +48,7 @@ export default function ExploreProduct() {
         <GridItem className="flex justify-center">
           <Button
             as={RouterLink}
-            to="/produk"
+            to="/products"
             size={"sm"}
             bg={"orange.500"}
             color={"white"}

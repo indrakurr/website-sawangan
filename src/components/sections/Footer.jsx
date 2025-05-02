@@ -3,10 +3,10 @@ import Logo from "../../assets/logo-sawangan.svg";
 
 export default function Footer(props) {
   const aboutLink = [
-    { text: "Toko Sawangan 1", link: "/tentang#toko-sawangan" },
-    { text: "Mengapa Kami", link: "/tentang#mengapa-kami" },
-    { text: "Jam Operasional", link: "/tentang#jam-operasional" },
-    { text: "Galeri", link: "/tentang#galeri" },
+    { text: "Toko Sawangan 1", link: "/about#toko-sawangan" },
+    { text: "Mengapa Kami", link: "/about#mengapa-kami" },
+    { text: "Jam Operasional", link: "/about#jam-operasional" },
+    { text: "Galeri", link: "/about#galeri" },
   ];
 
 

@@ -1,9 +1,26 @@
-// components/navigation/TopBar.jsx
+import { useNavigate } from "react-router-dom";
 import { Box, Flex, Image, Text, Portal, Menu } from "@chakra-ui/react";
+import { Toaster, toaster } from "../ui/toaster";
 import { ArrowDown2, Logout } from "iconsax-react";
 import { ArrowLeftSquare, ArrowRightSquare } from "react-iconly";
+import { useLogoutMutation } from "../../store/store";
 
 export default function TopBar({ collapse, setCollapse }) {
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap(); 
+    } catch (err) {
+      console.error("Logout gagal:", err);
+    } finally {
+      localStorage.removeItem("token");
+      toaster.success({ title: "Berhasil Logout" });
+      navigate("/admin/login");
+    }
+  };
+
   return (
     <Box
       bg="white"
@@ -68,6 +85,7 @@ export default function TopBar({ collapse, setCollapse }) {
                   <Logout
                     style={{ width: "24px", height: "24px" }}
                     color="red"
+                    onClick={handleLogout}
                   />
                   Keluar
                 </Menu.Item>
