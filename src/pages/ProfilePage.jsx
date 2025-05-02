@@ -78,7 +78,7 @@ export default function ProfilePage() {
       await logout().unwrap(); 
       localStorage.removeItem("token"); 
       toaster.success({ title: "Berhasil logout" });
-      navigate("/login"); 
+      navigate("/"); 
     } catch (err) {
       toaster.error({
         title: "Gagal logout",
@@ -146,7 +146,7 @@ export default function ProfilePage() {
                         border={"none"}
                         _focusVisible={{ outline: "none", boxShadow: "none" }}
                       >
-                        <Category2 color="black" />
+                        
                         <ArrowDown2 color="black" />
                       </Button>
                     </Menu.Trigger>
@@ -288,6 +288,7 @@ export default function ProfilePage() {
                   py={0}
                   border="none"
                   fontWeight="semibold"
+                  onClick={() => navigate(-1)}
                 >
                   <ArrowLeft2
                     style={{ width: "24px", height: "24px" }}
