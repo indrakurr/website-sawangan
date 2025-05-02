@@ -1,10 +1,8 @@
 import { useState } from "react";
 import Logo from "../../assets/logo-sawangan.svg";
-import hamburger_active from "../../assets/x-bold.svg";
-import hamburger_non_active from "../../assets/list-bold.svg";
 import { Box, Button, Flex, Link, Text, Icon } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { ShoppingCart, User } from "@phosphor-icons/react";
+import { ShoppingCart, User, List, X } from "@phosphor-icons/react";
 
 export default function Navbar() {
   const [toggleNavbar, setToggleNavbar] = useState(false);
@@ -66,7 +64,7 @@ export default function Navbar() {
           {!isLoggedIn ? (
             <Button
               as={RouterLink}
-              to="/masuk"
+              to="/login"
               size={"sm"}
               bg={"orange.500"}
               color={"white"}
@@ -101,23 +99,15 @@ export default function Navbar() {
               className="cursor-pointer"
               onClick={() => setToggleNavbar((prev) => !prev)}
             >
-              <img
-                className="w-8"
-                src={toggleNavbar ? hamburger_active : hamburger_non_active}
-                alt="toggle"
-              />
+              <Icon as={toggleNavbar ? X : List} boxSize={6} color="black" />
             </div>
           </div>
         ) : (
           <div
-            className="cursor-pointer lg:hidden"
+            className="cursor-pointer"
             onClick={() => setToggleNavbar((prev) => !prev)}
           >
-            <img
-              className="w-9"
-              src={toggleNavbar ? hamburger_active : hamburger_non_active}
-              alt="toggle"
-            />
+            <Icon as={toggleNavbar ? X : List} boxSize={6} color="black" />
           </div>
         )}
       </Flex>
@@ -131,7 +121,7 @@ export default function Navbar() {
             {!isLoggedIn && (
               <Button
                 as={RouterLink}
-                to="/masuk"
+                to="/login"
                 size={"sm"}
                 bg={"orange.500"}
                 color={"white"}
