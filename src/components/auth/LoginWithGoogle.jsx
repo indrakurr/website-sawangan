@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toaster } from "../ui/toaster";
 
-export default function LoginWithGoogle({ onSuccessLogin }) {
+export default function LoginWithGoogle({ onSuccessLogin, text = "signup_with" }) {
   const buttonRef = useRef(null);
   const navigate = useNavigate();
 
@@ -21,6 +21,7 @@ export default function LoginWithGoogle({ onSuccessLogin }) {
         shape: "pill",
         type: "standard",
         width: "100%",
+        text,
       });
     }
   }, []);
@@ -38,8 +39,12 @@ export default function LoginWithGoogle({ onSuccessLogin }) {
       localStorage.setItem("token", token);
 
       toaster.success({ title: "Login dengan Google berhasil" });
-      if (onSuccessLogin) onSuccessLogin();
-      navigate("/");
+
+      if (onSuccessLogin) {
+        onSuccessLogin();
+      } else {
+        navigate(0);
+      }
     } catch (err) {
       toaster.error({
         title: "Gagal login Google",

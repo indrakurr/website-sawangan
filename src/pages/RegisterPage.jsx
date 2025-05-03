@@ -18,6 +18,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo-sawangan.svg";
 import { useState } from "react";
 import { toaster, Toaster } from "../components/ui/toaster";
+import LoginWithGoogle from "../components/auth/LoginWithGoogle";
 
 
 import { useRegisterMutation } from "../store/store"; 
@@ -132,7 +133,7 @@ export default function RegisterPage() {
             </Text>
           </Flex>
 
-          <VStack align="start" spacing={3} w="full">
+          <VStack align="start" gap={3} w="full">
             <InputWithLogo
               id="fullName"
               label="Masukkan Nama Lengkap Anda"
@@ -212,23 +213,10 @@ export default function RegisterPage() {
             <Box flex="1" height="1px" bg="gray.300"></Box>
           </Flex>
 
-          <Button
-            size={"sm"}
-            bg={"gray.200"}
-            color={"gray.700"}
-            rounded={"xl"}
-            w={"full"}
-            py={5}
-            _hover={{ bg: "gray.300" }}
-          >
-            <Image
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              boxSize="20px"
-            />
-            <Text lineHeight="1" whiteSpace="nowrap">
-              Daftar menggunakan Google
-            </Text>
-          </Button>
+          <LoginWithGoogle
+            text="signup_with"
+            onSuccessLogin={() => navigate("/")}
+          />
 
           <Text
             fontSize={{ base: "12px", lg: "16px" }}
