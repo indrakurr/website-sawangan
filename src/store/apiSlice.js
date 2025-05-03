@@ -62,9 +62,10 @@ export const apiSlice = createApi({
     }),
     oauthGoogle: builder.mutation({
       query: (payload) => ({
-        url: "/auth/google-oauth",
+        url: "/auth/google",
         method: "POST",
         body: payload,
+        headers: {},
       }),
     }),
 

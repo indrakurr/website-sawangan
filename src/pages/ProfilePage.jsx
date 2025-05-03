@@ -146,7 +146,6 @@ export default function ProfilePage() {
                         border={"none"}
                         _focusVisible={{ outline: "none", boxShadow: "none" }}
                       >
-                        
                         <ArrowDown2 color="black" />
                       </Button>
                     </Menu.Trigger>
@@ -158,15 +157,23 @@ export default function ProfilePage() {
                           backgroundColor="white"
                           boxShadow="0px 4px 15px rgba(0, 0, 0, 0.1)"
                         >
-                          <Menu.Item color="black" _hover={{ bg: "#FFFEE5" }}>
+                          <Menu.Item
+                            color="black"
+                            _hover={{ bg: "gray.100" }}
+                            onClick={() => navigate("/profile")}
+                          >
                             Profil
                           </Menu.Item>
-                          <Menu.Item color="black" _hover={{ bg: "#FFFEE5" }}>
+                          <Menu.Item
+                            color="black"
+                            _hover={{ bg: "gray.100" }}
+                            onClick={() => navigate("/change-password")}
+                          >
                             Ubah Password
                           </Menu.Item>
                           <Menu.Item
                             color="red"
-                            _hover={{ bg: "#FFFEE5" }}
+                            _hover={{ bg: "gray.100" }}
                             onClick={handleLogout}
                           >
                             Keluar
@@ -186,7 +193,11 @@ export default function ProfilePage() {
                 display={{ base: "none", lg: "block" }}
               />
 
-              <VStack marginTop={4} display={{ base: "none", lg: "block" }}>
+              <VStack
+                marginTop={4}
+                display={{ base: "none", lg: "block" }}
+                spaceY={2}
+              >
                 <Button
                   size="sm"
                   width="full"
@@ -199,7 +210,7 @@ export default function ProfilePage() {
                     bg: activePage === "profil" ? "orange.600" : "gray.100",
                   }}
                   justifyContent="start"
-                  onClick={() => setActivePage("profil")}
+                  onClick={() => navigate("/profile")}
                 >
                   <User
                     style={{ width: "24px", height: "24px" }}
@@ -228,7 +239,7 @@ export default function ProfilePage() {
                         : "gray.100",
                   }}
                   justifyContent="start"
-                  onClick={() => setActivePage("ubah-password")}
+                  onClick={() => navigate("/change-password")}
                 >
                   <PasswordCheck
                     style={{ width: "24px", height: "24px" }}

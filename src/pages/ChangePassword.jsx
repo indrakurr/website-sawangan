@@ -20,9 +20,20 @@ import { Lock } from "react-iconly";
 import { PasswordCheck, Logout } from "iconsax-react";
 import Footer from "../components/sections/Footer";
 import { Category2, ArrowDown2 } from "iconsax-react";
+import { useNavigate } from "react-router-dom";
+import { useGetProfileQuery } from "../store/store";
 
 export default function ChangePassword() {
   const [activePage, setActivePage] = useState("ubah-password");
+  const navigate = useNavigate();
+  const { data } = useGetProfileQuery();
+
+  const fullName = data?.data?.fullName || "Pengguna";
+  const email = data?.data?.email || "-";
+  const avatar =
+    data?.data?.avatar ||
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
+
 
   return (
     <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
@@ -51,7 +62,7 @@ export default function ChangePassword() {
                   <Image
                     boxSize={{ base: "40px", lg: "60px" }}
                     borderRadius="full"
-                    src="https://i.pravatar.cc/300?u=111"
+                    src={avatar}
                     alt="profile-image"
                   />
                   <Box marginLeft={3} alignSelf={"center"}>
@@ -61,7 +72,7 @@ export default function ChangePassword() {
                       color="black"
                       wordBreak="break-word"
                     >
-                      Lorem Ipsum
+                      {fullName}
                     </Text>
                     <Text
                       fontSize={{ base: "12px", lg: "14px" }}
@@ -69,10 +80,11 @@ export default function ChangePassword() {
                       color="gray.400"
                       wordBreak="break-word"
                     >
-                      loremipsum@gmail.com
+                      {email}
                     </Text>
                   </Box>
                 </Flex>
+
                 <Box display={{ base: "block", lg: "none" }}>
                   <Menu.Root>
                     <Menu.Trigger asChild>
@@ -82,7 +94,6 @@ export default function ChangePassword() {
                         border={"none"}
                         _focusVisible={{ outline: "none", boxShadow: "none" }}
                       >
-                        <Category2 color="black" />
                         <ArrowDown2 color="black" />
                       </Button>
                     </Menu.Trigger>
@@ -97,21 +108,23 @@ export default function ChangePassword() {
                           <Menu.Item
                             color="black"
                             value="new-txt"
-                            _hover={{ bg: "#FFFEE5" }}
+                            _hover={{ bg: "gray.100" }}
+                            onClick={() => navigate("/profile")}
                           >
                             Profil
                           </Menu.Item>
                           <Menu.Item
                             color="black"
                             value="new-file"
-                            _hover={{ bg: "#FFFEE5" }}
+                            _hover={{ bg: "gray.100" }}
+                            onClick={() => navigate("/change-password")}
                           >
                             Ubah Password
                           </Menu.Item>
                           <Menu.Item
                             color="red"
                             value="new-win"
-                            _hover={{ bg: "#FFFEE5" }}
+                            _hover={{ bg: "gray.100" }}
                           >
                             Keluar
                           </Menu.Item>
@@ -147,7 +160,7 @@ export default function ChangePassword() {
                     bg: activePage === "profil" ? "orange.600" : "gray.100",
                   }}
                   justifyContent="start"
-                  onClick={() => setActivePage("profil")}
+                  onClick={() => navigate("/profile")}
                 >
                   <User
                     style={{ width: "24px", height: "24px" }}
@@ -177,7 +190,7 @@ export default function ChangePassword() {
                         : "gray.100",
                   }}
                   justifyContent="start"
-                  onClick={() => setActivePage("ubah-password")}
+                  onClick={() => navigate("/change-password")}
                 >
                   <PasswordCheck
                     style={{ width: "24px", height: "24px" }}
@@ -269,6 +282,12 @@ export default function ChangePassword() {
               <Grid className="grid lg:grid-cols-3 sm:grid-rows-1">
                 <GridItem colSpan={2}>
                   <VStack paddingY={6} gap={4}>
+                    <InputWithLogo
+                      id="new-password"
+                      label="Masukkan Password Saat Ini"
+                      type="password"
+                      icon={Lock}
+                    />
                     <InputWithLogo
                       id="new-password"
                       label="Masukkan Password Baru"
