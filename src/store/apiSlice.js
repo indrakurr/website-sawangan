@@ -73,6 +73,7 @@ export const apiSlice = createApi({
     getProfile: builder.query({
       query: () => "/profile",
       providesTags: ["Profile"],
+      refetchOnMountOrArgChange: true,
     }),
     updateProfile: builder.mutation({
       query: (payload) => ({

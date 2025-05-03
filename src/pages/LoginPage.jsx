@@ -165,7 +165,10 @@ export default function LoginPage() {
             <Box flex="1" height="1px" bg="gray.300"></Box>
           </Flex>
 
-          <LoginWithGoogle onSuccessLogin={() => navigate("/")} />
+          <LoginWithGoogle
+            text="signin_with"
+            onSuccessLogin={() => navigate("/")}
+          />
 
           <Text
             fontSize={{ base: "12px", lg: "16px" }}

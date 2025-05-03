@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import {
   ArrowLeft2,
-  Category2,
   ArrowDown2,
   PasswordCheck,
   Logout,
@@ -44,6 +43,9 @@ export default function ChangePassword() {
 
   const fullName = data?.data?.fullName || "Pengguna";
   const email = data?.data?.email || "-";
+  const provider = data?.data?.provider || "LOCAL";
+  const isGoogleUser = provider === "GOOGLE";
+
   const avatar =
     data?.data?.avatar ||
     `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
@@ -347,6 +349,7 @@ export default function ChangePassword() {
                       icon={Lock}
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
+                      isDisabled={isGoogleUser}
                     />
                     <InputWithLogo
                       id="new-password"
@@ -355,6 +358,7 @@ export default function ChangePassword() {
                       icon={Lock}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
+                      isDisabled={isGoogleUser}
                     />
                     <InputWithLogo
                       id="confirm-password"
@@ -363,6 +367,7 @@ export default function ChangePassword() {
                       icon={Lock}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
+                      isDisabled={isGoogleUser}
                     />
                     <Button
                       size="sm"
@@ -375,9 +380,20 @@ export default function ChangePassword() {
                       alignSelf={{ base: "center", lg: "start" }}
                       onClick={handleChangePassword}
                       isLoading={isLoading}
+                      isDisabled={isGoogleUser}
                     >
                       Simpan Perubahan
                     </Button>
+                    {isGoogleUser && (
+                      <Text
+                        fontSize="12px"
+                        color="gray.500"
+                        alignSelf={{ base: "center", lg: "start" }}
+                      >
+                        *Anda login menggunakan Google, tidak dapat mengubah
+                        password di sini.
+                      </Text>
+                    )}
                   </VStack>
                 </GridItem>
               </Grid>
@@ -386,7 +402,7 @@ export default function ChangePassword() {
         </Grid>
       </Container>
       <Footer />
-      <Toaster/>
+      <Toaster />
     </div>
   );
 }
