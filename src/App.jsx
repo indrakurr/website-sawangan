@@ -22,7 +22,6 @@ import ManageProduct from "./pages/admin/ManageProduct";
 import ManageOrder from "./pages/admin/ManageOrder";
 import ManageUser from "./pages/admin/ManageUser";
 import LoginAdmin from "./pages/admin/LoginAdmin";
-import OauthCallback from "./pages/OauthCallback";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
 
@@ -50,7 +49,6 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verifikasi" element={<Verification />} />
         <Route path="/reset-password" element={<NewPassword />} />
-        <Route path="/auth/callback" element={<OauthCallback />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 
         {/* Protected Routes (User) */}

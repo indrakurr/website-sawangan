@@ -62,9 +62,10 @@ export const apiSlice = createApi({
     }),
     oauthGoogle: builder.mutation({
       query: (payload) => ({
-        url: "/auth/google-oauth",
+        url: "/auth/google",
         method: "POST",
         body: payload,
+        headers: {},
       }),
     }),
 
@@ -83,7 +84,7 @@ export const apiSlice = createApi({
     }),
     changePassword: builder.mutation({
       query: (payload) => ({
-        url: "/profile/change-password",
+        url: "/profile/changepassword",
         method: "PATCH",
         body: payload,
       }),

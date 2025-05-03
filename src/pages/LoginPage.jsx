@@ -1,5 +1,3 @@
-// src/pages/LoginPage.jsx
-
 import {
   Button,
   Box,
@@ -19,6 +17,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Toaster, toaster } from "../components/ui/toaster";
 import { useLoginMutation } from "../store/store";
+import LoginWithGoogle from "../components/auth/LoginWithGoogle";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -49,18 +48,6 @@ export default function LoginPage() {
         description: err?.data?.errors || "Email atau password salah.",
       });
     }
-  };
-
-
-  const handleGoogleRedirect = () => {
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const redirectUri = `${window.location.origin}/auth/callback`;
-
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}&response_type=code&scope=email%20profile&prompt=select_account`;
-
-    window.location.href = url;
   };
 
   return (
@@ -178,25 +165,7 @@ export default function LoginPage() {
             <Box flex="1" height="1px" bg="gray.300"></Box>
           </Flex>
 
-          <Button
-            size={"sm"}
-            bg={"gray.200"}
-            color={"gray.700"}
-            rounded={"xl"}
-            w={"full"}
-            py={5}
-            _hover={{ bg: "gray.300" }}
-            onClick={handleGoogleRedirect}
-          >
-            <Image
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              boxSize="20px"
-              mr={2}
-            />
-            <Text lineHeight="1" whiteSpace="nowrap">
-              Masuk menggunakan Google
-            </Text>
-          </Button>
+          <LoginWithGoogle onSuccessLogin={() => navigate("/")} />
 
           <Text
             fontSize={{ base: "12px", lg: "16px" }}

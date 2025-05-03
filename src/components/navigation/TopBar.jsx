@@ -81,11 +81,11 @@ export default function TopBar({ collapse, setCollapse }) {
                   value="logout"
                   _hover={{ bg: "white" }}
                   padding={0}
+                  onClick={handleLogout}
                 >
                   <Logout
                     style={{ width: "24px", height: "24px" }}
                     color="red"
-                    onClick={handleLogout}
                   />
                   Keluar
                 </Menu.Item>

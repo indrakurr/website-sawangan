@@ -13,4 +13,4 @@ export const resetPassword = (payload) =>
   api.post("/auth/reset-password", payload);
 
 export const oauthGoogle = (tokenId) =>
-  api.post("/auth/google-oauth", { tokenId });
+  api.post("/auth/google", { tokenId });
