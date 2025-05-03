@@ -50,17 +50,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogleRedirect = () => {
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const redirectUri = `${window.location.origin}/auth/callback`;
-
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}&response_type=code&scope=email%20profile&prompt=select_account`;
-
-    window.location.href = url;
-  };
-
   return (
     <div>
       <Grid

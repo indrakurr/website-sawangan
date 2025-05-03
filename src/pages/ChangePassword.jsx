@@ -12,21 +12,35 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ArrowLeft2 } from "iconsax-react";
+import {
+  ArrowLeft2,
+  Category2,
+  ArrowDown2,
+  PasswordCheck,
+  Logout,
+} from "iconsax-react";
 import Navbar from "../components/navigation/Navbar";
 import { InputWithLogo } from "../components/inputs/InputWithLogo";
-import { User } from "react-iconly";
-import { Lock } from "react-iconly";
-import { PasswordCheck, Logout } from "iconsax-react";
+import { User, Lock } from "react-iconly";
 import Footer from "../components/sections/Footer";
-import { Category2, ArrowDown2 } from "iconsax-react";
+import { Toaster, toaster } from "../components/ui/toaster";
 import { useNavigate } from "react-router-dom";
-import { useGetProfileQuery } from "../store/store";
+import {
+  useGetProfileQuery,
+  useChangePasswordMutation,
+  useLogoutMutation,
+} from "../store/store";
 
 export default function ChangePassword() {
-  const [activePage, setActivePage] = useState("ubah-password");
+  const [activePage] = useState("ubah-password");
   const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
   const { data } = useGetProfileQuery();
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
 
   const fullName = data?.data?.fullName || "Pengguna";
   const email = data?.data?.email || "-";
@@ -34,6 +48,49 @@ export default function ChangePassword() {
     data?.data?.avatar ||
     `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
 
+  const handleChangePassword = async () => {
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      toaster.error({ title: "Semua field harus diisi" });
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toaster.error({ title: "Password baru dan konfirmasi tidak cocok" });
+      return;
+    }
+
+    try {
+      await changePassword({
+        currentPassword,
+        newPassword,
+        confirmPassword,
+      }).unwrap();
+
+      toaster.success({ title: "Password berhasil diubah" });
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (err) {
+      toaster.error({
+        title: "Gagal ubah password",
+        description: err?.data?.errors || "Terjadi kesalahan.",
+      });
+    }
+  };
+
+  const handleLogout = async () => {
+      try {
+        await logout().unwrap(); 
+        localStorage.removeItem("token"); 
+        toaster.success({ title: "Berhasil logout" });
+        navigate("/"); 
+      } catch (err) {
+        toaster.error({
+          title: "Gagal logout",
+          description: err?.data?.errors || "Terjadi kesalahan saat logout",
+        });
+      }
+    };
 
   return (
     <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
@@ -125,6 +182,7 @@ export default function ChangePassword() {
                             color="red"
                             value="new-win"
                             _hover={{ bg: "gray.100" }}
+                            onClick={handleLogout}
                           >
                             Keluar
                           </Menu.Item>
@@ -217,7 +275,7 @@ export default function ChangePassword() {
                     bg: activePage === "keluar" ? "orange.600" : "gray.100",
                   }}
                   justifyContent="start"
-                  onClick={() => setActivePage("keluar")}
+                  onClick={handleLogout}
                 >
                   <Logout
                     style={{ width: "24px", height: "24px" }}
@@ -283,37 +341,42 @@ export default function ChangePassword() {
                 <GridItem colSpan={2}>
                   <VStack paddingY={6} gap={4}>
                     <InputWithLogo
-                      id="new-password"
+                      id="current-password"
                       label="Masukkan Password Saat Ini"
                       type="password"
                       icon={Lock}
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
                     />
                     <InputWithLogo
                       id="new-password"
                       label="Masukkan Password Baru"
                       type="password"
                       icon={Lock}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
                     />
                     <InputWithLogo
-                      id="confirm-new-password"
+                      id="confirm-password"
                       label="Konfirmasi Password Baru"
                       type="password"
                       icon={Lock}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     <Button
-                      size={"sm"}
-                      width={"max-content"}
-                      bg={"orange.500"}
-                      color={"white"}
-                      rounded={"xl"}
+                      size="sm"
+                      bg="orange.500"
+                      color="white"
+                      rounded="xl"
                       px={5}
                       py={5}
                       _hover={{ bg: "orange.600" }}
                       alignSelf={{ base: "center", lg: "start" }}
+                      onClick={handleChangePassword}
+                      isLoading={isLoading}
                     >
-                      <Text lineHeight="1" whiteSpace="nowrap">
-                        Simpan Perubahan
-                      </Text>
+                      Simpan Perubahan
                     </Button>
                   </VStack>
                 </GridItem>
@@ -323,6 +386,7 @@ export default function ChangePassword() {
         </Grid>
       </Container>
       <Footer />
+      <Toaster/>
     </div>
   );
 }

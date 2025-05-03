@@ -35,7 +35,7 @@ export default function ProfilePage() {
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
 
-  const [activePage, setActivePage] = useState("profil");
+  const [activePage] = useState("profil");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
