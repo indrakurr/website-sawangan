@@ -42,10 +42,10 @@ export default function ProductDetailSkeleton() {
             />
           </GridItem>
           <GridItem>
-            <VStack align="stretch" spacing={4}>
+            <VStack align="stretch" gapY={4}>
               <Skeleton height="40px" width="70%" {...skeletonStyle} />
               <Skeleton height="32px" width="50%" {...skeletonStyle} />
-              <SkeletonText noOfLines={3} spacing="3" {...skeletonStyle} />
+              <SkeletonText noOfLines={2} spacing="3" {...skeletonStyle} />
               <HStack spacing={1}>
                 {Array(5)
                   .fill(0)
