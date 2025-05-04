@@ -4,9 +4,13 @@ import { ShoppingCart } from "@phosphor-icons/react";
 import { Star } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 
-export default function CardProduk() {
+export default function CardProduk({product}) {
+if (!product) return null;
+
+  const { id, name, imageUrl, ratingAvg=0 , price } = product;
+  
   return (
-    <Link to="/products/1">
+    <Link to={`/products/${id}`}>
       <Card.Root
         maxW="sm"
         overflow="hidden"
@@ -16,15 +20,10 @@ export default function CardProduk() {
         borderRadius={16}
         boxShadow={"0px 4px 30px rgba(0, 0, 0, 0.1)"}
       >
-        <Image
-          className="w-64 h-48"
-          maxH={192}
-          src="https://www.astronauts.id/blog/wp-content/uploads/2022/08/Makanan-Khas-Daerah-tiap-Provinsi-di-Indonesia-Serta-Daerah-Asalnya.jpg"
-          alt="gambar-produk"
-        />
+        <Image className="w-64 h-48" maxH={192} src={imageUrl} alt={name} />
         <Card.Body gap="2">
           <Card.Title textStyle={"md"} color="black" maxW={208}>
-            Mendoan Sawangan hraaras asdanasd
+            {name}
           </Card.Title>
           <HStack style={{ gap: "1px" }}>
             {Array(5)
@@ -33,12 +32,12 @@ export default function CardProduk() {
                 <Star
                   key={i}
                   size={16}
-                  color={i < 4 ? "#FFA500" : "#ccc"}
+                  color={i < Math.round(ratingAvg) ? "#FFA500" : "#ccc"}
                   weight="fill"
                 />
               ))}
             <Text color={"gray.800"} textStyle={"xs"}>
-              4.5
+              {ratingAvg.toFixed(1)}
             </Text>
           </HStack>
           <Text
@@ -47,7 +46,7 @@ export default function CardProduk() {
             fontWeight="medium"
             letterSpacing="tight"
           >
-            Rp 450.000
+            Rp {price.toLocaleString("id-ID")}
           </Text>
         </Card.Body>
         <Card.Footer className="flex justify-end">
