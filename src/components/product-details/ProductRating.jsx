@@ -44,7 +44,7 @@ export default function ProductRating({ product }) {
           <Text
             textAlign={{ sm: "center", md: "left", lg: "left" }}
             fontSize={{ base: "20px", lg: "24px" }}
-            fontWeight="bold"
+            fontWeight="semibold"
             color="black"
             lineHeight={"0.8"}
           >

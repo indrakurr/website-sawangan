@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function CardProduk({product}) {
 if (!product) return null;
 
-  const { id, name, imageUrl, ratingAvg=0 , price } = product;
+  const { id, name, imageUrl, ratingAvg , price } = product;
   
   return (
     <Link to={`/products/${id}`}>

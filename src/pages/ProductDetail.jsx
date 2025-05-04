@@ -4,6 +4,7 @@ import SearchBar from "../components/navigation/SearchBar";
 import ProductInfo from "../components/product-details/ProductInfo";
 import ProductDescription from "../components/product-details/ProductDescription";
 import ProductRating from "../components/product-details/ProductRating";
+import { Toaster } from "../components/ui/toaster";
 import Footer from "../components/sections/Footer";
 import { useGetProductByIdQuery } from "../store/store";
 import { Spinner, Center, Text } from "@chakra-ui/react";
@@ -27,12 +28,15 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
-      <Navbar />
-      <ProductInfo product={product} />
-      <ProductDescription product={product} />
-      <ProductRating product={product} />
-      <Footer />
-    </div>
+    <>
+      <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
+        <Navbar />
+        <ProductInfo product={product} />
+        <ProductDescription product={product} />
+        <ProductRating product={product} />
+        <Footer />
+      </div>
+      <Toaster/>
+    </>
   );
 }

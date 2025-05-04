@@ -5,6 +5,7 @@ import SearchBar from "../components/navigation/SearchBar";
 import CardProduk from "../components/card/CardProduk";
 import Footer from "../components/sections/Footer";
 import PaginationComponent from "../components/pagination/Pagination";
+import { Toaster } from "../components/ui/toaster";
 import {
   Flex,
   Text,
@@ -96,31 +97,34 @@ export default function ProductPage() {
   );
 
   return (
-    <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
-      <Navbar />
-      <SearchBar />
-      <Flex
-        justify="center"
-        gap={6}
-        wrap="wrap"
-        marginTop="172px"
-        marginBottom="52px"
-        paddingX={{ lg: "80px" }}
-      >
-        {currentProducts.map((product) => (
-          <CardProduk key={product.id} product={product} />
-        ))}
-      </Flex>
+    <>
+      <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
+        <Navbar />
+        <SearchBar />
+        <Flex
+          justify="center"
+          gap={6}
+          wrap="wrap"
+          marginTop="172px"
+          marginBottom="52px"
+          paddingX={{ lg: "80px" }}
+        >
+          {currentProducts.map((product) => (
+            <CardProduk key={product.id} product={product} />
+          ))}
+        </Flex>
 
-      <Flex justify="center" marginBottom="40px">
-        <PaginationComponent
-          totalCount={allProducts.length}
-          pageSize={itemsPerPage}
-          currentPage={currentPage}
-          onPageChange={(page) => setCurrentPage(page)}
-        />
-      </Flex>
-      <Footer />
-    </div>
+        <Flex justify="center" marginBottom="40px">
+          <PaginationComponent
+            totalCount={allProducts.length}
+            pageSize={itemsPerPage}
+            currentPage={currentPage}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        </Flex>
+        <Footer />
+      </div>
+      <Toaster/>
+    </>
   );
 }
