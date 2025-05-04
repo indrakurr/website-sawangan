@@ -14,7 +14,7 @@ export default function SearchBar() {
   return (
     <Flex
       position="fixed"
-      top={{ base: "60px", lg: "65px" }}
+      top={{ base: "55px", lg: "65px" }}
       left="0"
       w="full"
       bg="white"
