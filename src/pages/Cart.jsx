@@ -12,10 +12,11 @@ import Footer from "../components/sections/Footer";
 import CartItem from "../components/card/CartItem";
 import { Toaster } from "../components/ui/toaster";
 import { useGetCartQuery, useDeleteCartItemMutation } from "../store/store";
+import CartSkeleton from "../components/skeleton/CartSkeleton";
 import { useState, useEffect, useMemo } from "react";
 
 export default function Cart() {
-  const { data, refetch } = useGetCartQuery();
+  const { data, isLoading, refetch } = useGetCartQuery();
   const cartItems = useMemo(() => data?.data?.items || [], [data?.data?.items]);
 
   const [selectedItems, setSelectedItems] = useState([]);
@@ -28,6 +29,8 @@ export default function Cart() {
     });
     setQuantities(initQuantities);
   }, [cartItems]);
+
+  if (isLoading) return <CartSkeleton />;
 
   const toggleItem = (itemId) => {
     setSelectedItems((prev) =>
