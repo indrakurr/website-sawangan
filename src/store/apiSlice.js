@@ -110,6 +110,35 @@ export const apiSlice = createApi({
       providesTags: (result, error, id) => [{ type: "Products", id }],
     }),
 
+    // === CART ===
+    getCart: builder.query({
+      query: () => "/cart",
+      providesTags: ["Cart"],
+    }),
+    addToCart: builder.mutation({
+      query: ({ productId, quantity }) => ({
+        url: "/cart/items",
+        method: "POST",
+        body: { productId, quantity },
+      }),
+      invalidatesTags: ["Cart"],
+    }),
+    updateCartItem: builder.mutation({
+      query: ({ productId, quantity }) => ({
+        url: `/cart/items/${productId}`,
+        method: "PATCH",
+        body: { quantity },
+      }),
+      invalidatesTags: ["Cart"],
+    }),
+    deleteCartItem: builder.mutation({
+      query: (productId) => ({
+        url: `/cart/items/${productId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Cart"],
+    }),
+
     // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),
 });
@@ -127,4 +156,8 @@ export const {
   useUploadAvatarMutation,
   useGetProductsQuery,
   useGetProductByIdQuery,
+  useGetCartQuery,
+  useAddToCartMutation,
+  useUpdateCartItemMutation,
+  useDeleteCartItemMutation,
 } = apiSlice;

@@ -1,32 +1,90 @@
-import { Button, Box, Checkbox, Flex, Image, Spacer, Text } from "@chakra-ui/react";
-import Counter from "../counter/Counter";
+import {
+  Button,
+  Box,
+  Checkbox,
+  Flex,
+  Image,
+  Spacer,
+  Text,
+} from "@chakra-ui/react";
+import CounterCart from "../counter/CounterCart";
+import { toaster } from "../ui/toaster";
 import { Trash } from "iconsax-react";
+import {
+  useUpdateCartItemMutation,
+  useDeleteCartItemMutation,
+} from "../../store/store";
 
-export default function CartItem() {
+export default function CartItem({
+  item,
+  isChecked,
+  onCheck,
+  onQuantityChange,
+  onDelete,
+}) {
+  const { product } = item;
+  const [updateCartItem] = useUpdateCartItemMutation();
+  const [deleteCartItem] = useDeleteCartItemMutation();
+
+  const handleQuantityChange = async (newQty) => {
+    try {
+      await updateCartItem({
+        productId: item.productId,
+        quantity: newQty,
+      }).unwrap();
+      onQuantityChange(item.id, newQty);
+      toaster.success({
+        title: "Jumlah produk berhasil diubah",
+      });
+    } catch (err) {
+      console.error(err);
+      toaster.error({ title: "Gagal mengubah jumlah produk" });
+    }
+  };
+
+  const handleDeleteClick = async () => {
+    try {
+      await deleteCartItem(item.productId).unwrap();
+      onDelete(item.id);
+      toaster.success({ title: "Produk berhasil dihapus dari keranjang" });
+    } catch (err) {
+      console.error(err);
+      toaster.error({ title: "Gagal menghapus Produk" });
+    }
+  };
+
   return (
     <Box
       w={{ base: "100%", lg: "800px" }}
       display="flex"
       alignItems={{ base: "start", lg: "center" }}
       justifyContent="start"
-      gap={{ base:"12px", lg: "24px"}}
+      gap={{ base: "12px", lg: "24px" }}
       p={4}
       borderRadius={{ base: "md", lg: "xl" }}
       bg="white"
       boxShadow={"0px 4px 30px rgba(0, 0, 0, 0.1)"}
     >
-      <Checkbox.Root colorPalette="orange" variant="solid">
+      <Checkbox.Root
+        colorPalette="orange"
+        variant="solid"
+        checked={isChecked}
+        onCheckedChange={() => onCheck(item.id)}
+      >
         <Checkbox.HiddenInput />
         <Checkbox.Control color="white" />
       </Checkbox.Root>
       <Image
-        className="w-64 h-48"
-        boxSize="80px"
+        w={"80px"}
+        h={"80px"}
+        minW={"80px"}
+        minH={"80px"}
         borderRadius="md"
-        src="https://www.astronauts.id/blog/wp-content/uploads/2022/08/Makanan-Khas-Daerah-tiap-Provinsi-di-Indonesia-Serta-Daerah-Asalnya.jpg"
-        alt="gambar-produk"
+        src={product.imageUrl}
+        alt={product.name}
+        objectFit="cover"
       />
-      <Box>
+      <Box w={"full"}>
         <Flex
           direction={{ base: "column", lg: "row" }}
           gap={{ base: "4px", lg: "24px" }}
@@ -42,7 +100,7 @@ export default function CartItem() {
             color="black"
             lineHeight={"1.2"}
           >
-            Mendoan Sawangan hraaras asdanasd Mendoan Sawangan hraaras Mendoan
+            {product.name}
           </Text>
           <Spacer />
           <Text
@@ -52,7 +110,7 @@ export default function CartItem() {
             color="black"
             lineHeight={"1"}
           >
-            Rp 450.000
+            Rp {product.price.toLocaleString("id-ID")}
           </Text>
         </Flex>
         <Flex gap={"16px"} justifyContent={"end"}>
@@ -63,10 +121,16 @@ export default function CartItem() {
             px={0}
             py={0}
             border={"none"}
+            onClick={handleDeleteClick}
           >
             <Trash style={{ width: "24px", height: "24px" }} color="black" />
           </Button>
-          <Counter scale={0.8} fontSize="12px" />
+          <CounterCart
+            scale={0.8}
+            fontSize="12px"
+            value={item.quantity}
+            onChange={handleQuantityChange}
+          />
         </Flex>
       </Box>
     </Box>

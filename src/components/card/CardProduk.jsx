@@ -1,13 +1,51 @@
-import { Card, Image, Text, HStack } from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
-import { ShoppingCart } from "@phosphor-icons/react";
-import { Star } from "@phosphor-icons/react";
+import { Card, Image, Text, HStack, Button } from "@chakra-ui/react";
+import { ShoppingCart, Star } from "@phosphor-icons/react";
+import { toaster } from "../ui/toaster";
 import { Link } from "react-router-dom";
+import {
+  useAddToCartMutation,
+  useUpdateCartItemMutation,
+  useGetCartQuery,
+} from "../../store/store";
 
 export default function CardProduk({product}) {
-if (!product) return null;
+const [addToCart, { isLoading: isPosting }] = useAddToCartMutation();
+const [patchCartItem, { isLoading: isPatching }] = useUpdateCartItemMutation();
+const { data: cartData } = useGetCartQuery();
 
-  const { id, name, imageUrl, ratingAvg , price } = product;
+const isLoading = isPosting || isPatching;
+
+if (!product) return null;
+const { id, name, imageUrl, ratingAvg = 0, price } = product;
+
+const handleAddToCart = async (e) => {
+  e.preventDefault();
+
+  const existingItem = cartData?.data?.items?.find(
+    (item) => item.productId === id
+  );
+
+  try {
+    if (existingItem) {
+      const newQty = existingItem.quantity + 1;
+      await patchCartItem({ productId: id, quantity: newQty }).unwrap();
+    } else {
+      await addToCart({ productId: id, quantity: 1 }).unwrap();
+    }
+
+    toaster.success({
+      title: "Berhasil",
+      description: existingItem
+        ? "Jumlah produk diperbarui di keranjang"
+        : "Produk ditambahkan ke keranjang",
+    });
+  } catch (err) {
+    toaster.error({
+      title: "Gagal",
+      description: err?.data?.errors || "Terjadi kesalahan",
+    });
+  }
+};
   
   return (
     <Link to={`/products/${id}`}>
@@ -58,7 +96,8 @@ if (!product) return null;
             py={4}
             _hover={{ bg: "orange.600" }}
             border={"none"}
-            onClick={(e) => e.preventDefault()}
+            onClick={handleAddToCart}
+            isLoading={isLoading}
           >
             <ShoppingCart
               style={{ width: "24px", height: "24px" }}
