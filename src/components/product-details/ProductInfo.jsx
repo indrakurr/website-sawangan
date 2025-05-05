@@ -35,7 +35,7 @@ export default function ProductInfo({ product }) {
           productId: product.id,
           quantity: existingItem.quantity + quantity,
         }).unwrap();
-        toaster.success({ title: "Quantity produk diperbarui di keranjang" });
+        toaster.success({ title: "Jumlah produk diperbarui di keranjang" });
       } else {
         await addToCart({ productId: product.id, quantity }).unwrap();
         toaster.success({ title: "Produk ditambahkan ke keranjang" });
