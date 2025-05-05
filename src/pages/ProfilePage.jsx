@@ -359,7 +359,7 @@ export default function ProfilePage() {
                         </Text>
                       </Button>
                     </label>
-                    <Text fontSize="12px" color="gray.400" textAlign="center">
+                    <Text fontSize="12px" color="gray.400" textAlign="center" paddingX={{base:"16px", lg:"0px"}}>
                       Ukuran gambar: maks. 1 MB. Format gambar: .JPG .JPEG .PNG
                     </Text>
                   </VStack>

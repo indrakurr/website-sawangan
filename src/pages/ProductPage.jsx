@@ -83,7 +83,9 @@ export default function ProductPage() {
       <div className="overflow-x-hidden w-full min-h-screen max-w-screen mx-0 bg-[#F0F3F7]">
         <Navbar />
         <SearchBar />
-        <Text color="gray.500">Gagal memuat produk</Text>
+        <Flex minH={"400px"} justifyContent={"center"} alignItems={"center"} marginTop={"100px"}>
+          <Text color="gray.500">Gagal memuat produk</Text>
+        </Flex>
         <Footer />
       </div>
     );

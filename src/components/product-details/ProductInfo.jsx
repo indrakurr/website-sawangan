@@ -10,8 +10,44 @@ import {
 } from "@chakra-ui/react";
 import { Star, ShoppingCart } from "@phosphor-icons/react";
 import Counter from "../counter/Counter";
+import {
+  useGetCartQuery,
+  useAddToCartMutation,
+  useUpdateCartItemMutation,
+} from "../../store/store";
+import { toaster } from "../ui/toaster";
+import { useState } from "react";
 
 export default function ProductInfo({ product }) {
+  const [quantity, setQuantity] = useState(1);
+  const { data: cartData } = useGetCartQuery();
+  const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
+  const [updateCartItem, { isLoading: isUpdating }] = useUpdateCartItemMutation();
+
+  const handleAddToCart = async () => {
+    const existingItem = cartData?.data?.items?.find(
+      (item) => item.productId === product.id
+    );
+
+    try {
+      if (existingItem) {
+        await updateCartItem({
+          productId: product.id,
+          quantity: existingItem.quantity + quantity,
+        }).unwrap();
+        toaster.success({ title: "Quantity produk diperbarui di keranjang" });
+      } else {
+        await addToCart({ productId: product.id, quantity }).unwrap();
+        toaster.success({ title: "Produk ditambahkan ke keranjang" });
+      }
+    } catch (err) {
+      toaster.error({
+        title: "Gagal menambahkan ke keranjang",
+        description: err?.data?.errors || "Terjadi kesalahan",
+      });
+    }
+  };
+
   return (
     <Container className="product-detail" marginTop={"80px"}>
       <Grid
@@ -91,7 +127,7 @@ export default function ProductInfo({ product }) {
           </HStack>
 
           <Flex direction="column" marginTop="6" gap={6}>
-            <Counter />
+            <Counter defaultValue={quantity} onChange={setQuantity} />
             <Button
               size={"sm"}
               width={"max-content"}
@@ -101,6 +137,8 @@ export default function ProductInfo({ product }) {
               px={5}
               py={5}
               _hover={{ bg: "orange.600" }}
+              isLoading={isAdding || isUpdating}
+              onClick={handleAddToCart}
             >
               <ShoppingCart
                 style={{ width: "24px", height: "24px" }}
