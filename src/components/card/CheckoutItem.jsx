@@ -1,6 +1,8 @@
 import { Box, Image, Text } from "@chakra-ui/react";
 
-export default function CheckoutItem() {
+export default function CheckoutItem({ product, quantity }) {
+  const total = product.price * quantity;
+
   return (
     <Box
       w="100%"
@@ -14,13 +16,15 @@ export default function CheckoutItem() {
       borderColor={"gray.200"}
     >
       <Image
-        className="w-64 h-48"
-        boxSize={{ base: "50px", lg: "80px" }}
+        w={"80px"}
+        h={"80px"}
+        minW={"80px"}
+        minH={"80px"}
         borderRadius="md"
-        src="https://www.astronauts.id/blog/wp-content/uploads/2022/08/Makanan-Khas-Daerah-tiap-Provinsi-di-Indonesia-Serta-Daerah-Asalnya.jpg"
-        alt="gambar-produk"
+        src={product.imageUrl}
+        alt={product.name}
       />
-      <Box>
+      <Box w="full">
         <Text
           maxW={{ base: "160px", lg: "332px" }}
           maxH="40px"
@@ -31,7 +35,7 @@ export default function CheckoutItem() {
           color="black"
           lineHeight={"1"}
         >
-          Mendoan Sawangan hraaras asdanasd Mendn Sawangan hraaras
+          {product.name}
         </Text>
         <Text
           marginTop="8px"
@@ -43,17 +47,18 @@ export default function CheckoutItem() {
           color="gray.400"
           lineHeight={"1"}
         >
-          Total :
+          Total : {quantity} x Rp {product.price.toLocaleString("id-ID")}
         </Text>
       </Box>
       <Text
-        textAlign="start"
+        width={"2/6"}
+        textAlign="end"
         fontSize={{ base: "12px", lg: "16px" }}
         fontWeight="bold"
         color="black"
         lineHeight={"1"}
       >
-        Rp 450.000
+        Rp {total.toLocaleString("id-ID")}
       </Text>
     </Box>
   );

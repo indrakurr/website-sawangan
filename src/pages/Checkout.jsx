@@ -15,8 +15,18 @@ import Footer from "../components/sections/Footer";
 import CheckoutItem from "../components/card/CheckoutItem";
 import { User } from "react-iconly";
 import { PhoneCall, Signpost } from "@phosphor-icons/react";
+import { useLocation } from "react-router-dom";
+import { useMemo } from "react";
 
 export default function Checkout() {
+  const { state: selectedItems = [] } = useLocation();
+
+  const subtotal = useMemo(() => {
+    return selectedItems.reduce((sum, item) => {
+      return sum + item.product.price * item.quantity;
+    }, 0);
+  }, [selectedItems]);
+
   return (
     <div
       className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]"
@@ -102,9 +112,13 @@ export default function Checkout() {
               </Text>
               <Box flex="1" height="1px" bg="gray.200" marginTop={"24px"} />
               <VStack w="full" marginTop="8px">
-                <CheckoutItem />
-                <CheckoutItem />
-                <CheckoutItem />
+                {selectedItems.map((item) => (
+                  <CheckoutItem
+                    key={item.productId}
+                    product={item.product}
+                    quantity={item.quantity}
+                  />
+                ))}
               </VStack>
               <Flex justifyContent="space-between" marginTop={"24px"}>
                 <Text
@@ -123,7 +137,7 @@ export default function Checkout() {
                   color="black"
                   lineHeight={"1.2"}
                 >
-                  Rp 450.000
+                  Rp {subtotal.toLocaleString("id-ID")}
                 </Text>
               </Flex>
               <Flex justifyContent="space-between" marginTop={"12px"}>
