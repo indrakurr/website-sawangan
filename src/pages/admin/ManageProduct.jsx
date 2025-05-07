@@ -7,148 +7,37 @@ import ModalAddProduct from "../../components/modal/manage-product/ModalAddProdu
 import { TableProductList } from "../../components/tables/manage-product/TableProductList";
 import Pagination from "../../components/pagination/Pagination";
 import { Plus } from "@phosphor-icons/react";
+import FilterButton from "../../components/buttons/FilterButton";
+import { Toaster } from "../../components/ui/toaster";
+import { useGetProductsQuery } from "../../store/store";
 
 export default function ManageProduct() {
   const [collapse, setCollapse] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
-   const [isOpen, setIsOpen] = useState(false);
+  const { data, isLoading } = useGetProductsQuery();
+  const allProducts = data?.data || [];
 
-  // Jumlah total produk dummy
-  const totalCount = 15;
-  const itemsPerPage = 10;
-
-  // Dummy product data
-  const dummyProducts = [
-    {
-      id: 1,
-      name: "Getuk Goreng Sokaraja",
-      price: "Rp12.000",
-      category: "Makanan",
-      stock: 20,
-    },
-    {
-      id: 2,
-      name: "Wedang Uwuh",
-      price: "Rp15.000",
-      category: "Minuman",
-      stock: 10,
-    },
-    {
-      id: 3,
-      name: "Gelang Batik",
-      price: "Rp25.000",
-      category: "Aksesoris",
-      stock: 8,
-    },
-    {
-      id: 4,
-      name: "Nopia Khas Banyumas",
-      price: "Rp18.000",
-      category: "Makanan",
-      stock: 30,
-    },
-    {
-      id: 5,
-      name: "Teh Serai Wangi",
-      price: "Rp13.000",
-      category: "Minuman",
-      stock: 14,
-    },
-    {
-      id: 6,
-      name: "Kaos I Love Purwokerto",
-      price: "Rp45.000",
-      category: "Aksesoris",
-      stock: 12,
-    },
-    {
-      id: 7,
-      name: "Kripik Tempe",
-      price: "Rp10.000",
-      category: "Makanan",
-      stock: 40,
-    },
-    {
-      id: 8,
-      name: "Sirup Jahe Merah",
-      price: "Rp22.000",
-      category: "Minuman",
-      stock: 18,
-    },
-    {
-      id: 9,
-      name: "Dompet Batik",
-      price: "Rp30.000",
-      category: "Aksesoris",
-      stock: 6,
-    },
-    {
-      id: 10,
-      name: "Jenang Kudus",
-      price: "Rp17.000",
-      category: "Makanan",
-      stock: 25,
-    },
-    {
-      id: 11,
-      name: "Kopi Banyumas",
-      price: "Rp27.000",
-      category: "Minuman",
-      stock: 13,
-    },
-    {
-      id: 12,
-      name: "Topi Anyaman",
-      price: "Rp35.000",
-      category: "Aksesoris",
-      stock: 7,
-    },
-    {
-      id: 13,
-      name: "Rengginang Pedas",
-      price: "Rp11.000",
-      category: "Makanan",
-      stock: 22,
-    },
-    {
-      id: 14,
-      name: "Teh Hitam Celup",
-      price: "Rp19.000",
-      category: "Minuman",
-      stock: 16,
-    },
-    {
-      id: 15,
-      name: "Gantungan Kunci Miniatur Poci",
-      price: "Rp8.000",
-      category: "Aksesoris",
-      stock: 50,
-    },
-  ];
-
-  // Filter produk berdasarkan query pencarian
-  const filteredProducts = dummyProducts.filter((product) =>
+  const filteredProducts = allProducts.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const itemsPerPage = 10;
 
   return (
     <>
       <Flex w="100%" h="100vh" bg="gray.100" overflow="hidden">
-        {/* Sidebar */}
         <Box position="sticky" top={0} h="100vh" zIndex={10}>
           <SideBar collapse={collapse} setCollapse={setCollapse} />
         </Box>
 
-        {/* Main content */}
         <Box flex="1" display="flex" flexDirection="column" maxH="100vh">
-          {/* TopBar */}
           <Box position="sticky" top={0} zIndex={10} bg="white">
             <TopBar collapse={collapse} setCollapse={setCollapse} />
           </Box>
 
-          {/* Scrollable content */}
           <Box flex="1" overflowY="auto" p={6} bg="gray.100">
             <Text fontSize="24px" fontWeight="bold" color="black">
               Kelola Daftar Produk
@@ -165,10 +54,7 @@ export default function ManageProduct() {
             >
               <Flex alignItems={"center"} justifyContent={"space-between"}>
                 <div className="wrapper w-4/12">
-                  <SearchInput
-                    value={searchQuery}
-                    onSearch={setSearchQuery} // Update search query state
-                  />
+                  <SearchInput value={searchQuery} onSearch={setSearchQuery} />
                 </div>
                 <Button
                   size={"sm"}
@@ -186,15 +72,15 @@ export default function ManageProduct() {
                 </Button>
               </Flex>
 
-              {/* Tabel dan pagination */}
               <TableProductList
                 currentPage={currentPage}
                 itemsPerPage={itemsPerPage}
-                products={filteredProducts} // Pass filtered products
+                products={filteredProducts}
+                isLoading={isLoading}
               />
               <Flex justifyContent="center" mt={4}>
                 <Pagination
-                  totalCount={filteredProducts.length} // Use filtered product count
+                  totalCount={filteredProducts.length}
                   pageSize={itemsPerPage}
                   currentPage={currentPage}
                   onPageChange={(page) => setCurrentPage(page)}
@@ -205,6 +91,7 @@ export default function ManageProduct() {
         </Box>
       </Flex>
       <ModalAddProduct isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <Toaster />
     </>
   );
 }

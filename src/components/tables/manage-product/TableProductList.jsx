@@ -48,7 +48,7 @@ export function TableProductList({
               {(currentPage - 1) * itemsPerPage + index + 1}
             </CenteredCell>
             <TextCell content={item.name} />
-            <TextCell content={item.price} />
+            <TextCell content={`Rp ${item.price.toLocaleString("id-ID")}`} />
             <BadgeCell
               content={item.category}
               colorScheme={handleBadgeColor(item.category)}
