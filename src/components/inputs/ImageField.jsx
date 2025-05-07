@@ -1,5 +1,5 @@
 import { Controller } from "react-hook-form";
-import { GalleryAdd } from "iconsax-react";
+import { GalleryAdd, Edit2 } from "iconsax-react";
 import { Box, Flex, Image, Input, Text } from "@chakra-ui/react";
 
 export function ImageField({ control, imageRef, handleImageRef }) {
