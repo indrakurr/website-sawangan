@@ -14,6 +14,7 @@ import { Toaster } from "../components/ui/toaster";
 import { useGetCartQuery, useDeleteCartItemMutation } from "../store/store";
 import CartSkeleton from "../components/skeleton/CartSkeleton";
 import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const { data, isLoading, refetch } = useGetCartQuery();
@@ -21,6 +22,8 @@ export default function Cart() {
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [quantities, setQuantities] = useState({});
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const initQuantities = {};
@@ -63,6 +66,18 @@ export default function Cart() {
     const qty = quantities[id] || item.quantity;
     return sum + item.product.price * qty;
   }, 0);
+
+  const handleCheckout = () => {
+    const selectedData = cartItems
+      .filter((item) => selectedItems.includes(item.id))
+      .map((item) => ({
+        productId: item.productId,
+        quantity: quantities[item.id] || item.quantity,
+        product: item.product,
+      }));
+
+    navigate("/checkout", { state: selectedData });
+  };
 
   return (
     <>
@@ -154,6 +169,7 @@ export default function Cart() {
                   w={"full"}
                   py={5}
                   _hover={{ bg: "orange.600" }}
+                  onClick={handleCheckout}
                 >
                   <Text lineHeight="1" whiteSpace="nowrap">
                     Checkout
@@ -214,6 +230,7 @@ export default function Cart() {
             w={"full"}
             py={5}
             _hover={{ bg: "orange.600" }}
+            onClick={handleCheckout}
           >
             <Text lineHeight="1" whiteSpace="nowrap">
               Checkout
@@ -221,7 +238,7 @@ export default function Cart() {
           </Button>
         </Box>
       </div>
-      <Toaster/>
+      <Toaster />
     </>
   );
 }
