@@ -17,7 +17,7 @@ export default function ManageProduct() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, isLoading } = useGetProductsQuery();
+  const { data, isLoading, refetch } = useGetProductsQuery();
   const allProducts = data?.data || [];
 
   const filteredProducts = allProducts.filter((product) =>
@@ -77,6 +77,7 @@ export default function ManageProduct() {
                 itemsPerPage={itemsPerPage}
                 products={filteredProducts}
                 isLoading={isLoading}
+                refetch={refetch}
               />
               <Flex justifyContent="center" mt={4}>
                 <Pagination

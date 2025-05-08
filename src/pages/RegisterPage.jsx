@@ -78,7 +78,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div>
+    <>
       <Grid
         h="100vh"
         templateColumns={{ base: "1fr", lg: "1fr 1fr" }}
@@ -240,6 +240,6 @@ export default function RegisterPage() {
         </GridItem>
       </Grid>
       <Toaster />
-    </div>
+    </>
   );
 }

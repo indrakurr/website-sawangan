@@ -8,8 +8,30 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { WarningCircle } from "@phosphor-icons/react";
+import { useDeleteProductMutation } from "../../../store/store";
+import { toaster } from "../../ui/toaster";
 
-const ModalDeleteProduct = ({ isOpen, onClose }) => {
+const ModalDeleteProduct = ({ isOpen, onClose, productId, onSuccess, refetch }) => {
+  const [deleteProduct, { isLoading }] = useDeleteProductMutation();
+
+  const handleDelete = async () => {
+    try {
+      await deleteProduct(productId).unwrap();
+      onClose();
+      toaster.success({
+        title: "Produk dihapus",
+        description: "Produk berhasil dihapus dari sistem",
+      });
+      refetch();
+      if (onSuccess) onSuccess(); 
+    } catch (err) {
+      toaster.error({
+        title: "Gagal menghapus",
+        description: err?.data?.errors || "Terjadi kesalahan saat menghapus",
+      });
+    }
+  };
+
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Portal>
@@ -58,6 +80,7 @@ const ModalDeleteProduct = ({ isOpen, onClose }) => {
                     py={4}
                     _hover={{ bg: "gray.500", color: "white" }}
                     onClick={onClose}
+                    isDisabled={isLoading}
                   >
                     <Text lineHeight="1" whiteSpace="nowrap">
                       Batal
@@ -71,6 +94,8 @@ const ModalDeleteProduct = ({ isOpen, onClose }) => {
                     px={5}
                     py={4}
                     _hover={{ bg: "red.600" }}
+                    onClick={handleDelete}
+                    isLoading={isLoading}
                   >
                     <Text lineHeight="1" whiteSpace="nowrap">
                       Hapus

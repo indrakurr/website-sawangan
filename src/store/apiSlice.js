@@ -149,6 +149,13 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    deleteProduct: builder.mutation({
+      query: (productId) => ({
+        url: `/admin/products/${productId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Products"],
+    }),
 
     // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),
@@ -172,4 +179,5 @@ export const {
   useUpdateCartItemMutation,
   useDeleteCartItemMutation,
   useAddProductMutation,
+  useDeleteProductMutation,
 } = apiSlice;

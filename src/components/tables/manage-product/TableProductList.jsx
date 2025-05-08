@@ -18,7 +18,10 @@ export function TableProductList({
   currentPage = 1,
   itemsPerPage = 10,
   products = [],
+  refetch,
 }) {
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  
   const handleBadgeColor = (category) => {
     switch (category.toLowerCase()) {
       case "makanan":
@@ -65,7 +68,10 @@ export function TableProductList({
               <IconButton
                 variant="ghost"
                 _hover={{ bg: "transparent" }}
-                onClick={() => setIsOpenDelete(true)}
+                onClick={() => {
+                  setSelectedProductId(item.id);
+                  setIsOpenDelete(true);
+                }}
               >
                 <Trash color="red" />
               </IconButton>
@@ -84,6 +90,8 @@ export function TableProductList({
       <ModalDeleteProduct
         isOpen={isOpenDelete}
         onClose={() => setIsOpenDelete(false)}
+        productId={selectedProductId}
+        onSuccess={() => refetch()}
       />
     </>
   );

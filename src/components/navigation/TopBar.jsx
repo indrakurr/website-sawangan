@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Box, Flex, Image, Text, Portal, Menu } from "@chakra-ui/react";
-import { Toaster, toaster } from "../ui/toaster";
-import { ArrowDown2, Logout } from "iconsax-react";
+import { toaster } from "../ui/toaster";
+import { ArrowDown2, Logout, SidebarLeft,SidebarRight } from "iconsax-react";
 import { ArrowLeftSquare, ArrowRightSquare } from "react-iconly";
 import { useLogoutMutation } from "../../store/store";
 
@@ -33,9 +33,9 @@ export default function TopBar({ collapse, setCollapse }) {
       <Flex justifyContent="space-between" align="center">
         <Box onClick={() => setCollapse(!collapse)} cursor="pointer">
           {collapse ? (
-            <ArrowRightSquare color="gray" size="32px" />
+            <SidebarRight color="gray" size="24px" />
           ) : (
-            <ArrowLeftSquare color="gray" size="32px" />
+            <SidebarLeft color="gray" size="24px" />
           )}
         </Box>
         <Menu.Root>
