@@ -1,4 +1,4 @@
-import { Card, Image, Text, HStack, Button } from "@chakra-ui/react";
+import { Box, Card, Image, Text, HStack, Button } from "@chakra-ui/react";
 import { ShoppingCart, Star } from "@phosphor-icons/react";
 import { toaster } from "../ui/toaster";
 import { Link } from "react-router-dom";
@@ -58,11 +58,36 @@ const handleAddToCart = async (e) => {
         borderRadius={16}
         boxShadow={"0px 4px 30px rgba(0, 0, 0, 0.1)"}
       >
-        <Image className="w-64 h-48" maxH={192} src={imageUrl} alt={name} />
+        <Box w="100%" h="192px" overflow="hidden">
+          <Image
+            className="w-64"
+            h="100%"
+            maxH={192}
+            src={imageUrl}
+            alt={name}
+            objectFit="cover"
+          />
+        </Box>
         <Card.Body gap="2">
-          <Card.Title textStyle={"md"} color="black" maxW={208}>
+          
+          <Text
+            fontSize="md"
+            fontWeight="semibold"
+            color="black"
+            maxW="208px"
+            height="50px"
+            lineHeight="1.4"
+            display="-webkit-box"
+            overflow="hidden"
+            textOverflow="ellipsis"
+            style={{
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+            }}
+          >
             {name}
-          </Card.Title>
+          </Text>
+
           <HStack style={{ gap: "1px" }}>
             {Array(5)
               .fill("")

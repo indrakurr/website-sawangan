@@ -178,7 +178,7 @@ const ModalAddProduct = ({ isOpen, onClose }) => {
                               >
                                 <HStack spacing={2}>
                                   <Category2 size="20" color="#949494" />
-                                  <Text color="gray.500" fontWeight="normal">
+                                  <Text color="black" fontWeight="normal">
                                     {selected}
                                   </Text>
                                 </HStack>
