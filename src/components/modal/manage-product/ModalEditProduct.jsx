@@ -84,6 +84,21 @@ const ModalEditProduct = ({ isOpen, onClose, productId, onSuccess }) => {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (isOpen) {
+      reset({
+        "nama-produk": "",
+        "harga-produk": "",
+        "deskripsi-produk": "",
+        "berat-produk": "",
+        "stok-produk": "",
+        uploadImage: null,
+      });
+      setSelected("Pilih Kategori");
+      setExpiryDate("");
+    }
+  }, [isOpen, productId]);
+
   const onSubmit = async (formDataInput) => {
     const formData = new FormData();
     formData.append("name", formDataInput["nama-produk"]);
