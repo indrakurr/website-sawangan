@@ -61,7 +61,10 @@ export function TableProductList({
               <IconButton
                 variant="ghost"
                 _hover={{ bg: "transparent" }}
-                onClick={() => setIsOpenEdit(true)}
+                onClick={() => {
+                  setSelectedProductId(item.id);
+                  setIsOpenEdit(true);
+                }}
               >
                 <Edit2 color="black" />
               </IconButton>
@@ -84,6 +87,8 @@ export function TableProductList({
       <ModalEditProduct
         isOpen={isOpenEdit}
         onClose={() => setIsOpenEdit(false)}
+        productId={selectedProductId}
+        onSuccess={() => refetch()}
       />
 
       {/* Modal Delete */}

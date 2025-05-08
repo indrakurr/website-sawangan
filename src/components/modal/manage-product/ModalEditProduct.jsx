@@ -13,25 +13,109 @@ import {
   GridItem,
   Menu,
 } from "@chakra-ui/react";
-import { CloseSquare } from "iconsax-react";
 import { InputWithLogo } from "../../inputs/InputWithLogo";
 import { InputTextArea } from "../../inputs/InputTextArea";
 import { InputWithElement } from "../../inputs/InputWithElement";
 import { InputDateFormat } from "../../inputs/InputDateFormat";
 import { ShoppingCart, Package } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
-import { useRef } from "react";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ImageField } from "../../inputs/ImageField";
-import { Category2, ArrowDown2, WeightMeter, Calendar2 } from "iconsax-react";
+import {
+  Category2,
+  ArrowDown2,
+  WeightMeter,
+  CloseSquare,
+  Tag2,
+} from "iconsax-react";
+import {
+  useGetProductByIdQuery,
+  useUpdateProductMutation,
+} from "../../../store/store";
+import { toaster } from "../../ui/toaster";
 
-const ModalEditProduct = ({ isOpen, onClose }) => {
-  const { control } = useForm();
+const formatDate = (isoDate) => {
+  if (!isoDate) return "";
+  const date = new Date(isoDate);
+  return date
+    .toLocaleDateString("id-ID")
+    .split("/")
+    .map((d) => d.padStart(2, "0"))
+    .join("/");
+};
+
+const formatToISODate = (str) => {
+  const [day, month, year] = str.split("/");
+  return `${year}-${month}-${day}`;
+};
+
+const ModalEditProduct = ({ isOpen, onClose, productId, onSuccess }) => {
   const imageRef = useRef();
   const handleImageRef = () => imageRef.current?.click();
-
   const kategoriList = ["Makanan", "Minuman", "Aksesoris"];
+
+  const { register, handleSubmit, reset, control } = useForm();
+
   const [selected, setSelected] = useState("Pilih Kategori");
+  const [expiryDate, setExpiryDate] = useState("");
+
+  const { data, isLoading: loadingProduct } = useGetProductByIdQuery(
+    productId,
+    {
+      skip: !isOpen,
+    }
+  );
+
+  const [updateProduct, { isLoading }] = useUpdateProductMutation();
+
+  useEffect(() => {
+    if (data?.data) {
+      const p = data.data;
+      reset({
+        "nama-produk": p.name,
+        "harga-produk": p.price,
+        "deskripsi-produk": p.description,
+        "berat-produk": p.weightInGrams,
+        "stok-produk": p.stock,
+        uploadImage: p.imageUrl,
+      });
+      setSelected(p.category);
+      setExpiryDate(formatDate(p.expiryDate));
+    }
+  }, [data]);
+
+  const onSubmit = async (formDataInput) => {
+    const formData = new FormData();
+    formData.append("name", formDataInput["nama-produk"]);
+    formData.append("price", formDataInput["harga-produk"]);
+    formData.append("description", formDataInput["deskripsi-produk"]);
+    formData.append("category", selected);
+    formData.append("weight", formDataInput["berat-produk"]);
+    formData.append("stock", formDataInput["stok-produk"]);
+    formData.append("expiryDate", formatToISODate(expiryDate));
+
+    if (
+      formDataInput.uploadImage &&
+      formDataInput.uploadImage[0] instanceof File
+    ) {
+      formData.append("image", formDataInput.uploadImage[0]);
+    }
+
+    try {
+      await updateProduct({ productId, formData }).unwrap();
+      toaster.success({
+        title: "Berhasil",
+        description: "Produk berhasil diperbarui",
+      });
+      onClose();
+      if (onSuccess) onSuccess();
+    } catch (err) {
+      toaster.error({
+        title: "Gagal",
+        description: err?.data?.errors || "Terjadi kesalahan",
+      });
+    }
+  };
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -85,22 +169,22 @@ const ModalEditProduct = ({ isOpen, onClose }) => {
                         label="Nama Produk"
                         type="text"
                         icon={ShoppingCart}
-                        value={"Mendoan Sawangan Enak"}
+                        {...register("nama-produk")}
                       />
                       <InputWithLogo
                         w="1/3"
                         id="harga-produk"
                         label="Harga Produk"
                         type="number"
-                        icon={ShoppingCart}
-                        value={123456}
+                        icon={Tag2}
+                        {...register("harga-produk")}
                       />
                     </Flex>
                     <InputTextArea
                       label="Deskripsi Produk"
                       id="deskripsi-produk"
                       rows={5}
-                      value={"Lorem Ipsum"}
+                      {...register("deskripsi-produk")}
                     />
                     <Fieldset.Root>
                       <Fieldset.Legend color={"gray.500"} fontWeight={"bold"}>
@@ -132,13 +216,12 @@ const ModalEditProduct = ({ isOpen, onClose }) => {
                               >
                                 <HStack spacing={2}>
                                   <Category2 size="20" color="#949494" />
-                                  <Text color="gray.500" fontWeight="normal">
+                                  <Text color="black" fontWeight="normal">
                                     {selected}
                                   </Text>
                                 </HStack>
                                 <ArrowDown2 size="20" color="#949494" />
                               </Menu.Trigger>
-
                               <Menu.Positioner>
                                 <Menu.Content
                                   borderRadius="md"
@@ -180,6 +263,7 @@ const ModalEditProduct = ({ isOpen, onClose }) => {
                               }
                               endElement={<Text color={"gray.500"}>gram</Text>}
                               placeholder="Masukkan berat produk"
+                              {...register("berat-produk")}
                             />
                           </div>
                         </Flex>
@@ -197,8 +281,8 @@ const ModalEditProduct = ({ isOpen, onClose }) => {
                               startElement={
                                 <Package size={20} color="#949494" />
                               }
-
                               placeholder="Masukkan stok produk"
+                              {...register("stok-produk")}
                             />
                           </div>
                           <div className="w-1/2">
@@ -210,7 +294,10 @@ const ModalEditProduct = ({ isOpen, onClose }) => {
                             >
                               Tanggal Kadaluarsa
                             </Field.Label>
-                            <InputDateFormat />
+                            <InputDateFormat
+                              value={expiryDate}
+                              onChange={setExpiryDate}
+                            />
                           </div>
                         </Flex>
                       </Field.Root>
@@ -243,6 +330,8 @@ const ModalEditProduct = ({ isOpen, onClose }) => {
                     px={5}
                     py={4}
                     _hover={{ bg: "orange.600" }}
+                    onClick={handleSubmit(onSubmit)}
+                    isLoading={isLoading}
                   >
                     <Text lineHeight="1" whiteSpace="nowrap">
                       Simpan
