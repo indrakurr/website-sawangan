@@ -10,19 +10,28 @@ import { Plus } from "@phosphor-icons/react";
 import FilterButton from "../../components/buttons/FilterButton";
 import { Toaster } from "../../components/ui/toaster";
 import { useGetProductsQuery } from "../../store/store";
+import TableProductSkeleton from "../../components/skeleton/TableProductSkeleton";
 
 export default function ManageProduct() {
   const [collapse, setCollapse] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("Semua");
 
   const { data, isLoading, refetch } = useGetProductsQuery();
   const allProducts = data?.data || [];
 
-  const filteredProducts = allProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const categoryOptions = ["Semua", "Makanan", "Minuman", "Aksesoris"];
+
+  const filteredProducts = allProducts.filter((product) => {
+    const matchQuery = product.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchCategory =
+      activeCategory === "Semua" || product.category === activeCategory;
+    return matchQuery && matchCategory;
+  });
 
   const itemsPerPage = 10;
 
@@ -53,9 +62,22 @@ export default function ManageProduct() {
               mt={6}
             >
               <Flex alignItems={"center"} justifyContent={"space-between"}>
-                <div className="wrapper w-4/12">
+                <Flex gap={3}>
+                  {categoryOptions.map((cat) => (
+                    <FilterButton
+                      key={cat}
+                      label={cat}
+                      isActive={activeCategory === cat}
+                      onClick={() => {
+                        setActiveCategory(cat);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  ))}
+                </Flex>
+                <Flex w={"full"} paddingX={"20px"}>
                   <SearchInput value={searchQuery} onSearch={setSearchQuery} />
-                </div>
+                </Flex>
                 <Button
                   size={"sm"}
                   bg={"orange.500"}
@@ -72,13 +94,17 @@ export default function ManageProduct() {
                 </Button>
               </Flex>
 
-              <TableProductList
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                products={filteredProducts}
-                isLoading={isLoading}
-                refetch={refetch}
-              />
+              {isLoading ? (
+                <TableProductSkeleton rows={10} />
+              ) : (
+                <TableProductList
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                  products={filteredProducts}
+                  isLoading={isLoading}
+                  refetch={refetch}
+                />
+              )}
               <Flex justifyContent="center" mt={4}>
                 <Pagination
                   totalCount={filteredProducts.length}
