@@ -156,6 +156,15 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    updateProduct: builder.mutation({
+      query: ({ productId, formData }) => ({
+        url: `/admin/products/${productId}`,
+        method: "PATCH",
+        body: formData,
+        formData: true,
+      }),
+      invalidatesTags: ["Products"],
+    }),
 
     // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),
@@ -180,4 +189,5 @@ export const {
   useDeleteCartItemMutation,
   useAddProductMutation,
   useDeleteProductMutation,
+  useUpdateProductMutation,
 } = apiSlice;
