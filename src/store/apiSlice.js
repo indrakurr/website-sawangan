@@ -166,6 +166,11 @@ export const apiSlice = createApi({
       invalidatesTags: ["Products"],
     }),
 
+    getAdminUsers: builder.query({
+      query: () => "/admin/users",
+      providesTags: ["Admin"],
+    }),
+
     // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),
 });
@@ -190,4 +195,5 @@ export const {
   useAddProductMutation,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useGetAdminUsersQuery,
 } = apiSlice;
