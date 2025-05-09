@@ -14,7 +14,7 @@ import { InputWithLogo } from "../components/inputs/InputWithLogo";
 import Footer from "../components/sections/Footer";
 import CheckoutItem from "../components/card/CheckoutItem";
 import { User } from "react-iconly";
-import { PhoneCall, Signpost } from "@phosphor-icons/react";
+import { PhoneCall, Signpost, City, MapTrifold } from "@phosphor-icons/react";
 import { useLocation } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
 
@@ -85,6 +85,40 @@ export default function Checkout() {
 
     fetchShipping();
   }, [postalCode, totalWeight, subtotal]);
+ 
+  const handleCheckout = async () => {
+    const payload = {
+      shippingAddress: document.getElementById("alamat-lengkap")?.value || "",
+      shippingCity: document.getElementById("kota")?.value || "",
+      shippingProvince: document.getElementById("provinsi")?.value || "",
+      shippingPostCode: postalCode,
+      destinationId: String(destinationId),
+      shippingService: "REG23",
+      courier: "JNE",
+    };
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/checkout`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        // sukses
+        console.log("Checkout berhasil:", result);
+      } else {
+        console.error("Gagal checkout:", result.errors);
+      }
+    } catch (error) {
+      console.error("Error saat checkout:", error);
+    }
+  };
+   
 
   return (
     <div
@@ -143,6 +177,18 @@ export default function Checkout() {
                   fontSize={{ base: "12px", lg: "16px" }}
                   borderColor="gray.300"
                   height="96px"
+                />
+                <InputWithLogo
+                  id="kota"
+                  label="Kota"
+                  type="text"
+                  icon={City}
+                />
+                <InputWithLogo
+                  id="provinsi"
+                  label="Provinsi"
+                  type="text"
+                  icon={MapTrifold}
                 />
                 <InputWithLogo
                   id="kode-pos"
@@ -226,6 +272,7 @@ export default function Checkout() {
                 w="full"
                 py={5}
                 _hover={{ bg: "orange.600" }}
+                onClick={handleCheckout}
               >
                 <Text lineHeight="1" whiteSpace="nowrap">
                   Buat Pesanan
