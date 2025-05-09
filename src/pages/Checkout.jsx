@@ -17,6 +17,7 @@ import { User } from "react-iconly";
 import { PhoneCall, Signpost, City, MapTrifold } from "@phosphor-icons/react";
 import { useLocation } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
+import { Toaster, toaster } from "../components/ui/toaster";
 
 export default function Checkout() {
   const { state: selectedItems = [] } = useLocation();
@@ -92,7 +93,7 @@ export default function Checkout() {
       shippingCity: document.getElementById("kota")?.value || "",
       shippingProvince: document.getElementById("provinsi")?.value || "",
       shippingPostCode: postalCode,
-      destinationId: String(destinationId),
+      destinationId: String(destinationId), // dipastikan string
       shippingService: "REG23",
       courier: "JNE",
     };
@@ -108,14 +109,31 @@ export default function Checkout() {
       });
 
       const result = await res.json();
+
       if (res.ok) {
-        // sukses
-        console.log("Checkout berhasil:", result);
+        const paymentUrl = result?.data?.paymentUrl;
+        if (paymentUrl) {
+          toaster.success({
+            title: "Checkout Berhasil",
+            description: "Kamu akan diarahkan ke halaman pembayaran.",
+          });
+          window.open(paymentUrl, "_blank"); 
+        } else {
+          toaster.error({
+            title: "URL Pembayaran Tidak Ditemukan",
+          });
+        }
       } else {
-        console.error("Gagal checkout:", result.errors);
+        toaster.error({
+          title: "Checkout Gagal",
+          description: result?.errors || "Terjadi kesalahan saat checkout.",
+        });
       }
     } catch (error) {
-      console.error("Error saat checkout:", error);
+      toaster.error({
+        title: "Checkout Gagal",
+        description: error?.message || "Terjadi kesalahan jaringan.",
+      });
     }
   };
    
