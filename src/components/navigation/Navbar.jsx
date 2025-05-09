@@ -1,8 +1,18 @@
 import { useState } from "react";
 import Logo from "../../assets/logo-sawangan.svg";
-import { Box, Button, Flex, Link, Text, Icon } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Link,
+  Text,
+  Icon,
+  Float,
+  Circle,
+} from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { ShoppingCart, User, List, X } from "@phosphor-icons/react";
+import { useGetCartQuery } from "../../store/store";
 
 export default function Navbar() {
   const [toggleNavbar, setToggleNavbar] = useState(false);
@@ -17,6 +27,14 @@ export default function Navbar() {
   const mobileItems = isLoggedIn
     ? [...menuItems, { text: "Profil", href: "/profile" }]
     : menuItems;
+
+    const { data: cartData } = useGetCartQuery(undefined, {
+      skip: !isLoggedIn,
+    });
+
+    const totalCartItems =
+      cartData?.data?.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+    
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
@@ -79,9 +97,24 @@ export default function Navbar() {
             </Button>
           ) : (
             <>
-              <Link as={RouterLink} to="/cart">
-                <Icon as={ShoppingCart} boxSize={6} color="black" />
-              </Link>
+              <Box position="relative">
+                <Link as={RouterLink} to="/cart">
+                  <Icon
+                    as={ShoppingCart}
+                    boxSize={6}
+                    color="black"
+                    marginTop={"4px"}
+                  />
+                </Link>
+                {totalCartItems > 0 && (
+                  <Float offsetY="6px" offsetX="1px">
+                    <Circle size="4" bg="red.500" color="white" fontSize="xs">
+                      {totalCartItems}
+                    </Circle>
+                  </Float>
+                )}
+              </Box>
+
               <Link as={RouterLink} to="/profile">
                 <Icon as={User} boxSize={6} color="black" />
               </Link>
@@ -92,9 +125,19 @@ export default function Navbar() {
         {/* MOBILE RIGHT SIDE: CART + HAMBURGER */}
         {isLoggedIn ? (
           <div className="flex gap-4 items-center lg:hidden">
-            <Link as={RouterLink} to="/cart">
-              <Icon as={ShoppingCart} boxSize={6} color="black" />
-            </Link>
+            <Box position="relative">
+              <Link as={RouterLink} to="/cart">
+                <Icon as={ShoppingCart} boxSize={6} color="black" marginTop={"4px"} />
+              </Link>
+              {totalCartItems > 0 && (
+                <Float offsetY="6px" offsetX="1px">
+                  <Circle size="4" bg="red.500" color="white" fontSize="xs">
+                    {totalCartItems}
+                  </Circle>
+                </Float>
+              )}
+            </Box>
+
             <div
               className="cursor-pointer"
               onClick={() => setToggleNavbar((prev) => !prev)}

@@ -35,6 +35,7 @@ export default function RegisterPage() {
 
   const [register, { isLoading }] = useRegisterMutation();
   const navigate = useNavigate();
+  const [agree, setAgree] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -176,7 +177,11 @@ export default function RegisterPage() {
             />
           </VStack>
 
-          <Checkbox.Root colorPalette="orange" variant="solid">
+          <Checkbox.Root
+            colorPalette="orange"
+            variant="solid"
+            onCheckedChange={(checked) => setAgree(!!checked)}
+          >
             <Checkbox.HiddenInput />
             <Checkbox.Control color="white" />
             <Checkbox.Label color="gray.500" fontWeight="light">
@@ -186,6 +191,7 @@ export default function RegisterPage() {
           </Checkbox.Root>
 
           <Button
+            isDisabled={!agree}
             size={"sm"}
             bg={"orange.500"}
             color={"white"}
