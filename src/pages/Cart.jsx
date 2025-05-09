@@ -11,7 +11,7 @@ import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/sections/Footer";
 import CartItem from "../components/card/CartItem";
 import { Toaster } from "../components/ui/toaster";
-import { useGetCartQuery, useDeleteCartItemMutation } from "../store/store";
+import { useGetCartQuery, useDeleteCartItemMutation, useUpdateCartItemMutation } from "../store/store";
 import CartSkeleton from "../components/skeleton/CartSkeleton";
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +23,9 @@ export default function Cart() {
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [quantities, setQuantities] = useState({});
+
+  const [deleteCartItem] = useDeleteCartItemMutation();
+  const [updateCartItem] = useUpdateCartItemMutation();
 
   const navigate = useNavigate();
 
@@ -72,7 +75,24 @@ export default function Cart() {
     return sum + item.product.price * qty;
   }, 0);
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
+    const uncheckedItems = cartItems.filter(
+      (item) => !selectedItems.includes(item.id)
+    );
+
+    // 1. Hapus item yang tidak dicentang
+    await Promise.all(uncheckedItems.map((item) => deleteCartItem(item.id)));
+
+    // 2. Update quantity item yang dicentang
+    await Promise.all(
+      selectedItems.map((itemId) => {
+        const item = cartItems.find((i) => i.id === itemId);
+        const qty = quantities[itemId] || item.quantity;
+        return updateCartItem({ productId: item.productId, quantity: qty });
+      })
+    );
+
+    // 3. Navigasi ke halaman checkout
     const selectedData = cartItems
       .filter((item) => selectedItems.includes(item.id))
       .map((item) => ({
