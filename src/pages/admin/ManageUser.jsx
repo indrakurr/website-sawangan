@@ -5,6 +5,8 @@ import TopBar from "../../components/navigation/TopBar";
 import SearchInput from "../../components/inputs/SearchInput";
 import Pagination from "../../components/pagination/Pagination";
 import { TableUserList } from "../../components/tables/manage-user/TableUserList";
+import { useGetAdminUsersQuery } from "../../store/store";
+import TableProductSkeleton from "../../components/skeleton/TableProductSkeleton";
 
 export default function ManageUser() {
   const [collapse, setCollapse] = useState(false);
@@ -13,102 +15,11 @@ export default function ManageUser() {
 
   const itemsPerPage = 10;
 
-  // Dummy users
-  const dummyUsers = [
-    {
-      id: "1",
-      fullName: "Budi Santoso",
-      email: "budi@example.com",
-      phone: "081234567890",
-    },
-    {
-      id: "2",
-      fullName: "Siti Aminah",
-      email: "siti@example.com",
-      phone: "081234567891",
-    },
-    {
-      id: "3",
-      fullName: "Agus Riyanto",
-      email: "agus@example.com",
-      phone: "081234567892",
-    },
-    {
-      id: "4",
-      fullName: "Nur Aini",
-      email: "nur@example.com",
-      phone: "081234567893",
-    },
-    {
-      id: "5",
-      fullName: "Dian Sastro",
-      email: "dian@example.com",
-      phone: "081234567894",
-    },
-    {
-      id: "6",
-      fullName: "Ahmad Fauzi",
-      email: "ahmad@example.com",
-      phone: "081234567895",
-    },
-    {
-      id: "7",
-      fullName: "Rina Marlina",
-      email: "rina@example.com",
-      phone: "081234567896",
-    },
-    {
-      id: "8",
-      fullName: "Ilham Firmansyah",
-      email: "ilham@example.com",
-      phone: "081234567897",
-    },
-    {
-      id: "9",
-      fullName: "Dewi Lestari",
-      email: "dewi@example.com",
-      phone: "081234567898",
-    },
-    {
-      id: "10",
-      fullName: "Andi Wijaya",
-      email: "andi@example.com",
-      phone: "081234567899",
-    },
-    {
-      id: "11",
-      fullName: "Tasya Kamila",
-      email: "tasya@example.com",
-      phone: "081234567900",
-    },
-    {
-      id: "12",
-      fullName: "Fajar Nugroho",
-      email: "fajar@example.com",
-      phone: "081234567901",
-    },
-    {
-      id: "13",
-      fullName: "Mira Andini",
-      email: "mira@example.com",
-      phone: "081234567902",
-    },
-    {
-      id: "14",
-      fullName: "Rahmat Hidayat",
-      email: "rahmat@example.com",
-      phone: "081234567903",
-    },
-    {
-      id: "15",
-      fullName: "Lia Amalia",
-      email: "lia@example.com",
-      phone: "081234567904",
-    },
-  ];
+  const { data, isLoading } = useGetAdminUsersQuery();
+  const allUsers = data?.data || [];
 
   // Filter users based on search query
-  const filteredUsers = dummyUsers.filter((user) => {
+  const filteredUsers = allUsers.filter((user) => {
     const query = searchQuery.toLowerCase();
     return (
       user.fullName.toLowerCase().includes(query) ||
@@ -146,11 +57,16 @@ export default function ManageUser() {
               <SearchInput value={searchQuery} onSearch={setSearchQuery} />
             </div>
 
-            <TableUserList
-              currentPage={currentPage}
-              itemsPerPage={itemsPerPage}
-              users={filteredUsers}
-            />
+            {isLoading ? (
+              <TableProductSkeleton />
+            ) : (
+              <TableUserList
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                users={filteredUsers}
+              />
+            )}
+
             <Flex justifyContent="center" mt={4}>
               <Pagination
                 totalCount={filteredUsers.length}

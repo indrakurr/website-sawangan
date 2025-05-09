@@ -3,11 +3,14 @@ import { Box, Flex, Image, Text, Portal, Menu } from "@chakra-ui/react";
 import { toaster } from "../ui/toaster";
 import { ArrowDown2, Logout, SidebarLeft,SidebarRight } from "iconsax-react";
 import { ArrowLeftSquare, ArrowRightSquare } from "react-iconly";
-import { useLogoutMutation } from "../../store/store";
+import { useLogoutMutation, useGetProfileQuery } from "../../store/store";
 
 export default function TopBar({ collapse, setCollapse }) {
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
+
+  const { data, isLoading } = useGetProfileQuery();
+  const profile = data?.data;
 
   const handleLogout = async () => {
     try {
@@ -44,7 +47,11 @@ export default function TopBar({ collapse, setCollapse }) {
               <Image
                 boxSize="36px"
                 borderRadius="full"
-                src="https://i.pravatar.cc/300?u=111"
+                src={
+                  profile?.avatar ||
+                  "https://ui-avatars.com/api/?name=" +
+                    encodeURIComponent(profile?.fullName || "Admin")
+                }
                 alt="profile-image"
               />
               <Box marginLeft={3}>
@@ -54,7 +61,7 @@ export default function TopBar({ collapse, setCollapse }) {
                   color="black"
                   wordBreak="break-word"
                 >
-                  Lorem Ipsum
+                  {profile?.fullName || "-"}
                 </Text>
                 <Text
                   fontSize="12px"
@@ -62,7 +69,7 @@ export default function TopBar({ collapse, setCollapse }) {
                   color="gray.400"
                   wordBreak="break-word"
                 >
-                  loremipsum@gmail.com
+                  {profile?.email || "-"}
                 </Text>
               </Box>
               <ArrowDown2 color="black" size="16px" />
