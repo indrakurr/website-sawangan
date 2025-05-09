@@ -15,6 +15,7 @@ import { useGetCartQuery, useDeleteCartItemMutation } from "../store/store";
 import CartSkeleton from "../components/skeleton/CartSkeleton";
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import EmptyCart from "../components/sections/EmptyCart";
 
 export default function Cart() {
   const { data, isLoading, refetch } = useGetCartQuery();
@@ -34,6 +35,10 @@ export default function Cart() {
   }, [cartItems]);
 
   if (isLoading) return <CartSkeleton />;
+
+  if (cartItems.length === 0) {
+    return <EmptyCart />;
+  }
 
   const toggleItem = (itemId) => {
     setSelectedItems((prev) =>
