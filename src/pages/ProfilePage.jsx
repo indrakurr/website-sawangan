@@ -17,7 +17,7 @@ import Navbar from "../components/navigation/Navbar";
 import { InputWithLogo } from "../components/inputs/InputWithLogo";
 import { Message, User } from "react-iconly";
 import { PhoneCall } from "@phosphor-icons/react";
-import { PasswordCheck, Logout, Category2, ArrowDown2 } from "iconsax-react";
+import { PasswordCheck, Logout, Category2, ArrowDown2, Box1 } from "iconsax-react";
 import { Toaster, toaster } from "../components/ui/toaster";
 import Footer from "../components/sections/Footer";
 import { useNavigate } from "react-router-dom";
@@ -75,10 +75,10 @@ export default function ProfilePage() {
 
   const handleLogout = async () => {
     try {
-      await logout().unwrap(); 
-      localStorage.removeItem("token"); 
+      await logout().unwrap();
+      localStorage.removeItem("token");
       toaster.success({ title: "Berhasil logout" });
-      navigate("/"); 
+      navigate("/");
     } catch (err) {
       toaster.error({
         title: "Gagal logout",
@@ -167,6 +167,13 @@ export default function ProfilePage() {
                           <Menu.Item
                             color="black"
                             _hover={{ bg: "gray.100" }}
+                            onClick={() => navigate("/orders")}
+                          >
+                            Pesanan Saya
+                          </Menu.Item>
+                          <Menu.Item
+                            color="black"
+                            _hover={{ bg: "gray.100" }}
                             onClick={() => navigate("/change-password")}
                           >
                             Ubah Password
@@ -222,6 +229,32 @@ export default function ProfilePage() {
                     color={activePage === "profil" ? "white" : "black"}
                   >
                     Profil
+                  </Text>
+                </Button>
+                <Button
+                  size="sm"
+                  width="full"
+                  bg={activePage === "orders" ? "orange.500" : "white"}
+                  color={activePage === "orders" ? "white" : "black"}
+                  rounded="xl"
+                  px={2}
+                  py={5}
+                  _hover={{
+                    bg: activePage === "orders" ? "orange.600" : "gray.100",
+                  }}
+                  justifyContent="start"
+                  onClick={() => navigate("/orders")}
+                >
+                  <Box1
+                    style={{ width: "24px", height: "24px" }}
+                    color={activePage === "orders" ? "white" : "black"}
+                  />
+                  <Text
+                    lineHeight="1"
+                    whiteSpace="nowrap"
+                    color={activePage === "orders" ? "white" : "black"}
+                  >
+                    Pesanan Saya
                   </Text>
                 </Button>
                 <Button
@@ -359,7 +392,12 @@ export default function ProfilePage() {
                         </Text>
                       </Button>
                     </label>
-                    <Text fontSize="12px" color="gray.400" textAlign="center" paddingX={{base:"16px", lg:"0px"}}>
+                    <Text
+                      fontSize="12px"
+                      color="gray.400"
+                      textAlign="center"
+                      paddingX={{ base: "16px", lg: "0px" }}
+                    >
                       Ukuran gambar: maks. 1 MB. Format gambar: .JPG .JPEG .PNG
                     </Text>
                   </VStack>

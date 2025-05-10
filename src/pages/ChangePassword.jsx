@@ -17,6 +17,7 @@ import {
   ArrowDown2,
   PasswordCheck,
   Logout,
+  Box1,
 } from "iconsax-react";
 import Navbar from "../components/navigation/Navbar";
 import { InputWithLogo } from "../components/inputs/InputWithLogo";
@@ -81,18 +82,18 @@ export default function ChangePassword() {
   };
 
   const handleLogout = async () => {
-      try {
-        await logout().unwrap(); 
-        localStorage.removeItem("token"); 
-        toaster.success({ title: "Berhasil logout" });
-        navigate("/"); 
-      } catch (err) {
-        toaster.error({
-          title: "Gagal logout",
-          description: err?.data?.errors || "Terjadi kesalahan saat logout",
-        });
-      }
-    };
+    try {
+      await logout().unwrap();
+      localStorage.removeItem("token");
+      toaster.success({ title: "Berhasil logout" });
+      navigate("/");
+    } catch (err) {
+      toaster.error({
+        title: "Gagal logout",
+        description: err?.data?.errors || "Terjadi kesalahan saat logout",
+      });
+    }
+  };
 
   return (
     <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
@@ -166,7 +167,6 @@ export default function ChangePassword() {
                         >
                           <Menu.Item
                             color="black"
-                            value="new-txt"
                             _hover={{ bg: "gray.100" }}
                             onClick={() => navigate("/profile")}
                           >
@@ -174,7 +174,13 @@ export default function ChangePassword() {
                           </Menu.Item>
                           <Menu.Item
                             color="black"
-                            value="new-file"
+                            _hover={{ bg: "gray.100" }}
+                            onClick={() => navigate("/orders")}
+                          >
+                            Pesanan Saya
+                          </Menu.Item>
+                          <Menu.Item
+                            color="black"
                             _hover={{ bg: "gray.100" }}
                             onClick={() => navigate("/change-password")}
                           >
@@ -182,7 +188,6 @@ export default function ChangePassword() {
                           </Menu.Item>
                           <Menu.Item
                             color="red"
-                            value="new-win"
                             _hover={{ bg: "gray.100" }}
                             onClick={handleLogout}
                           >
@@ -232,6 +237,33 @@ export default function ChangePassword() {
                     color={activePage === "profil" ? "white" : "black"}
                   >
                     Profil
+                  </Text>
+                </Button>
+
+                <Button
+                  size="sm"
+                  width="full"
+                  bg={activePage === "orders" ? "orange.500" : "white"}
+                  color={activePage === "orders" ? "white" : "black"}
+                  rounded="xl"
+                  px={2}
+                  py={5}
+                  _hover={{
+                    bg: activePage === "orders" ? "orange.600" : "gray.100",
+                  }}
+                  justifyContent="start"
+                  onClick={() => navigate("/orders")}
+                >
+                  <Box1
+                    style={{ width: "24px", height: "24px" }}
+                    color={activePage === "orders" ? "white" : "black"}
+                  />
+                  <Text
+                    lineHeight="1"
+                    whiteSpace="nowrap"
+                    color={activePage === "orders" ? "white" : "black"}
+                  >
+                    Pesanan Saya
                   </Text>
                 </Button>
 

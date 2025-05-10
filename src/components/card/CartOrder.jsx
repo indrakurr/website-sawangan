@@ -7,8 +7,49 @@ import ModalOrderDetailShipped from "../modal/my-order/ModalOrderDetailShipped";
 import ModalOrderDetailCompleted from "../modal/my-order/ModalOrderDetailCompleted";
 import ModalOrderDetailCanceled from "../modal/my-order/ModalOrderDetailCanceled";
 
-const CartOrder = () => {
+const CartOrder = ({ order }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const firstItem = order?.items?.[0];
+
+  const renderModal = () => {
+    const status = order?.status;
+    if (status === "PENDING")
+      return (
+        <ModalOrderDetailPending
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        />
+      );
+    if (status === "PACKAGED")
+      return (
+        <ModalOrderDetailPacked
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        />
+      );
+    if (status === "SHIPPED")
+      return (
+        <ModalOrderDetailShipped
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        />
+      );
+    if (status === "COMPLETED")
+      return (
+        <ModalOrderDetailCompleted
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        />
+      );
+    if (status === "CANCELLED")
+      return (
+        <ModalOrderDetailCanceled
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        />
+      );
+    return null;
+  };
 
   return (
     <>
@@ -26,8 +67,8 @@ const CartOrder = () => {
         <Image
           boxSize="80px"
           borderRadius="md"
-          src="https://www.astronauts.id/blog/wp-content/uploads/2022/08/Makanan-Khas-Daerah-tiap-Provinsi-di-Indonesia-Serta-Daerah-Asalnya.jpg"
-          alt="gambar-produk"
+          src={firstItem?.image}
+          alt={firstItem?.name}
         />
 
         <Box w="full">
@@ -46,8 +87,7 @@ const CartOrder = () => {
                 color="black"
                 lineHeight="1.2"
               >
-                Mendoan Sawangan hraaras asdanasd Mendoan Sawangan hraaras
-                Mendoan
+                {firstItem?.name}
               </Text>
               <Text
                 maxW="100%"
@@ -58,7 +98,8 @@ const CartOrder = () => {
                 color="gray.500"
                 lineHeight="1.2"
               >
-                Total : 3
+                Total :{" "}
+                {order?.items?.reduce((sum, item) => sum + item.quantity, 0)}
               </Text>
             </Box>
 
@@ -69,21 +110,21 @@ const CartOrder = () => {
               color="black"
               lineHeight="1"
             >
-              Rp 450.000
+              Rp {order?.totalAmount?.toLocaleString("id-ID")}
             </Text>
           </Flex>
 
-          <Flex mt={3} justifyContent="end">
+          <Flex  justifyContent="end">
             <Button
               size="sm"
               bg={{ base: "white", lg: "orange.500" }}
               color={{ base: "orange.500", lg: "white" }}
               rounded="xl"
               px={{ base: 2, lg: 4 }}
-              py={5}
+              py={{base:0, lg:5}}
               gap={2}
               border="1px solid"
-              borderColor={{base:"transparent", lg:"orange.500"}}
+              borderColor={{ base: "transparent", lg: "orange.500" }}
               _hover={{ bg: { base: "gray.50", lg: "orange.600" } }}
               onClick={() => setIsOpen(true)}
             >
@@ -98,11 +139,7 @@ const CartOrder = () => {
         </Box>
       </Box>
 
-      {/* Modal Detail */}
-      <ModalOrderDetailCompleted
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
+      {renderModal()}
     </>
   );
 };
