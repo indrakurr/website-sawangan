@@ -4,9 +4,6 @@ import {
   Container,
   Text,
   VStack,
-  Spinner,
-  Grid,
-  GridItem,
   Image,
   Flex,
   Button,
@@ -18,11 +15,6 @@ import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/sections/Footer";
 import FilterButton from "../components/buttons/FilterButton";
 import CartOrder from "../components/card/CartOrder";
-import {
-  useGetOrdersQuery,
-  useLogoutMutation,
-  useGetProfileQuery,
-} from "../store/store";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowDown2,
@@ -32,6 +24,13 @@ import {
   Box1,
 } from "iconsax-react";
 import { User } from "react-iconly";
+import MyOrderSkeleton from "../components/skeleton/MyOrderSkeleton";
+import EmptyCartImg from "../assets/empty-cart.png"
+import {
+  useGetOrdersQuery,
+  useLogoutMutation,
+  useGetProfileQuery,
+} from "../store/store";
 
 const STATUS_MAPPING = {
   "Belum Bayar": "PENDING",
@@ -45,6 +44,7 @@ export default function MyOrder() {
   const [activeFilter, setActiveFilter] = useState("Belum Bayar");
   const [activePage] = useState("orders");
   const buttonLabels = [
+    "Semua",
     "Belum Bayar",
     "Dikemas",
     "Dikirim",
@@ -64,9 +64,12 @@ export default function MyOrder() {
 
   const { data, isLoading } = useGetOrdersQuery();
   const allOrders = data?.data || [];
-  const filteredOrders = allOrders.filter(
-    (order) => order.status === STATUS_MAPPING[activeFilter]
-  );
+  const filteredOrders =
+    activeFilter === "Semua"
+      ? allOrders
+      : allOrders.filter(
+          (order) => order.status === STATUS_MAPPING[activeFilter]
+        );
 
   const handleLogout = async () => {
     try {
@@ -310,65 +313,87 @@ export default function MyOrder() {
               </Box>
             </Box>
 
-            <Box w={{ base: "full", lg: "3/4" }}>
-              <Box
-                bg="white"
-                borderRadius="xl"
-                padding={{ base: 4, lg: 6 }}
-                boxShadow="0px 4px 30px rgba(0, 0, 0, 0.1)"
-              >
-                <Box display={{ base: "block", lg: "none" }}>
-                  <Button
-                    size={"sm"}
-                    bg="transparent"
-                    rounded={"xl"}
-                    px={0}
-                    py={0}
-                    border={"none"}
-                    fontWeight="semibold"
-                  >
-                    <ArrowLeft2
-                      style={{ width: "24px", height: "24px" }}
-                      color="black"
-                    />
-                    Pesanan Saya
-                  </Button>
-                </Box>
-                <Text
-                  textAlign={{ base: "start", lg: "start" }}
-                  fontSize={{ base: "16px", lg: "20px" }}
-                  fontWeight="bold"
-                  color="black"
-                  lineHeight={1}
-                  display={{ base: "none", lg: "block" }}
+            {isLoading ? (
+              <MyOrderSkeleton />
+            ) : (
+              <Box w={{ base: "full", lg: "3/4" }}>
+                <Box
+                  bg="white"
+                  borderRadius="xl"
+                  padding={{ base: 4, lg: 6 }}
+                  boxShadow="0px 4px 30px rgba(0, 0, 0, 0.1)"
+                  h="full"
                 >
-                  Pesanan Saya
-                </Text>
-
-                <Box overflowX="auto" marginTop={{ base: "12px", lg: "24px" }}>
-                  <ButtonGroup spacing={0}>
-                    {buttonLabels.map((label) => (
-                      <FilterButton
-                        key={label}
-                        label={label}
-                        isActive={label === activeFilter}
-                        onClick={() => setActiveFilter(label)}
+                  <Box display={{ base: "block", lg: "none" }}>
+                    <Button
+                      size={"sm"}
+                      bg="transparent"
+                      rounded={"xl"}
+                      px={0}
+                      py={0}
+                      border={"none"}
+                      fontWeight="semibold"
+                    >
+                      <ArrowLeft2
+                        style={{ width: "24px", height: "24px" }}
+                        color="black"
                       />
-                    ))}
-                  </ButtonGroup>
-                </Box>
+                      Pesanan Saya
+                    </Button>
+                  </Box>
+                  <Text
+                    textAlign={{ base: "start", lg: "start" }}
+                    fontSize={{ base: "16px", lg: "20px" }}
+                    fontWeight="bold"
+                    color="black"
+                    lineHeight={1}
+                    display={{ base: "none", lg: "block" }}
+                  >
+                    Pesanan Saya
+                  </Text>
 
-                <VStack marginTop="12px" gap={3}>
-                  {isLoading ? (
-                    <Spinner />
-                  ) : (
-                    filteredOrders.map((order) => (
-                      <CartOrder key={order.id} order={order} />
-                    ))
-                  )}
-                </VStack>
+                  <Box
+                    overflowX="auto"
+                    marginTop={{ base: "12px", lg: "24px" }}
+                  >
+                    <ButtonGroup spacing={0}>
+                      {buttonLabels.map((label) => (
+                        <FilterButton
+                          key={label}
+                          label={label}
+                          isActive={label === activeFilter}
+                          onClick={() => setActiveFilter(label)}
+                        />
+                      ))}
+                    </ButtonGroup>
+                  </Box>
+
+                  <VStack marginTop="24px" gap={3}>
+                    {filteredOrders.length === 0 ? (
+                      <Box justifyItems={"center"} marginY="48px">
+                        <Image
+                          src={EmptyCartImg}
+                          alt="empty"
+                          maxW={{ base: "40%", lg: "200px" }}
+                          objectFit="contain"
+                        />
+                        <Text
+                          color="gray.500"
+                          fontSize="sm"
+                          textAlign={"center"}
+                        >
+                          Belum ada pesanan
+                        </Text>
+                      </Box>
+                    ) : (
+                      filteredOrders.map((order) => (
+                        <CartOrder key={order.id} order={order} />
+                      ))
+                    )}
+                  </VStack>
+                </Box>
               </Box>
-            </Box>
+            )}
           </Flex>
         </Container>
         <Footer />
