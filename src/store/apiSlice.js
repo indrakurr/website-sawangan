@@ -171,6 +171,12 @@ export const apiSlice = createApi({
       providesTags: ["Admin"],
     }),
 
+    // === ORDER ===
+    getOrders: builder.query({
+      query: () => "/orders",
+      providesTags: ["Order"],
+    }),
+
     // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),
 });
@@ -196,4 +202,5 @@ export const {
   useDeleteProductMutation,
   useUpdateProductMutation,
   useGetAdminUsersQuery,
+  useGetOrdersQuery,
 } = apiSlice;
