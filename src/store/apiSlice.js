@@ -176,6 +176,19 @@ export const apiSlice = createApi({
       query: () => "/orders",
       providesTags: ["Order"],
     }),
+    getOrderById: builder.query({
+      query: (orderId) => `/orders/${orderId}`,
+      providesTags: (result, error, orderId) => [
+        { type: "Order", id: orderId },
+      ],
+    }),
+    cancelOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `/orders/${orderId}/cancel`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Order"],
+    })
 
     // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),
@@ -203,4 +216,6 @@ export const {
   useUpdateProductMutation,
   useGetAdminUsersQuery,
   useGetOrdersQuery,
+  useGetOrderByIdQuery,
+  useCancelOrderMutation
 } = apiSlice;
