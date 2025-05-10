@@ -39,7 +39,7 @@ export default function Navbar() {
     
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+    <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-70">
       <Flex
         w="full"
         maxW="1600px"
@@ -174,7 +174,7 @@ export default function Navbar() {
                       }}
                     >
                       <Flex align="center" gap={2}>
-                        <Logout size={16} color="black" />
+                        <Logout size={16} color="red" />
                         <Text fontSize="14px">Keluar</Text>
                       </Flex>
                     </Menu.Item>
