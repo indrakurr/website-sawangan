@@ -89,6 +89,8 @@ export default function Checkout() {
  
   const handleCheckout = async () => {
     const payload = {
+      recipientName: document.getElementById("nama-penerima")?.value || "",
+      phoneNumber: document.getElementById("nomor-telepon")?.value || "",
       shippingAddress: document.getElementById("alamat-lengkap")?.value || "",
       shippingCity: document.getElementById("kota")?.value || "",
       shippingProvince: document.getElementById("provinsi")?.value || "",

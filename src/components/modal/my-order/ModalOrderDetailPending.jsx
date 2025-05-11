@@ -12,18 +12,44 @@ import {
 import { CloseSquare } from "iconsax-react";
 import StepProgressCustom from "../../steps/StepProgress";
 import ProdukItem from "../../card/CartModal";
+import { useGetOrderByIdQuery, useCancelOrderMutation } from "../../../store/store";
+import { toaster } from "../../ui/toaster";
 
-const ModalOrderDetailPending = ({ isOpen, onClose }) => {
+const ModalOrderDetailPending = ({ isOpen, onClose, orderId }) => {
+  const { data, isLoading } = useGetOrderByIdQuery(orderId);
+  const order = data?.data;
+
+  const [cancelOrder, { isLoading: isCancelling }] = useCancelOrderMutation();
+ 
+  if (!order && !isLoading) return null;
   const orderDetail = [
-    { label: "Nama Penerima", value: ": Lorem Ipsum" },
-    { label: "Nomor Telepon", value: ": 08123456789" },
     {
-      label: "Alamat",
-      value:
-        ": Lorem ipsum dolor sit amet, consectetur adipiscing elit Aenean scelerisque, mauris viverra hendrerit vestibulum tellus accumsan quam, non congue dolor leo vitae ipsum",
+      label: "Nama Penerima",
+      value: order?.shippingDetails?.recipientName || "-",
     },
-    { label: "Kode Pos", value: ": 123456" },
+    {
+      label: "Nomor Telepon",
+      value: order?.shippingDetails?.phoneNumber || "-",
+    },
+    { label: "Alamat", value: order?.shippingAddress || "-" },
+    { label: "Kode Pos", value: order?.shippingPostCode || "-" },
   ];
+
+  const handleCancel = async () => {
+    try {
+      await cancelOrder(orderId).unwrap();
+      toaster.success({ title: "Pesanan berhasil dibatalkan", duration: 4000, });
+      onClose();
+    } catch (err) {
+      toaster.error({
+        title: "Gagal membatalkan pesanan",
+        description:
+          err?.data?.errors ||
+          "Terjadi kesalahan. Silakan coba lagi atau hubungi admin.",
+        duration: 4000,
+      });
+    }
+  };
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -62,10 +88,15 @@ const ModalOrderDetailPending = ({ isOpen, onClose }) => {
             <Dialog.Body as={VStack} align="stretch" gap={6} padding={0}>
               {/* Step Progress */}
               <Box w="full">
-                <StepProgressCustom activeStep={0} />
+                <StepProgressCustom
+                  activeStep={0}
+                  createdAt={order?.createdAt}
+                  shippedAt={order?.timestamps?.shippedAt}
+                  completedAt={order?.timestamps?.completedAt}
+                />
               </Box>
 
-              <Box>
+              <Box w={"full"}>
                 <Text
                   fontSize={{ base: "16px", lg: "18px" }}
                   fontWeight="semibold"
@@ -101,7 +132,7 @@ const ModalOrderDetailPending = ({ isOpen, onClose }) => {
                 >
                   Detail Produk
                 </Text>
-                <ProdukItem />
+                <ProdukItem items={order?.items || []} />
               </Box>
 
               {/* Footer */}
@@ -116,12 +147,18 @@ const ModalOrderDetailPending = ({ isOpen, onClose }) => {
                     px={5}
                     py={4}
                     _hover={{ bg: "orange.500", color: "white" }}
+                    onClick={handleCancel}
+                    isLoading={isCancelling}
                   >
                     <Text lineHeight="1" whiteSpace="nowrap">
                       Batalkan Pesanan
                     </Text>
                   </Button>
                   <Button
+                    as="a"
+                    href={order?.paymentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     size={"sm"}
                     bg={"orange.500"}
                     color={"white"}
@@ -129,6 +166,7 @@ const ModalOrderDetailPending = ({ isOpen, onClose }) => {
                     px={5}
                     py={4}
                     _hover={{ bg: "orange.600" }}
+                    isDisabled={!order?.paymentUrl}
                   >
                     <Text lineHeight="1" whiteSpace="nowrap">
                       Pembayaran

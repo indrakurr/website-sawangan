@@ -15,6 +15,7 @@ import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/sections/Footer";
 import FilterButton from "../components/buttons/FilterButton";
 import CartOrder from "../components/card/CartOrder";
+import { Toaster } from "../components/ui/toaster";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowDown2,
@@ -41,7 +42,7 @@ const STATUS_MAPPING = {
 };
 
 export default function MyOrder() {
-  const [activeFilter, setActiveFilter] = useState("Belum Bayar");
+  const [activeFilter, setActiveFilter] = useState("Semua");
   const [activePage] = useState("orders");
   const buttonLabels = [
     "Semua",
@@ -398,6 +399,7 @@ export default function MyOrder() {
         </Container>
         <Footer />
       </div>
+      <Toaster />
     </>
   );
 }

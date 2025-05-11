@@ -11,18 +11,25 @@ import {
 } from "@chakra-ui/react";
 import { CloseSquare } from "iconsax-react";
 import ProdukItem from "../../card/CartModal";
+import { useGetOrderByIdQuery } from "../../../store/store";
 
-const ModalOrderDetailCanceled = ({ isOpen, onClose }) => {
-  const orderDetail = [
-    { label: "Nama Penerima", value: ": Lorem Ipsum" },
-    { label: "Nomor Telepon", value: ": 08123456789" },
-    {
-      label: "Alamat",
-      value:
-        ": Lorem ipsum dolor sit amet, consectetur adipiscing elit Aenean scelerisque, mauris viverra hendrerit vestibulum tellus accumsan quam, non congue dolor leo vitae ipsum",
-    },
-    { label: "Kode Pos", value: ": 123456" },
-  ];
+const ModalOrderDetailCanceled = ({ isOpen, onClose, orderId }) => {
+  const { data, isLoading } = useGetOrderByIdQuery(orderId);
+      const order = data?.data;
+    
+      if (!order && !isLoading) return null;
+      const orderDetail = [
+        {
+          label: "Nama Penerima",
+          value: order?.shippingDetails?.recipientName || "-",
+        },
+        {
+          label: "Nomor Telepon",
+          value: order?.shippingDetails?.phoneNumber || "-",
+        },
+        { label: "Alamat", value: order?.shippingAddress || "-" },
+        { label: "Kode Pos", value: order?.shippingPostCode || "-" },
+      ];
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -59,7 +66,6 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose }) => {
             </Dialog.Header>
 
             <Dialog.Body as={VStack} align="stretch" gap={6} padding={0}>
-              {/* Step Progress */}
               <Box w="full">
                 <Text
                   fontSize={{ base: "16px", lg: "18px" }}
@@ -76,11 +82,14 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose }) => {
                   color="orange.500"
                   lineHeight={1}
                 >
-                  22 Januari 2025 - 10.30
+                  {new Date(order?.cancelledAt).toLocaleString("id-ID", {
+                    dateStyle: "long",
+                    timeStyle: "short",
+                  })}
                 </Text>
               </Box>
 
-              <Box>
+              <Box w={"full"}>
                 <Text
                   fontSize={{ base: "16px", lg: "18px" }}
                   fontWeight="semibold"
@@ -116,7 +125,7 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose }) => {
                 >
                   Detail Produk
                 </Text>
-                <ProdukItem />
+                <ProdukItem items={order?.items || []} />
               </Box>
               {/* Footer */}
               <Flex w="full" justifyContent="end">

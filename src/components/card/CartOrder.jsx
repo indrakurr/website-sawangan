@@ -18,6 +18,7 @@ const CartOrder = ({ order }) => {
         <ModalOrderDetailPending
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
+          orderId={order.id}
         />
       );
     if (status === "PACKAGED")
@@ -46,6 +47,7 @@ const CartOrder = ({ order }) => {
         <ModalOrderDetailCanceled
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
+          orderId={order.id}
         />
       );
     return null;
@@ -65,7 +67,10 @@ const CartOrder = ({ order }) => {
         boxShadow="0px 4px 30px rgba(0, 0, 0, 0.1)"
       >
         <Image
-          boxSize="80px"
+          w={"80px"}
+          h={"80px"}
+          minW={"80px"}
+          minH={"80px"}
           borderRadius="md"
           src={firstItem?.image}
           alt={firstItem?.name}
@@ -114,14 +119,14 @@ const CartOrder = ({ order }) => {
             </Text>
           </Flex>
 
-          <Flex  justifyContent="end">
+          <Flex justifyContent="end">
             <Button
               size="sm"
               bg={{ base: "white", lg: "orange.500" }}
               color={{ base: "orange.500", lg: "white" }}
               rounded="xl"
               px={{ base: 2, lg: 4 }}
-              py={{base:0, lg:5}}
+              py={{ base: 0, lg: 5 }}
               gap={2}
               border="1px solid"
               borderColor={{ base: "transparent", lg: "orange.500" }}

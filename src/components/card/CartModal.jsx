@@ -1,59 +1,61 @@
 import { Box, Image, Text, Flex } from "@chakra-ui/react";
 
-export default function CartModal() {
+export default function ProdukItem({ items = [] }) {
   return (
-    <Box
-      w="100%"
-      display="flex"
-      alignItems="start"
-      justifyContent="space-between"
-      marginTop={6}
-    >
-      <Flex gap={{ base: 3, lg: 6 }}>
-        <Image
-          className="w-64 h-48"
-          boxSize={{ base: "50px", lg: "80px" }}
-          borderRadius="md"
-          src="https://www.astronauts.id/blog/wp-content/uploads/2022/08/Makanan-Khas-Daerah-tiap-Provinsi-di-Indonesia-Serta-Daerah-Asalnya.jpg"
-          alt="gambar-produk"
-        />
-        <Box>
-          <Text
-            maxW="90%"
-            maxH="40px"
-            wordBreak="break-word"
-            textAlign="start"
-            fontSize={{ base: "12px", lg: "16px" }}
-            fontWeight="semibold"
-            color="black"
-            lineHeight={"1"}
+    <Box mt={6}>
+      {items.map((item, index) => (
+        <Box key={index}>
+          <Box
+            w="100%"
+            display="flex"
+            alignItems="start"
+            justifyContent="space-between"
           >
-            Mendoan Sawangan hraaras asdanasd Mendn Sawangan hraaras
-          </Text>
-          <Text
-            marginTop="8px"
-            maxH="40px"
-            wordBreak="break-word"
-            textAlign="start"
-            fontSize={{ base: "12px", lg: "16px" }}
-            fontWeight="regular"
-            color="gray.400"
-            lineHeight={"1"}
-          >
-            Total :
-          </Text>
+            <Flex gap={{ base: 3, lg: 6 }}>
+              <Image
+                w={{ base: "50px", lg: "80px" }}
+                h={{ base: "50px", lg: "80px" }}
+                minW={{ base: "50px", lg: "80px" }}
+                minH={{ base: "50px", lg: "80px" }}
+                borderRadius="md"
+                src={item.image}
+                alt={item.name}
+              />
+              <Box>
+                <Text
+                  maxW="90%"
+                  wordBreak="break-word"
+                  fontSize={{ base: "12px", lg: "16px" }}
+                  fontWeight="semibold"
+                  color="black"
+                  lineHeight="1"
+                >
+                  {item.name}
+                </Text>
+                <Text
+                  mt={2}
+                  fontSize={{ base: "12px", lg: "16px" }}
+                  color="gray.400"
+                >
+                  Total : {item.quantity}
+                </Text>
+              </Box>
+            </Flex>
+            <Text
+              minW="70px"
+              textAlign="start"
+              fontSize={{ base: "12px", lg: "16px" }}
+              fontWeight="bold"
+              color="black"
+              lineHeight="1"
+            >
+              Rp {item.total.toLocaleString("id-ID")}
+            </Text>
+          </Box>
+
+          {index !== items.length - 1 && <Box h="1px" bg="gray.100" my={4} />}
         </Box>
-      </Flex>
-      <Text
-        minW="70px"
-        textAlign="start"
-        fontSize={{ base: "12px", lg: "16px" }}
-        fontWeight="bold"
-        color="black"
-        lineHeight={"1"}
-      >
-        Rp 450.000
-      </Text>
+      ))}
     </Box>
   );
 }
