@@ -184,11 +184,11 @@ export const apiSlice = createApi({
     }),
     cancelOrder: builder.mutation({
       query: (orderId) => ({
-        url: `/orders/${orderId}/cancel`,
-        method: "PATCH",
+        url: `/orders/cancel/${orderId}`,
+        method: "POST",
       }),
       invalidatesTags: ["Order"],
-    })
+    }),
 
     // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),

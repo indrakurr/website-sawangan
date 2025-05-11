@@ -38,12 +38,15 @@ const ModalOrderDetailPending = ({ isOpen, onClose, orderId }) => {
   const handleCancel = async () => {
     try {
       await cancelOrder(orderId).unwrap();
-      toaster.success({ title: "Pesanan berhasil dibatalkan" });
+      toaster.success({ title: "Pesanan berhasil dibatalkan", duration: 4000, });
       onClose();
     } catch (err) {
       toaster.error({
         title: "Gagal membatalkan pesanan",
-        description: err?.data?.errors || "Terjadi kesalahan.",
+        description:
+          err?.data?.errors ||
+          "Terjadi kesalahan. Silakan coba lagi atau hubungi admin.",
+        duration: 4000,
       });
     }
   };
