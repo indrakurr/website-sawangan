@@ -19,13 +19,16 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose, orderId }) => {
     
       if (!order && !isLoading) return null;
       const orderDetail = [
-        { label: "Nama Penerima", value: ': ${order?.recipientName || "-"} ' },
-        { label: "Nomor Telepon", value: ': ${order?.phoneNumber || "-"} ' },
         {
-          label: "Alamat",
-          value: ': ${order?.shippingAddress || "-"}',
+          label: "Nama Penerima",
+          value: order?.shippingDetails?.recipientName || "-",
         },
-        { label: "Kode Pos", value: ': ${order?.shippingPostCode || "-"}' },
+        {
+          label: "Nomor Telepon",
+          value: order?.shippingDetails?.phoneNumber || "-",
+        },
+        { label: "Alamat", value: order?.shippingAddress || "-" },
+        { label: "Kode Pos", value: order?.shippingPostCode || "-" },
       ];
 
   return (
@@ -79,7 +82,10 @@ const ModalOrderDetailCanceled = ({ isOpen, onClose, orderId }) => {
                   color="orange.500"
                   lineHeight={1}
                 >
-                  22 Januari 2025 - 10.30
+                  {new Date(order?.cancelledAt).toLocaleString("id-ID", {
+                    dateStyle: "long",
+                    timeStyle: "short",
+                  })}
                 </Text>
               </Box>
 

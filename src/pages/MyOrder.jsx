@@ -42,7 +42,7 @@ const STATUS_MAPPING = {
 };
 
 export default function MyOrder() {
-  const [activeFilter, setActiveFilter] = useState("Belum Bayar");
+  const [activeFilter, setActiveFilter] = useState("Semua");
   const [activePage] = useState("orders");
   const buttonLabels = [
     "Semua",

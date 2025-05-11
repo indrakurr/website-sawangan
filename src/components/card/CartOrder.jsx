@@ -47,6 +47,7 @@ const CartOrder = ({ order }) => {
         <ModalOrderDetailCanceled
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
+          orderId={order.id}
         />
       );
     return null;
