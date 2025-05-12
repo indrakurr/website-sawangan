@@ -27,6 +27,10 @@ export default function CartItem({
   const [deleteCartItem] = useDeleteCartItemMutation();
 
   const handleQuantityChange = async (newQty) => {
+    const toastId = toaster.loading({
+      title: "Menyimpan perubahan...",
+      duration: 4000,
+    });
     try {
       await updateCartItem({
         productId: item.productId,
@@ -39,10 +43,16 @@ export default function CartItem({
     } catch (err) {
       console.error(err);
       toaster.error({ title: "Gagal mengubah jumlah produk" });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 
   const handleDeleteClick = async () => {
+    const toastId = toaster.loading({
+      title: "Menyimpan perubahan...",
+      duration: 4000,
+    });
     try {
       await deleteCartItem(item.productId).unwrap();
       onDelete(item.id);
@@ -50,6 +60,8 @@ export default function CartItem({
     } catch (err) {
       console.error(err);
       toaster.error({ title: "Gagal menghapus Produk" });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 

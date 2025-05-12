@@ -138,7 +138,6 @@ export default function Cart() {
                   item={item}
                   isChecked={selectedItems.includes(item.id)}
                   onCheck={toggleItem}
-                  onDelete={() => {}}
                   onQuantityChange={handleQuantityChange}
                   onDelete={handleDelete}
                 />

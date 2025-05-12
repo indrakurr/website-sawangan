@@ -11,10 +11,20 @@ import { WarningCircle } from "@phosphor-icons/react";
 import { useDeleteProductMutation } from "../../../store/store";
 import { toaster } from "../../ui/toaster";
 
-const ModalDeleteProduct = ({ isOpen, onClose, productId, onSuccess, refetch }) => {
+const ModalDeleteProduct = ({
+  isOpen,
+  onClose,
+  productId,
+  onSuccess,
+  refetch,
+}) => {
   const [deleteProduct, { isLoading }] = useDeleteProductMutation();
 
   const handleDelete = async () => {
+    const toastId = toaster.loading({
+      title: "Menyimpan perubahan...",
+      duration: 4000,
+    });
     try {
       await deleteProduct(productId).unwrap();
       onClose();
@@ -23,12 +33,14 @@ const ModalDeleteProduct = ({ isOpen, onClose, productId, onSuccess, refetch }) 
         description: "Produk berhasil dihapus dari sistem",
       });
       refetch();
-      if (onSuccess) onSuccess(); 
+      if (onSuccess) onSuccess();
     } catch (err) {
       toaster.error({
         title: "Gagal menghapus",
         description: err?.data?.errors || "Terjadi kesalahan saat menghapus",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 

@@ -23,6 +23,10 @@ export default function ForgotPassword() {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
+    const toastId = toaster.loading({
+      title: "Mengirim email untuk reset password...",
+      duration: 4000,
+    });
     try {
       await forgotPassword({ email }).unwrap();
 
@@ -31,13 +35,14 @@ export default function ForgotPassword() {
         description: "Cek email Anda untuk mengatur ulang password.",
       });
 
-
       navigate("/login");
     } catch (err) {
       toaster.error({
         title: "Gagal Mengirim Email",
         description: err?.data?.errors || "Terjadi kesalahan",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 

@@ -116,6 +116,10 @@ const ModalEditProduct = ({ isOpen, onClose, productId, onSuccess }) => {
       formData.append("image", formDataInput.uploadImage[0]);
     }
 
+    const toastId = toaster.loading({
+      title: "Menyimpan perubahan...",
+      duration: 4000,
+    });
     try {
       await updateProduct({ productId, formData }).unwrap();
       toaster.success({
@@ -129,6 +133,8 @@ const ModalEditProduct = ({ isOpen, onClose, productId, onSuccess }) => {
         title: "Gagal",
         description: err?.data?.errors || "Terjadi kesalahan",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 

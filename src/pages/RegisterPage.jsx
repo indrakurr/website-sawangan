@@ -20,8 +20,7 @@ import { useState } from "react";
 import { toaster, Toaster } from "../components/ui/toaster";
 import LoginWithGoogle from "../components/auth/LoginWithGoogle";
 
-
-import { useRegisterMutation } from "../store/store"; 
+import { useRegisterMutation } from "../store/store";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -31,7 +30,6 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
   });
-
 
   const [register, { isLoading }] = useRegisterMutation();
   const navigate = useNavigate();
@@ -48,9 +46,12 @@ export default function RegisterPage() {
         title: "Gagal Daftar",
         description: "Password dan Konfirmasi Password tidak sama",
       });
-
     }
 
+    const toastId = toaster.loading({
+      title: "Membuat akun baru Anda...",
+      duration: 4000,
+    });
     try {
       const payload = {
         fullName: formData.fullName,
@@ -67,14 +68,14 @@ export default function RegisterPage() {
         description: "Silakan login untuk mulai belanja!",
       });
 
-
       navigate("/login");
     } catch (err) {
       toaster.error({
         title: "Pendaftaran Gagal",
         description: err?.data?.errors || "Terjadi kesalahan saat mendaftar",
       });
-
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 

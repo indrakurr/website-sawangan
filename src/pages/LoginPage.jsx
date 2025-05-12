@@ -27,6 +27,10 @@ export default function LoginPage() {
   const [login, { isLoading }] = useLoginMutation();
 
   const handleLogin = async () => {
+    const toastId = toaster.loading({
+      title: "Sedang masuk...",
+      duration: 4000,
+    });
     try {
       const response = await login({ email, password }).unwrap();
 
@@ -47,6 +51,8 @@ export default function LoginPage() {
         title: "Login Gagal",
         description: err?.data?.errors || "Email atau password salah.",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 
