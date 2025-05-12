@@ -20,14 +20,17 @@ const ModalOrderDetailPacked = ({ isOpen, onClose, orderId }) => {
   
     if (!order && !isLoading) return null;
     const orderDetail = [
-      { label: "Nama Penerima", value: ': ${order?.recipientName || "-"} ' },
-      { label: "Nomor Telepon", value: ': ${order?.phoneNumber || "-"} ' },
-      {
-        label: "Alamat",
-        value: ': ${order?.shippingAddress || "-"}',
-      },
-      { label: "Kode Pos", value: ': ${order?.shippingPostCode || "-"}' },
-    ];
+        {
+          label: "Nama Penerima",
+          value: order?.shippingDetails?.recipientName || "-",
+        },
+        {
+          label: "Nomor Telepon",
+          value: order?.shippingDetails?.phoneNumber || "-",
+        },
+        { label: "Alamat", value: order?.shippingAddress || "-" },
+        { label: "Kode Pos", value: order?.shippingPostCode || "-" },
+      ];
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -69,6 +72,7 @@ const ModalOrderDetailPacked = ({ isOpen, onClose, orderId }) => {
                 <StepProgressCustom
                   activeStep={1}
                   createdAt={order?.createdAt}
+                  paidAt={order?.paidAt}
                   shippedAt={order?.timestamps?.shippedAt}
                   completedAt={order?.timestamps?.completedAt}
                 />
