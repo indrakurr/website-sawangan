@@ -8,6 +8,7 @@ import FilterButton from "../../components/buttons/FilterButton";
 import { TableOrderList } from "../../components/tables/manage-order/TableOrderList";
 import TableProductSkeleton from "../../components/skeleton/TableProductSkeleton";
 import { useGetAdminOrdersQuery } from "../../store/store";
+import { Toaster } from "../../components/ui/toaster";
 
 export default function ManageOrder() {
   const [collapse, setCollapse] = useState(false);
@@ -68,71 +69,74 @@ export default function ManageOrder() {
   }, [allOrders, searchQuery, activeStatus]);
 
   return (
-    <Flex w="100%" h="100vh" bg="gray.100" overflow="hidden">
-      <Box position="sticky" top={0} h="100vh" zIndex={10}>
-        <SideBar collapse={collapse} setCollapse={setCollapse} />
-      </Box>
-
-      <Box flex="1" display="flex" flexDirection="column" maxH="100vh">
-        <Box position="sticky" top={0} zIndex={10} bg="white">
-          <TopBar collapse={collapse} setCollapse={setCollapse} />
+    <>
+      <Flex w="100%" h="100vh" bg="gray.100" overflow="hidden">
+        <Box position="sticky" top={0} h="100vh" zIndex={10}>
+          <SideBar collapse={collapse} setCollapse={setCollapse} />
         </Box>
 
-        <Box flex="1" overflowY="auto" p={6} bg="gray.100">
-          <Text fontSize="24px" fontWeight="bold" color="black">
-            Kelola Pesanan
-          </Text>
+        <Box flex="1" display="flex" flexDirection="column" maxH="100vh">
+          <Box position="sticky" top={0} zIndex={10} bg="white">
+            <TopBar collapse={collapse} setCollapse={setCollapse} />
+          </Box>
 
-          <Flex
-            bg="white"
-            borderRadius="xl"
-            boxShadow="0px 4px 30px rgba(0, 0, 0, 0.1)"
-            direction="column"
-            gap="1.5rem"
-            p="1.5rem"
-            mt={6}
-          >
-            <Flex alignItems={"center"} justifyContent={"space-between"}>
-              <Flex gap={3}>
-                {statusOptions.map((status) => (
-                  <FilterButton
-                    key={status}
-                    label={status}
-                    isActive={activeStatus === status}
-                    onClick={() => {
-                      setActiveStatus(status);
-                      setCurrentPage(1);
-                    }}
-                  />
-                ))}
-              </Flex>
-              <div className="wrapper w-4/12">
-                <SearchInput value={searchQuery} onSearch={setSearchQuery} />
-              </div>
-            </Flex>
+          <Box flex="1" overflowY="auto" p={6} bg="gray.100">
+            <Text fontSize="24px" fontWeight="bold" color="black">
+              Kelola Pesanan
+            </Text>
 
-            {isLoading ? (
-              <TableProductSkeleton rows={itemsPerPage} />
-            ) : (
-              <>
-                <TableOrderList
-                  currentPage={currentPage}
-                  itemsPerPage={itemsPerPage}
-                  orders={filteredOrders}
-                />
-                <Flex justifyContent="center" mt={4}>
-                  <Pagination
-                    totalCount={filteredOrders.length}
-                    pageSize={itemsPerPage}
-                    currentPage={currentPage}
-                    onPageChange={(page) => setCurrentPage(page)}
-                  />
+            <Flex
+              bg="white"
+              borderRadius="xl"
+              boxShadow="0px 4px 30px rgba(0, 0, 0, 0.1)"
+              direction="column"
+              gap="1.5rem"
+              p="1.5rem"
+              mt={6}
+            >
+              <Flex alignItems={"center"} justifyContent={"space-between"}>
+                <Flex gap={3}>
+                  {statusOptions.map((status) => (
+                    <FilterButton
+                      key={status}
+                      label={status}
+                      isActive={activeStatus === status}
+                      onClick={() => {
+                        setActiveStatus(status);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  ))}
                 </Flex>
-              </>
-            )}
-          </Flex>
+                <div className="wrapper w-4/12">
+                  <SearchInput value={searchQuery} onSearch={setSearchQuery} />
+                </div>
+              </Flex>
+
+              {isLoading ? (
+                <TableProductSkeleton rows={itemsPerPage} />
+              ) : (
+                <>
+                  <TableOrderList
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    orders={filteredOrders}
+                  />
+                  <Flex justifyContent="center" mt={4}>
+                    <Pagination
+                      totalCount={filteredOrders.length}
+                      pageSize={itemsPerPage}
+                      currentPage={currentPage}
+                      onPageChange={(page) => setCurrentPage(page)}
+                    />
+                  </Flex>
+                </>
+              )}
+            </Flex>
+          </Box>
         </Box>
-      </Box>
-    </Flex>
+      </Flex>
+      <Toaster/>
+    </>
   );
 }

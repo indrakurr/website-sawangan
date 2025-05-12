@@ -183,6 +183,15 @@ export const apiSlice = createApi({
       ],
     }),
 
+    updateAdminOrderStatus: builder.mutation({
+      query: ({ orderId, payload }) => ({
+        url: `/admin/orders/${orderId}`,
+        method: "PATCH",
+        body: payload,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+
     // === ORDER ===
     getOrders: builder.query({
       query: () => "/orders",
@@ -232,4 +241,5 @@ export const {
   useCancelOrderMutation,
   useGetAdminOrdersQuery,
   useGetAdminOrderByIdQuery,
+  useUpdateAdminOrderStatusMutation,
 } = apiSlice;

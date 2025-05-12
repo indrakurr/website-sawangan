@@ -11,7 +11,13 @@ import {
   Flex,
   Menu,
 } from "@chakra-ui/react";
-import { CloseSquare, Box1, ArrowDown2, Profile, MoneyTick } from "iconsax-react";
+import {
+  CloseSquare,
+  Box1,
+  ArrowDown2,
+  Profile,
+  MoneyTick,
+} from "iconsax-react";
 import {
   ClipboardText,
   PhoneCall,
@@ -19,23 +25,59 @@ import {
   Signpost,
 } from "@phosphor-icons/react";
 import ProdukItem from "../../card/CartModal";
+import { useUpdateAdminOrderStatusMutation } from "../../../store/store";
+import { toaster } from "../../ui/toaster";
 
 const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
   const [selected, setSelected] = useState("Belum Bayar");
+  const [updateOrderStatus, { isLoading }] =
+    useUpdateAdminOrderStatusMutation();
 
-  // Mapping status awal dari API ke UI
   useEffect(() => {
     if (order?.status) {
       const statusMap = {
         PENDING: "Belum Bayar",
         PACKAGED: "Dikemas",
-        SHIPPED: "Dikirim",
-        COMPLETED: "Diterima",
-        CANCELLED: "Dibatalkan",
       };
       setSelected(statusMap[order.status] || order.status);
     }
   }, [order]);
+
+  const handleSubmit = async () => {
+    const statusMap = {
+      "Belum Bayar": "PENDING",
+      Dikemas: "PACKAGED",
+    };
+
+    const toastId = toaster.loading({
+      title: "Menyimpan perubahan...",
+      duration: 4000,
+    });
+
+    try {
+      await updateOrderStatus({
+        orderId: order.id,
+        payload: { status: statusMap[selected] },
+      }).unwrap();
+
+      toaster.success({
+        title: "Status berhasil diperbarui",
+        duration: 4000,
+      });
+      onClose();
+    } catch (err) {
+      toaster.error({
+        title: "Gagal memperbarui status",
+        description:
+          err?.data?.errors ||
+          "Terjadi kesalahan pada server. Silakan coba beberapa saat lagi.",
+        duration: 4000,
+      });
+    } finally {
+      toaster.dismiss(toastId);
+    }
+  };
+  
 
   if (!order) return null;
 
@@ -62,13 +104,8 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
     },
   ];
 
-  const statusList = [
-    "Belum Bayar",
-    "Dikemas",
-    "Dikirim",
-    "Diterima",
-    "Dibatalkan",
-  ];
+  const statusList = ["Belum Bayar", "Dikemas"];
+  const isPaid = order?.paymentStatus === "PAID";
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -96,7 +133,6 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
                   {order?.id || "-"}
                 </Box>
               </Text>
-
               <Box
                 position="absolute"
                 top={3}
@@ -109,7 +145,6 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
             </Dialog.Header>
 
             <Dialog.Body as={VStack} align="stretch" gap={6} padding={0}>
-              {/* Detail Pesanan */}
               <Box w="full">
                 <Text fontSize="lg" fontWeight="semibold" color="black">
                   Detail Pesanan
@@ -132,6 +167,7 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
                       </DataList.ItemValue>
                     </DataList.Item>
                   ))}
+
                   <DataList.Item>
                     <DataList.ItemLabel fontSize="sm" width="1/4">
                       <HStack spacing={2} alignItems="center">
@@ -147,28 +183,17 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
                         py={1.5}
                         borderRadius="lg"
                         display="inline-block"
-                        bg={
-                          order?.paymentStatus === "PAID"
-                            ? "green.100"
-                            : "red.100"
-                        }
-                        color={
-                          order?.paymentStatus === "PAID"
-                            ? "green.600"
-                            : "red.600"
-                        }
+                        bg={isPaid ? "green.100" : "red.100"}
+                        color={isPaid ? "green.600" : "red.600"}
                       >
-                        {order?.paymentStatus === "PAID"
-                          ? "Pembayaran Diterima"
-                          : "Menunggu Pembayaran"}
+                        {isPaid ? "Pembayaran Diterima" : "Menunggu Pembayaran"}
                       </Text>
                     </DataList.ItemValue>
                   </DataList.Item>
 
-                  {/* Dropdown status */}
                   <DataList.Item>
                     <DataList.ItemLabel fontSize="sm" width="1/4">
-                      <HStack spacing={2}>
+                      <HStack spacing={2} alignItems="center">
                         <Box1 size={20} color="#949494" />
                         <Text>Ubah Status Pesanan</Text>
                       </HStack>
@@ -186,6 +211,7 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
                           py="6"
                           width="1/3"
                           justifyContent="space-between"
+                          isDisabled={!isPaid}
                         >
                           <HStack spacing={2}>
                             <ClipboardText size={20} />
@@ -205,10 +231,18 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
                             {statusList.map((status) => (
                               <Menu.Item
                                 key={status}
-                                onClick={() => setSelected(status)}
+                                value={status}
+                                onClick={() => {
+                                  if (isPaid) setSelected(status);
+                                }}
+                                disabled={!isPaid}
                                 color="black"
-                                _focus={{ bg: "gray.100" }}
-                                _hover={{ bg: "gray.100" }}
+                                _focus={{
+                                  bg: isPaid ? "gray.100" : "transparent",
+                                }}
+                                _hover={{
+                                  bg: isPaid ? "gray.100" : "transparent",
+                                }}
                                 fontWeight={
                                   selected === status ? "semibold" : "normal"
                                 }
@@ -224,7 +258,6 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
                 </DataList.Root>
               </Box>
 
-              {/* Produk */}
               <Box w="full">
                 <Text fontSize="lg" fontWeight="semibold" color="black">
                   Detail Produk
@@ -232,7 +265,6 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
                 <ProdukItem items={order?.items || []} />
               </Box>
 
-              {/* Footer */}
               <Flex w="full" justifyContent="end">
                 <HStack spacing={3}>
                   <Button
@@ -256,6 +288,9 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
                     px={5}
                     py={4}
                     _hover={{ bg: "orange.600" }}
+                    onClick={handleSubmit}
+                    isLoading={isLoading}
+                    isDisabled={!isPaid}
                   >
                     Simpan
                   </Button>
