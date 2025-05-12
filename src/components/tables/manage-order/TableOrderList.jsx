@@ -9,7 +9,8 @@ import {
 } from "../base-table/TableCells";
 import { Show } from "react-iconly";
 import { TableBodyRow } from "../base-table/TableRows";
-import ModalOrderPending from "../../modal/manage-order/ModalOrderPending";
+import ModalManageOrderPending from "../../modal/manage-order/ModalManageOrderPending";
+import { useGetAdminOrderByIdQuery } from "../../../store/store";
 
 const TABLEHEADS = [
   "No",
@@ -50,6 +51,15 @@ export function TableOrderList({
   const truncateId = (id) => (id.length > 7 ? `${id.slice(0, 7)}...` : id);
 
   const [isOpenView, setIsOpenView] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+  const { data: selectedOrderData } = useGetAdminOrderByIdQuery(
+    selectedOrderId,
+    {
+      skip: !selectedOrderId,
+    }
+  );
+  
 
   return (
     <>
@@ -60,7 +70,14 @@ export function TableOrderList({
               {(currentPage - 1) * itemsPerPage + index + 1}
             </CenteredCell>
             <TextCell content={truncateId(item.id)} />
-            <TextCell content={item.productName} />
+            <LeftAlignCell>
+              <ul style={{ paddingLeft: "1rem", listStyle: "disc" }}>
+                {item.items.map((prod, idx) => (
+                  <li key={idx}>{prod.name}</li>
+                ))}
+              </ul>
+            </LeftAlignCell>
+
             <TextCell content={item.customerName} />
             <LeftAlignCell>{item.total}</LeftAlignCell>
             <BadgeCell
@@ -71,7 +88,10 @@ export function TableOrderList({
               <IconButton
                 variant="ghost"
                 _hover={{ bg: "transparent" }}
-                onClick={() => setIsOpenView(true)}
+                onClick={() => {
+                  setSelectedOrderId(item.id);
+                  setIsOpenView(true);
+                }}
               >
                 <Show color="black" />
               </IconButton>
@@ -79,9 +99,13 @@ export function TableOrderList({
           </TableBodyRow>
         ))}
       </BaseTable>
-      <ModalOrderPending
+      <ModalManageOrderPending
         isOpen={isOpenView}
-        onClose={() => setIsOpenView(false)}
+        onClose={() => {
+          setIsOpenView(false);
+          setSelectedOrderId(null);
+        }}
+        order={selectedOrderData?.data}
       />
     </>
   );
