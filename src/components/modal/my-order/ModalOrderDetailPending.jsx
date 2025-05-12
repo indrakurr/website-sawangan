@@ -12,7 +12,10 @@ import {
 import { CloseSquare } from "iconsax-react";
 import StepProgressCustom from "../../steps/StepProgress";
 import ProdukItem from "../../card/CartModal";
-import { useGetOrderByIdQuery, useCancelOrderMutation } from "../../../store/store";
+import {
+  useGetOrderByIdQuery,
+  useCancelOrderMutation,
+} from "../../../store/store";
 import { toaster } from "../../ui/toaster";
 
 const ModalOrderDetailPending = ({ isOpen, onClose, orderId }) => {
@@ -20,7 +23,7 @@ const ModalOrderDetailPending = ({ isOpen, onClose, orderId }) => {
   const order = data?.data;
 
   const [cancelOrder, { isLoading: isCancelling }] = useCancelOrderMutation();
- 
+
   if (!order && !isLoading) return null;
   const orderDetail = [
     {
@@ -36,9 +39,13 @@ const ModalOrderDetailPending = ({ isOpen, onClose, orderId }) => {
   ];
 
   const handleCancel = async () => {
+    const toastId = toaster.loading({
+      title: "Menyimpan perubahan...",
+      duration: 4000,
+    });
     try {
       await cancelOrder(orderId).unwrap();
-      toaster.success({ title: "Pesanan berhasil dibatalkan", duration: 4000, });
+      toaster.success({ title: "Pesanan berhasil dibatalkan", duration: 4000 });
       onClose();
     } catch (err) {
       toaster.error({
@@ -48,6 +55,8 @@ const ModalOrderDetailPending = ({ isOpen, onClose, orderId }) => {
           "Terjadi kesalahan. Silakan coba lagi atau hubungi admin.",
         duration: 4000,
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 

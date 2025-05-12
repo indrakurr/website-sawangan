@@ -16,6 +16,7 @@ const formatDate = (dateStr) =>
 
 export default function StepProgressCustom({
   activeStep,
+  paidAt,
   createdAt,
   shippedAt,
   completedAt,
@@ -33,7 +34,7 @@ export default function StepProgressCustom({
     },
     {
       title: "Pesanan Dibayarkan",
-      description: "NANTI YA", 
+      description: formatDate(paidAt),
       icon: CreditCard,
     },
     {
@@ -146,6 +147,7 @@ export default function StepProgressCustom({
 StepProgressCustom.propTypes = {
   activeStep: PropTypes.number.isRequired,
   createdAt: PropTypes.string,
+  paidAt: PropTypes.string,
   shippedAt: PropTypes.string,
   completedAt: PropTypes.string,
 };
