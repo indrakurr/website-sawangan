@@ -171,6 +171,18 @@ export const apiSlice = createApi({
       providesTags: ["Admin"],
     }),
 
+    getAdminOrders: builder.query({
+      query: () => "/admin/orders",
+      providesTags: ["Admin"],
+    }),
+
+    getAdminOrderById: builder.query({
+      query: (orderId) => `/admin/orders/${orderId}`,
+      providesTags: (result, error, orderId) => [
+        { type: "Admin", id: orderId },
+      ],
+    }),
+
     // === ORDER ===
     getOrders: builder.query({
       query: () => "/orders",
@@ -217,5 +229,7 @@ export const {
   useGetAdminUsersQuery,
   useGetOrdersQuery,
   useGetOrderByIdQuery,
-  useCancelOrderMutation
+  useCancelOrderMutation,
+  useGetAdminOrdersQuery,
+  useGetAdminOrderByIdQuery,
 } = apiSlice;
