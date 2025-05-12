@@ -22,13 +22,17 @@ export default function ProductInfo({ product }) {
   const [quantity, setQuantity] = useState(1);
   const { data: cartData } = useGetCartQuery();
   const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
-  const [updateCartItem, { isLoading: isUpdating }] = useUpdateCartItemMutation();
+  const [updateCartItem, { isLoading: isUpdating }] =
+    useUpdateCartItemMutation();
 
   const handleAddToCart = async () => {
     const existingItem = cartData?.data?.items?.find(
       (item) => item.productId === product.id
     );
-
+    const toastId = toaster.loading({
+      title: "Menambahkan produk ke keranjang...",
+      duration: 4000,
+    });
     try {
       if (existingItem) {
         await updateCartItem({
@@ -45,6 +49,8 @@ export default function ProductInfo({ product }) {
         title: "Gagal menambahkan ke keranjang",
         description: err?.data?.errors || "Terjadi kesalahan",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 

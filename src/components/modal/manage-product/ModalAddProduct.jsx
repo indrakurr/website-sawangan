@@ -49,6 +49,10 @@ const ModalAddProduct = ({ isOpen, onClose }) => {
       formData.append("image", data.uploadImage[0]);
     }
 
+    const toastId = toaster.loading({
+      title: "Menyimpan perubahan...",
+      duration: 4000,
+    });
     try {
       await addProduct(formData).unwrap();
       toaster.success({
@@ -62,22 +66,23 @@ const ModalAddProduct = ({ isOpen, onClose }) => {
         description:
           err?.data?.errors || "Terjadi kesalahan saat menambahkan produk",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 
+  const formatToISODate = (str) => {
+    const [day, month, year] = str.split("/");
+    return `${year}-${month}-${day}`;
+  };
 
-    const formatToISODate = (str) => {
-      const [day, month, year] = str.split("/");
-      return `${year}-${month}-${day}`;
-    };
-
-    useEffect(() => {
-      if (isOpen) {
-        reset();
-        setSelected("Pilih Kategori"); 
-        setExpiryDate("");
-      }
-    }, [isOpen, reset]);
+  useEffect(() => {
+    if (isOpen) {
+      reset();
+      setSelected("Pilih Kategori");
+      setExpiryDate("");
+    }
+  }, [isOpen, reset]);
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>

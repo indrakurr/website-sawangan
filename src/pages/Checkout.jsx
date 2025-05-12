@@ -86,11 +86,9 @@ export default function Checkout() {
 
     fetchShipping();
   }, [postalCode, totalWeight, subtotal]);
- 
+
   const handleCheckout = async () => {
     const payload = {
-      recipientName: document.getElementById("nama-penerima")?.value || "",
-      phoneNumber: document.getElementById("nomor-telepon")?.value || "",
       shippingAddress: document.getElementById("alamat-lengkap")?.value || "",
       shippingCity: document.getElementById("kota")?.value || "",
       shippingProvince: document.getElementById("provinsi")?.value || "",
@@ -100,6 +98,10 @@ export default function Checkout() {
       courier: "JNE",
     };
 
+    const toastId = toaster.loading({
+      title: "Kami sedang menyiapkan pesanan Anda!",
+      duration: 4000,
+    });
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/checkout`, {
         method: "POST",
@@ -119,7 +121,7 @@ export default function Checkout() {
             title: "Checkout Berhasil",
             description: "Kamu akan diarahkan ke halaman pembayaran.",
           });
-          window.open(paymentUrl, "_blank"); 
+          window.open(paymentUrl, "_blank");
         } else {
           toaster.error({
             title: "URL Pembayaran Tidak Ditemukan",
@@ -136,9 +138,10 @@ export default function Checkout() {
         title: "Checkout Gagal",
         description: error?.message || "Terjadi kesalahan jaringan.",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
-   
 
   return (
     <div
@@ -198,12 +201,7 @@ export default function Checkout() {
                   borderColor="gray.300"
                   height="96px"
                 />
-                <InputWithLogo
-                  id="kota"
-                  label="Kota"
-                  type="text"
-                  icon={City}
-                />
+                <InputWithLogo id="kota" label="Kota" type="text" icon={City} />
                 <InputWithLogo
                   id="provinsi"
                   label="Provinsi"

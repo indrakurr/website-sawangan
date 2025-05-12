@@ -13,6 +13,10 @@ export default function TopBar({ collapse, setCollapse }) {
   const profile = data?.data;
 
   const handleLogout = async () => {
+    const toastId = toaster.loading({
+      title: "Sedang keluar...",
+      duration: 4000,
+    });
     try {
       await logout().unwrap(); 
     } catch (err) {
@@ -21,6 +25,7 @@ export default function TopBar({ collapse, setCollapse }) {
       localStorage.removeItem("token");
       toaster.success({ title: "Berhasil Logout" });
       navigate("/admin/login");
+      toaster.dismiss(toastId);
     }
   };
 

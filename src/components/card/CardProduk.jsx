@@ -8,45 +8,51 @@ import {
   useGetCartQuery,
 } from "../../store/store";
 
-export default function CardProduk({product}) {
-const [addToCart, { isLoading: isPosting }] = useAddToCartMutation();
-const [patchCartItem, { isLoading: isPatching }] = useUpdateCartItemMutation();
-const { data: cartData } = useGetCartQuery();
+export default function CardProduk({ product }) {
+  const [addToCart, { isLoading: isPosting }] = useAddToCartMutation();
+  const [patchCartItem, { isLoading: isPatching }] =
+    useUpdateCartItemMutation();
+  const { data: cartData } = useGetCartQuery();
 
-const isLoading = isPosting || isPatching;
+  const isLoading = isPosting || isPatching;
 
-if (!product) return null;
-const { id, name, imageUrl, ratingAvg = 0, price } = product;
+  if (!product) return null;
+  const { id, name, imageUrl, ratingAvg = 0, price } = product;
 
-const handleAddToCart = async (e) => {
-  e.preventDefault();
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
 
-  const existingItem = cartData?.data?.items?.find(
-    (item) => item.productId === id
-  );
+    const existingItem = cartData?.data?.items?.find(
+      (item) => item.productId === id
+    );
+    const toastId = toaster.loading({
+      title: "Menambahkan produk ke keranjang...",
+      duration: 4000,
+    });
+    try {
+      if (existingItem) {
+        const newQty = existingItem.quantity + 1;
+        await patchCartItem({ productId: id, quantity: newQty }).unwrap();
+      } else {
+        await addToCart({ productId: id, quantity: 1 }).unwrap();
+      }
 
-  try {
-    if (existingItem) {
-      const newQty = existingItem.quantity + 1;
-      await patchCartItem({ productId: id, quantity: newQty }).unwrap();
-    } else {
-      await addToCart({ productId: id, quantity: 1 }).unwrap();
+      toaster.success({
+        title: "Berhasil",
+        description: existingItem
+          ? "Jumlah produk diperbarui di keranjang"
+          : "Produk ditambahkan ke keranjang",
+      });
+    } catch (err) {
+      toaster.error({
+        title: "Gagal",
+        description: err?.data?.errors || "Terjadi kesalahan",
+      });
+    } finally {
+      toaster.dismiss(toastId);
     }
+  };
 
-    toaster.success({
-      title: "Berhasil",
-      description: existingItem
-        ? "Jumlah produk diperbarui di keranjang"
-        : "Produk ditambahkan ke keranjang",
-    });
-  } catch (err) {
-    toaster.error({
-      title: "Gagal",
-      description: err?.data?.errors || "Terjadi kesalahan",
-    });
-  }
-};
-  
   return (
     <Link to={`/products/${id}`}>
       <Card.Root
@@ -69,7 +75,6 @@ const handleAddToCart = async (e) => {
           />
         </Box>
         <Card.Body gap="2">
-          
           <Text
             fontSize="md"
             fontWeight="semibold"

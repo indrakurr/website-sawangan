@@ -17,7 +17,13 @@ import Navbar from "../components/navigation/Navbar";
 import { InputWithLogo } from "../components/inputs/InputWithLogo";
 import { Message, User } from "react-iconly";
 import { PhoneCall } from "@phosphor-icons/react";
-import { PasswordCheck, Logout, Category2, ArrowDown2, Box1 } from "iconsax-react";
+import {
+  PasswordCheck,
+  Logout,
+  Category2,
+  ArrowDown2,
+  Box1,
+} from "iconsax-react";
 import { Toaster, toaster } from "../components/ui/toaster";
 import Footer from "../components/sections/Footer";
 import { useNavigate } from "react-router-dom";
@@ -61,6 +67,10 @@ export default function ProfilePage() {
     const formData = new FormData();
     formData.append("avatar", file);
 
+    const toastId = toaster.loading({
+      title: "Menyimpan perubahan...",
+      duration: 4000,
+    });
     try {
       await uploadAvatar(formData).unwrap();
       toaster.success({ title: "Foto profil berhasil diperbarui" });
@@ -70,10 +80,16 @@ export default function ProfilePage() {
         title: "Gagal upload foto",
         description: err?.data?.errors || "Terjadi kesalahan",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 
   const handleLogout = async () => {
+    const toastId = toaster.loading({
+          title: "Sedang keluar...",
+          duration: 4000,
+        });
     try {
       await logout().unwrap();
       localStorage.removeItem("token");
@@ -84,6 +100,8 @@ export default function ProfilePage() {
         title: "Gagal logout",
         description: err?.data?.errors || "Terjadi kesalahan saat logout",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 

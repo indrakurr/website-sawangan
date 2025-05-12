@@ -31,16 +31,17 @@ export default function NewPassword() {
       return toaster.error({
         title: "Token tidak ditemukan",
       });
-
     }
 
     if (password !== confirmPassword) {
       return toaster.error({
         title: "Password tidak sama",
       });
-
     }
-
+    const toastId = toaster.loading({
+      title: "Menyimpan perubahan...",
+      duration: 4000,
+    });
     try {
       await resetPassword({ token, password, confirmPassword }).unwrap();
 
@@ -48,14 +49,14 @@ export default function NewPassword() {
         title: "Password berhasil diubah",
       });
 
-
       navigate("/login");
     } catch (err) {
       toaster.error({
         title: "Gagal mengubah password",
         description: err?.data?.errors || "Terjadi kesalahan",
       });
-
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 

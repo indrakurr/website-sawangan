@@ -62,6 +62,10 @@ export default function ChangePassword() {
       return;
     }
 
+    const toastId = toaster.loading({
+      title: "Menyimpan perubahan...",
+      duration: 4000,
+    });
     try {
       await changePassword({
         currentPassword,
@@ -78,10 +82,16 @@ export default function ChangePassword() {
         title: "Gagal ubah password",
         description: err?.data?.errors || "Terjadi kesalahan.",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 
   const handleLogout = async () => {
+    const toastId = toaster.loading({
+          title: "Sedang Keluar...",
+          duration: 4000,
+        });
     try {
       await logout().unwrap();
       localStorage.removeItem("token");
@@ -92,6 +102,8 @@ export default function ChangePassword() {
         title: "Gagal logout",
         description: err?.data?.errors || "Terjadi kesalahan saat logout",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 

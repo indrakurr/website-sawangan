@@ -22,6 +22,10 @@ export default function LoginAdmin() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    const toastId = toaster.loading({
+      title: "Sedang masuk...",
+      duration: 4000,
+    });
     try {
       const response = await login(formData).unwrap();
       localStorage.setItem("token", response.data.token);
@@ -37,6 +41,8 @@ export default function LoginAdmin() {
         title: "Login Gagal",
         description: err?.data?.errors || "Email atau password salah.",
       });
+    } finally {
+      toaster.dismiss(toastId);
     }
   };
 
@@ -130,7 +136,6 @@ export default function LoginAdmin() {
           </Button>
         </GridItem>
       </Grid>
-      
     </>
   );
 }
