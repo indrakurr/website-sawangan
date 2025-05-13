@@ -136,6 +136,7 @@ export default function LoginAdmin() {
           </Button>
         </GridItem>
       </Grid>
+      <Toaster/>
     </>
   );
 }

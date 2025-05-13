@@ -13,8 +13,20 @@ import {
 import BgCard from "../../assets/bg-card-dashboard.png";
 import ModalAddProduct from "../../components/modal/manage-product/ModalAddProduct";
 import { Toaster } from "../../components/ui/toaster";
+import {
+  useGetDashboardOrdersQuery,
+  useGetDashboardProductsQuery,
+  useGetDashboardUsersQuery,
+  useGetDashboardRevenueQuery,
+} from "../../store/store";
+
 
 export default function Dashboard() {
+  const { data: ordersData } = useGetDashboardOrdersQuery();
+  const { data: productsData } = useGetDashboardProductsQuery();
+  const { data: usersData } = useGetDashboardUsersQuery();
+  const { data: revenueData } = useGetDashboardRevenueQuery();
+
   const [collapse, setCollapse] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +76,10 @@ export default function Dashboard() {
                   iconColor="white"
                   title="Total Pendapatan"
                   titleFontSize="20px"
-                  value="Rp 999.999.999"
+                  value={`Rp ${
+                    revenueData?.data?.totalRevenue?.toLocaleString("id-ID") ||
+                    0
+                  }`}
                   valueFontSize="36px"
                 />
               </GridItem>
@@ -77,7 +92,7 @@ export default function Dashboard() {
                   iconColor="#D61C4E"
                   title="Total Pesanan"
                   titleFontSize="16px"
-                  value="1234"
+                  value={ordersData?.data?.totalOrders || 0}
                   valueFontSize="32px"
                 />
               </GridItem>
@@ -88,7 +103,7 @@ export default function Dashboard() {
                   iconColor="#F77E21"
                   title="Total Produk"
                   titleFontSize="16px"
-                  value="2345"
+                  value={productsData?.data?.totalProducts || 0}
                   valueFontSize="32px"
                 />
               </GridItem>
@@ -99,7 +114,7 @@ export default function Dashboard() {
                   iconColor="#FAC213"
                   title="Total Pengguna"
                   titleFontSize="16px"
-                  value="3456"
+                  value={usersData?.data?.totalUsers || 0}
                   valueFontSize="32px"
                 />
               </GridItem>

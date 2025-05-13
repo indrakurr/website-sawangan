@@ -211,6 +211,24 @@ export const apiSlice = createApi({
       invalidatesTags: ["Order"],
     }),
 
+    // === DASHBOARD ===
+    getDashboardOrders: builder.query({
+      query: () => "/admin/dashboard/orders",
+      providesTags: ["Admin"],
+    }),
+    getDashboardProducts: builder.query({
+      query: () => "/admin/dashboard/products",
+      providesTags: ["Admin"],
+    }),
+    getDashboardUsers: builder.query({
+      query: () => "/admin/dashboard/users",
+      providesTags: ["Admin"],
+    }),
+    getDashboardRevenue: builder.query({
+      query: () => "/admin/dashboard/revenue",
+      providesTags: ["Admin"],
+    }),
+
     // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),
 });
@@ -242,4 +260,8 @@ export const {
   useGetAdminOrdersQuery,
   useGetAdminOrderByIdQuery,
   useUpdateAdminOrderStatusMutation,
+  useGetDashboardOrdersQuery,
+  useGetDashboardProductsQuery,
+  useGetDashboardUsersQuery,
+  useGetDashboardRevenueQuery,
 } = apiSlice;
