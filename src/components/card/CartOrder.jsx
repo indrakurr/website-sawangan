@@ -34,6 +34,7 @@ const CartOrder = ({ order }) => {
         <ModalOrderDetailShipped
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
+          orderId={order.id}
         />
       );
     if (status === "COMPLETED")
