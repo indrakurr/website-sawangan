@@ -9,8 +9,14 @@ import {
 } from "../base-table/TableCells";
 import { Show } from "react-iconly";
 import { TableBodyRow } from "../base-table/TableRows";
-import ModalManageOrderPending from "../../modal/manage-order/ModalManageOrderPending";
 import { useGetAdminOrderByIdQuery } from "../../../store/store";
+
+// Import semua modal berdasarkan status
+import ModalManageOrderPending from "../../modal/manage-order/ModalManageOrderPending";
+import ModalManageOrderPacked from "../../modal/manage-order/ModalManageOrderPacked";
+import ModalManageOrderShipped from "../../modal/manage-order/ModalManageOrderShipped";
+import ModalManageOrderCompleted from "../../modal/manage-order/ModalManageOrderCompleted";
+import ModalManageOrderCanceled from "../../modal/manage-order/ModalManageOrderCanceled";
 
 const TABLEHEADS = [
   "No",
@@ -59,7 +65,73 @@ export function TableOrderList({
       skip: !selectedOrderId,
     }
   );
-  
+
+  const renderModal = () => {
+    const order = selectedOrderData?.data;
+    const status = order?.status;
+
+    if (!isOpenView || !order) return null;
+
+    switch (status) {
+      case "PENDING":
+        return (
+          <ModalManageOrderPending
+            isOpen={isOpenView}
+            onClose={() => {
+              setIsOpenView(false);
+              setSelectedOrderId(null);
+            }}
+            order={order}
+          />
+        );
+      case "PACKAGED":
+        return (
+          <ModalManageOrderPacked
+            isOpen={isOpenView}
+            onClose={() => {
+              setIsOpenView(false);
+              setSelectedOrderId(null);
+            }}
+            order={order}
+          />
+        );
+      case "SHIPPED":
+        return (
+          <ModalManageOrderShipped
+            isOpen={isOpenView}
+            onClose={() => {
+              setIsOpenView(false);
+              setSelectedOrderId(null);
+            }}
+            order={order}
+          />
+        );
+      case "COMPLETED":
+        return (
+          <ModalManageOrderCompleted
+            isOpen={isOpenView}
+            onClose={() => {
+              setIsOpenView(false);
+              setSelectedOrderId(null);
+            }}
+            order={order}
+          />
+        );
+      case "CANCELLED":
+        return (
+          <ModalManageOrderCanceled
+            isOpen={isOpenView}
+            onClose={() => {
+              setIsOpenView(false);
+              setSelectedOrderId(null);
+            }}
+            order={order}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
@@ -99,14 +171,8 @@ export function TableOrderList({
           </TableBodyRow>
         ))}
       </BaseTable>
-      <ModalManageOrderPending
-        isOpen={isOpenView}
-        onClose={() => {
-          setIsOpenView(false);
-          setSelectedOrderId(null);
-        }}
-        order={selectedOrderData?.data}
-      />
+
+      {renderModal()}
     </>
   );
 }
