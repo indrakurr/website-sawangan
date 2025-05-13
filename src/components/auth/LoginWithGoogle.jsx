@@ -7,6 +7,8 @@ export default function LoginWithGoogle({ onSuccessLogin, text = "signup_with" }
   const buttonRef = useRef(null);
   const navigate = useNavigate();
 
+  const API = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     if (window.google && buttonRef.current) {
       window.google.accounts.id.initialize({
@@ -30,7 +32,7 @@ export default function LoginWithGoogle({ onSuccessLogin, text = "signup_with" }
     const idToken = response.credential;
     try {
       const res = await axios.post(
-        "https://sawanganserver-production.up.railway.app/api/v1/auth/google",
+        `${API}/auth/google`,
         { token: idToken },
         { headers: { "Content-Type": "application/json" } }
       );
