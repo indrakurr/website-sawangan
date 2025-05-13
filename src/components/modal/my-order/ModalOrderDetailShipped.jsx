@@ -13,22 +13,33 @@ import { CloseSquare } from "iconsax-react";
 import StepProgressCustom from "../../steps/StepProgress";
 import ProdukItem from "../../card/CartModal";
 import { useGetOrderByIdQuery } from "../../../store/store";
+import TrackingOrder from "../../sections/TrackingOrder";
+import { useState } from "react";
 
 const ModalOrderDetailShipped = ({ isOpen, onClose, orderId }) => {
+  const [showTracking, setShowTracking] = useState(false);
+
   const { data, isLoading } = useGetOrderByIdQuery(orderId);
-    const order = data?.data;
-  
-    if (!order && !isLoading) return null;
-    const orderDetail = [
-      { label: "Nomor Resi", value: ': ${order?.trackingNumber || "-"} ' },
-      { label: "Nama Penerima", value: ': ${order?.recipientName || "-"} ' },
-      { label: "Nomor Telepon", value: ': ${order?.phoneNumber || "-"} ' },
-      {
-        label: "Alamat",
-        value: ': ${order?.shippingAddress || "-"}',
-      },
-      { label: "Kode Pos", value: ': ${order?.shippingPostCode || "-"}' },
-    ];
+  const order = data?.data;
+
+  if (!order && !isLoading) return null;
+
+  const orderDetail = [
+    { label: "Nomor Resi", value: order?.trackingNumber || "-" },
+    {
+      label: "Nama Penerima",
+      value: order?.shippingDetails?.recipientName || "-",
+    },
+    {
+      label: "Nomor Telepon",
+      value: order?.shippingDetails?.phoneNumber || "-",
+    },
+    {
+      label: "Alamat",
+      value: order?.shippingAddress || "-",
+    },
+    { label: "Kode Pos", value: order?.shippingPostCode || "-" },
+  ];
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -44,14 +55,14 @@ const ModalOrderDetailShipped = ({ isOpen, onClose, orderId }) => {
             gap={{ base: 4, lg: 6 }}
             boxShadow="none"
           >
-            <Dialog.Header mb={4} padding={0} justifyContent={"space-between"}>
+            <Dialog.Header mb={4} padding={0} justifyContent="space-between">
               <Text
                 fontSize={{ base: "20px", lg: "24px" }}
                 fontWeight="bold"
                 color="black"
                 lineHeight={1}
               >
-                Detail Pesanan
+                {showTracking ? "Lacak Pengiriman" : "Detail Pesanan"}
               </Text>
               <Box
                 position="absolute"
@@ -65,84 +76,100 @@ const ModalOrderDetailShipped = ({ isOpen, onClose, orderId }) => {
             </Dialog.Header>
 
             <Dialog.Body as={VStack} align="stretch" gap={6} padding={0}>
-              {/* Step Progress */}
-              <Box w="full">
-                <StepProgressCustom
-                  activeStep={2}
-                  createdAt={order?.createdAt}
-                  shippedAt={order?.timestamps?.shippedAt}
-                  completedAt={order?.timestamps?.completedAt}
-                />
-              </Box>
+              {showTracking ? (
+                <TrackingOrder orderId={order?.id} />
+              ) : (
+                <>
+                  {/* Step Progress */}
+                  <Box w="full">
+                    <StepProgressCustom
+                      activeStep={2}
+                      createdAt={order?.createdAt}
+                      paidAt={order?.paidAt}
+                      shippedAt={order?.shippedAt}
+                      completedAt={order?.timestamps?.completedAt}
+                    />
+                  </Box>
 
-              <Box w={"full"}>
-                <Text
-                  fontSize={{ base: "16px", lg: "18px" }}
-                  fontWeight="semibold"
-                  color="black"
-                  lineHeight={1}
-                >
-                  Detail Pengiriman
-                </Text>
-                <DataList.Root orientation="horizontal" gap={3} marginTop={6}>
-                  {orderDetail.map((spec) => (
-                    <DataList.Item key={spec.label}>
-                      <DataList.ItemLabel fontSize={{ base: 12, lg: 14 }}>
-                        {spec.label}
-                      </DataList.ItemLabel>
-                      <DataList.ItemValue
-                        color="black"
-                        fontSize={{ base: 12, lg: 14 }}
-                      >
-                        {spec.value}
-                      </DataList.ItemValue>
-                    </DataList.Item>
-                  ))}
-                </DataList.Root>
-              </Box>
+                  {/* Detail Pengiriman */}
+                  <Box w="full">
+                    <Text
+                      fontSize={{ base: "16px", lg: "18px" }}
+                      fontWeight="semibold"
+                      color="black"
+                      lineHeight={1}
+                    >
+                      Detail Pengiriman
+                    </Text>
+                    <DataList.Root
+                      orientation="horizontal"
+                      gap={3}
+                      marginTop={6}
+                    >
+                      {orderDetail.map((spec) => (
+                        <DataList.Item key={spec.label}>
+                          <DataList.ItemLabel fontSize={{ base: 12, lg: 14 }}>
+                            {spec.label}
+                          </DataList.ItemLabel>
+                          <DataList.ItemValue
+                            color="black"
+                            fontSize={{ base: 12, lg: 14 }}
+                          >
+                            {spec.value}
+                          </DataList.ItemValue>
+                        </DataList.Item>
+                      ))}
+                    </DataList.Root>
+                  </Box>
 
-              {/* Produk */}
-              <Box w="full">
-                <Text
-                  fontSize={{ base: "16px", lg: "18px" }}
-                  fontWeight="semibold"
-                  color="black"
-                  lineHeight={1}
-                >
-                  Detail Produk
-                </Text>
-                <ProdukItem items={order?.items || []} />
-              </Box>
+                  {/* Detail Produk */}
+                  <Box w="full">
+                    <Text
+                      fontSize={{ base: "16px", lg: "18px" }}
+                      fontWeight="semibold"
+                      color="black"
+                      lineHeight={1}
+                    >
+                      Detail Produk
+                    </Text>
+                    <ProdukItem items={order?.items || []} />
+                  </Box>
+                </>
+              )}
 
               {/* Footer */}
               <Flex w="full" justifyContent="end">
                 <HStack spacing={3}>
                   <Button
-                    size={"sm"}
-                    bg={"orange.500"}
-                    color={"white"}
-                    rounded={"xl"}
+                    size="sm"
+                    bg="orange.500"
+                    color="white"
+                    rounded="xl"
                     px={5}
                     py={4}
                     _hover={{ bg: "orange.600" }}
+                    onClick={() => setShowTracking(!showTracking)}
                   >
                     <Text lineHeight="1" whiteSpace="nowrap">
-                      Lacak Pesanan
+                      {showTracking ? "Kembali" : "Lacak Pesanan"}
                     </Text>
                   </Button>
-                  <Button
-                    size={"sm"}
-                    bg={"orange.500"}
-                    color={"white"}
-                    rounded={"xl"}
-                    px={5}
-                    py={4}
-                    _hover={{ bg: "orange.600" }}
-                  >
-                    <Text lineHeight="1" whiteSpace="nowrap">
-                      Pesanan Diterima
-                    </Text>
-                  </Button>
+
+                  {!showTracking && (
+                    <Button
+                      size="sm"
+                      bg="orange.500"
+                      color="white"
+                      rounded="xl"
+                      px={5}
+                      py={4}
+                      _hover={{ bg: "orange.600" }}
+                    >
+                      <Text lineHeight="1" whiteSpace="nowrap">
+                        Pesanan Diterima
+                      </Text>
+                    </Button>
+                  )}
                 </HStack>
               </Flex>
             </Dialog.Body>
