@@ -34,7 +34,7 @@ export default function LoginWithGoogle({ onSuccessLogin, text = "signup_with" }
     try {
       const res = await axios.post(
         `${API}/auth/google`,
-        { access_token: idToken }, // ✅ match dengan Postman
+        { access_token: idToken }, 
         {
           headers: { "Content-Type": "application/json" },
         }
