@@ -30,31 +30,31 @@ export default function LoginWithGoogle({ onSuccessLogin, text = "signup_with" }
 
   const handleCredentialResponse = async (response) => {
     const idToken = response.credential;
+
     try {
       const res = await axios.post(
         `${API}/auth/google`,
-        { token: idToken },
-        { headers: { "Content-Type": "application/json" } }
+        { access_token: idToken }, 
+        {
+          headers: { "Content-Type": "application/json" },
+        }
       );
 
       const token = res.data.data.token;
       localStorage.setItem("token", token);
 
       toaster.success({ title: "Login dengan Google berhasil" });
-
-      if (onSuccessLogin) {
-        onSuccessLogin();
-      } else {
-        navigate(0);
-      }
+      onSuccessLogin?.();
     } catch (err) {
+      console.error("Login Google Gagal:", err.response?.data);
       toaster.error({
         title: "Gagal login Google",
         description:
-          err?.response?.data?.errors || "Terjadi kesalahan saat login",
+          err?.response?.data?.errors || "Terjadi kesalahan saat login.",
       });
     }
   };
+  
 
   return <div style={{ width: "100%" }} ref={buttonRef}></div>;
 }
