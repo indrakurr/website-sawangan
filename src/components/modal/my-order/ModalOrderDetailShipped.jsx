@@ -12,12 +12,19 @@ import {
 import { CloseSquare } from "iconsax-react";
 import StepProgressCustom from "../../steps/StepProgress";
 import ProdukItem from "../../card/CartModal";
-import { useGetOrderByIdQuery } from "../../../store/store";
+import {
+  useGetOrderByIdQuery,
+  useCompleteOrderMutation,
+} from "../../../store/store";
 import TrackingOrder from "../../sections/TrackingOrder";
 import { useState } from "react";
+import { toaster } from "../../ui/toaster";
 
 const ModalOrderDetailShipped = ({ isOpen, onClose, orderId }) => {
   const [showTracking, setShowTracking] = useState(false);
+  const [completeOrder, { isLoading: isCompleting }] =
+    useCompleteOrderMutation();
+
 
   const { data, isLoading } = useGetOrderByIdQuery(orderId);
   const order = data?.data;
@@ -40,6 +47,31 @@ const ModalOrderDetailShipped = ({ isOpen, onClose, orderId }) => {
     },
     { label: "Kode Pos", value: order?.shippingPostCode || "-" },
   ];
+
+  const handleCompleteOrder = async () => {
+    const toastId = toaster.loading({
+      title: "Mengonfirmasi pesanan...",
+      duration: 4000,
+    });
+
+    try {
+      await completeOrder(order?.id).unwrap();
+
+      toaster.success({
+        title: "Pesanan berhasil dikonfirmasi",
+      });
+
+      onClose(); // Optional: tutup modal setelah berhasil
+    } catch (err) {
+      toaster.error({
+        title: "Gagal mengonfirmasi pesanan",
+        description: err?.data?.errors || "Terjadi kesalahan",
+      });
+    } finally {
+      toaster.dismiss(toastId);
+    }
+  };
+  
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -164,6 +196,8 @@ const ModalOrderDetailShipped = ({ isOpen, onClose, orderId }) => {
                       px={5}
                       py={4}
                       _hover={{ bg: "orange.600" }}
+                      isLoading={isCompleting}
+                      onClick={handleCompleteOrder}
                     >
                       <Text lineHeight="1" whiteSpace="nowrap">
                         Pesanan Diterima

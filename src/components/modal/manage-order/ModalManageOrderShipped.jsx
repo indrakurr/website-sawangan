@@ -16,68 +16,29 @@ import {
   Box1,
   ArrowDown2,
   Profile,
-  MoneyTick,
 } from "iconsax-react";
 import {
   ClipboardText,
   PhoneCall,
   MapTrifold,
   Signpost,
+  Receipt,
 } from "@phosphor-icons/react";
 import ProdukItem from "../../card/CartModal";
-import { useUpdateAdminOrderStatusMutation } from "../../../store/store";
-import { toaster } from "../../ui/toaster";
 
 const ModalManageOrderShipped = ({ isOpen, onClose, order }) => {
   const [selected, setSelected] = useState("Belum Bayar");
-  const [updateOrderStatus, { isLoading }] =
-    useUpdateAdminOrderStatusMutation();
 
   useEffect(() => {
     if (order?.status) {
       const statusMap = {
         PENDING: "Belum Bayar",
         PACKAGED: "Dikemas",
+        SHIPPED: "Dikirim",
       };
       setSelected(statusMap[order.status] || order.status);
     }
   }, [order]);
-
-  const handleSubmit = async () => {
-    const statusMap = {
-      "Belum Bayar": "PENDING",
-      Dikemas: "PACKAGED",
-    };
-
-    const toastId = toaster.loading({
-      title: "Menyimpan perubahan...",
-      duration: 4000,
-    });
-
-    try {
-      await updateOrderStatus({
-        orderId: order.id,
-        payload: { status: statusMap[selected] },
-      }).unwrap();
-
-      toaster.success({
-        title: "Status berhasil diperbarui",
-        duration: 4000,
-      });
-      onClose();
-    } catch (err) {
-      toaster.error({
-        title: "Gagal memperbarui status",
-        description:
-          err?.data?.errors ||
-          "Terjadi kesalahan pada server. Silakan coba beberapa saat lagi.",
-        duration: 4000,
-      });
-    } finally {
-      toaster.dismiss(toastId);
-    }
-  };
-  
 
   if (!order) return null;
 
@@ -102,9 +63,9 @@ const ModalManageOrderShipped = ({ isOpen, onClose, order }) => {
       value: order?.shippingDetails?.postalCode || "-",
       icon: <Signpost size={20} />,
     },
+    { label: "Nomor Resi", value: order?.trackingNumber || "-", icon: <Receipt size={20} /> },
   ];
 
-  const statusList = ["Belum Bayar", "Dikemas"];
   const isPaid = order?.paymentStatus === "PAID";
 
   return (
@@ -128,7 +89,7 @@ const ModalManageOrderShipped = ({ isOpen, onClose, order }) => {
                 color="black"
                 lineHeight={1}
               >
-                ID Pesanan Shipped:{" "}
+                ID Pesanan:{" "}
                 <Box as="span" color="orange.500">
                   {order?.id || "-"}
                 </Box>
@@ -171,31 +132,8 @@ const ModalManageOrderShipped = ({ isOpen, onClose, order }) => {
                   <DataList.Item>
                     <DataList.ItemLabel fontSize="sm" width="1/4">
                       <HStack spacing={2} alignItems="center">
-                        <MoneyTick size={20} color="#949494" />
-                        <Text>Status Transaksi</Text>
-                      </HStack>
-                    </DataList.ItemLabel>
-                    <DataList.ItemValue>
-                      <Text
-                        fontSize="sm"
-                        fontWeight="medium"
-                        px={3}
-                        py={1.5}
-                        borderRadius="lg"
-                        display="inline-block"
-                        bg={isPaid ? "green.100" : "red.100"}
-                        color={isPaid ? "green.600" : "red.600"}
-                      >
-                        {isPaid ? "Pembayaran Diterima" : "Menunggu Pembayaran"}
-                      </Text>
-                    </DataList.ItemValue>
-                  </DataList.Item>
-
-                  <DataList.Item>
-                    <DataList.ItemLabel fontSize="sm" width="1/4">
-                      <HStack spacing={2} alignItems="center">
                         <Box1 size={20} color="#949494" />
-                        <Text>Ubah Status Pesanan</Text>
+                        <Text>Status Pesanan</Text>
                       </HStack>
                     </DataList.ItemLabel>
                     <DataList.ItemValue>
@@ -221,37 +159,6 @@ const ModalManageOrderShipped = ({ isOpen, onClose, order }) => {
                           </HStack>
                           <ArrowDown2 size={20} color="#949494" />
                         </Menu.Trigger>
-
-                        <Menu.Positioner>
-                          <Menu.Content
-                            borderRadius="md"
-                            boxShadow="0 4px 12px rgba(0, 0, 0, 0.3)"
-                            bg="white"
-                          >
-                            {statusList.map((status) => (
-                              <Menu.Item
-                                key={status}
-                                value={status}
-                                onClick={() => {
-                                  if (isPaid) setSelected(status);
-                                }}
-                                disabled={!isPaid}
-                                color="black"
-                                _focus={{
-                                  bg: isPaid ? "gray.100" : "transparent",
-                                }}
-                                _hover={{
-                                  bg: isPaid ? "gray.100" : "transparent",
-                                }}
-                                fontWeight={
-                                  selected === status ? "semibold" : "normal"
-                                }
-                              >
-                                {status}
-                              </Menu.Item>
-                            ))}
-                          </Menu.Content>
-                        </Menu.Positioner>
                       </Menu.Root>
                     </DataList.ItemValue>
                   </DataList.Item>
@@ -279,20 +186,6 @@ const ModalManageOrderShipped = ({ isOpen, onClose, order }) => {
                     onClick={onClose}
                   >
                     Kembali
-                  </Button>
-                  <Button
-                    size="sm"
-                    bg="orange.500"
-                    color="white"
-                    rounded="xl"
-                    px={5}
-                    py={4}
-                    _hover={{ bg: "orange.600" }}
-                    onClick={handleSubmit}
-                    isLoading={isLoading}
-                    isDisabled={!isPaid}
-                  >
-                    Simpan
                   </Button>
                 </HStack>
               </Flex>

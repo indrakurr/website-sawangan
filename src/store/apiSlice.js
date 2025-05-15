@@ -210,6 +210,13 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Order"],
     }),
+    completeOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `/orders/complete/${orderId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Order"],
+    }),
 
     // === DASHBOARD ===
     getDashboardOrders: builder.query({
@@ -264,4 +271,5 @@ export const {
   useGetDashboardProductsQuery,
   useGetDashboardUsersQuery,
   useGetDashboardRevenueQuery,
+  useCompleteOrderMutation,
 } = apiSlice;
