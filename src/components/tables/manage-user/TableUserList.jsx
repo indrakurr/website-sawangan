@@ -16,10 +16,13 @@ export function TableUserList({
   currentPage = 1,
   itemsPerPage = 10,
   users = [],
+  refetch,
 }) {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedUsers = users.slice(startIndex, endIndex);
+
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
@@ -39,7 +42,10 @@ export function TableUserList({
                 variant="ghost"
                 _hover={{ bg: "transparent" }}
                 ml={2}
-                onClick={() => setIsOpenDelete(true)}
+                onClick={() => {
+                  setSelectedUserId(user.id);
+                  setIsOpenDelete(true);
+                }}
               >
                 <Trash color="red" />
               </IconButton>
@@ -50,6 +56,8 @@ export function TableUserList({
       <ModalDeleteUser
         isOpen={isOpenDelete}
         onClose={() => setIsOpenDelete(false)}
+        userId={selectedUserId}
+        refetch={refetch}
       />
     </>
   );

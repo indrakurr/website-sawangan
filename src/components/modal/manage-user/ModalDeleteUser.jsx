@@ -8,8 +8,36 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { WarningCircle } from "@phosphor-icons/react";
+import { useDeleteAdminUserMutation } from "../../../store/store";
+import { toaster } from "../../ui/toaster";
 
-const ModalDeleteUser = ({ isOpen, onClose }) => {
+const ModalDeleteUser = ({ isOpen, onClose, userId, refetch, onSuccess }) => {
+  const [deleteAdminUser, { isLoading }] = useDeleteAdminUserMutation();
+
+  const handleDelete = async () => {
+    const toastId = toaster.loading({
+      title: "Menghapus pengguna...",
+      duration: 4000,
+    });
+    try {
+      await deleteAdminUser(userId).unwrap();
+      onClose();
+      toaster.success({
+        title: "Pengguna dihapus",
+        description: "Pengguna berhasil dihapus dari sistem",
+      });
+      if (refetch) await refetch();
+      if (onSuccess) onSuccess();
+    } catch (err) {
+      toaster.error({
+        title: "Gagal menghapus",
+        description: err?.data?.errors || "Terjadi kesalahan saat menghapus",
+      });
+    } finally {
+      toaster.dismiss(toastId);
+    }
+  };
+
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Portal>
@@ -72,6 +100,8 @@ const ModalDeleteUser = ({ isOpen, onClose }) => {
                     px={5}
                     py={4}
                     _hover={{ bg: "red.600" }}
+                    isLoading={isLoading}
+                    onClick={handleDelete}
                   >
                     <Text lineHeight="1" whiteSpace="nowrap">
                       Hapus
