@@ -15,9 +15,8 @@ export default defineConfig({
       manifest: {
         name: "Sawangan 1",
         short_name: "Sawangan 1",
-        description:
-          "Witing Tresno Jalaran Saka Kuliner",
-        theme_color: "#ffffff",
+        description: "Witing Tresno Jalaran Saka Kuliner",
+        theme_color: "#FAC213",
         icons: [
           {
             src: "icon-48x48.png",
