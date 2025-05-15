@@ -11,12 +11,7 @@ import {
   Flex,
   Menu,
 } from "@chakra-ui/react";
-import {
-  CloseSquare,
-  Box1,
-  ArrowDown2,
-  Profile,
-} from "iconsax-react";
+import { CloseSquare, Box1, ArrowDown2, Profile } from "iconsax-react";
 import {
   ClipboardText,
   PhoneCall,
@@ -63,7 +58,11 @@ const ModalManageOrderShipped = ({ isOpen, onClose, order }) => {
       value: order?.shippingDetails?.postalCode || "-",
       icon: <Signpost size={20} />,
     },
-    { label: "Nomor Resi", value: order?.trackingNumber || "-", icon: <Receipt size={20} /> },
+    {
+      label: "Nomor Resi",
+      value: order?.trackingNumber || "-",
+      icon: <Receipt size={20} />,
+    },
   ];
 
   const isPaid = order?.paymentStatus === "PAID";
@@ -157,7 +156,6 @@ const ModalManageOrderShipped = ({ isOpen, onClose, order }) => {
                               {selected}
                             </Text>
                           </HStack>
-                          <ArrowDown2 size={20} color="#949494" />
                         </Menu.Trigger>
                       </Menu.Root>
                     </DataList.ItemValue>
