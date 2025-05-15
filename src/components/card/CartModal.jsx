@@ -2,7 +2,7 @@ import { Box, Image, Text, Flex } from "@chakra-ui/react";
 
 export default function ProdukItem({ items = [] }) {
   return (
-    <Box mt={6}>
+    <Box >
       {items.map((item, index) => (
         <Box key={index}>
           <Box

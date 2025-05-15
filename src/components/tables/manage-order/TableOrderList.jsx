@@ -8,8 +8,10 @@ import {
   LeftAlignCell,
 } from "../base-table/TableCells";
 import { Show } from "react-iconly";
+import { Trash } from "iconsax-react";
 import { TableBodyRow } from "../base-table/TableRows";
 import { useGetAdminOrderByIdQuery } from "../../../store/store";
+import ModalDeleteOrder from "../../modal/manage-order/ModalDeleteOrder";
 
 // Import semua modal berdasarkan status
 import ModalManageOrderPending from "../../modal/manage-order/ModalManageOrderPending";
@@ -32,6 +34,7 @@ export function TableOrderList({
   currentPage = 1,
   itemsPerPage = 10,
   orders = [],
+  refetch,
 }) {
   const handleBadgeColor = (status) => {
     switch (status.toLowerCase()) {
@@ -57,6 +60,7 @@ export function TableOrderList({
   const truncateId = (id) => (id.length > 7 ? `${id.slice(0, 7)}...` : id);
 
   const [isOpenView, setIsOpenView] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   const { data: selectedOrderData } = useGetAdminOrderByIdQuery(
@@ -72,62 +76,26 @@ export function TableOrderList({
 
     if (!isOpenView || !order) return null;
 
+    const commonProps = {
+      isOpen: isOpenView,
+      onClose: () => {
+        setIsOpenView(false);
+        setSelectedOrderId(null);
+      },
+      order,
+    };
+
     switch (status) {
       case "PENDING":
-        return (
-          <ModalManageOrderPending
-            isOpen={isOpenView}
-            onClose={() => {
-              setIsOpenView(false);
-              setSelectedOrderId(null);
-            }}
-            order={order}
-          />
-        );
+        return <ModalManageOrderPending {...commonProps} />;
       case "PACKAGED":
-        return (
-          <ModalManageOrderPacked
-            isOpen={isOpenView}
-            onClose={() => {
-              setIsOpenView(false);
-              setSelectedOrderId(null);
-            }}
-            order={order}
-          />
-        );
+        return <ModalManageOrderPacked {...commonProps} />;
       case "SHIPPED":
-        return (
-          <ModalManageOrderShipped
-            isOpen={isOpenView}
-            onClose={() => {
-              setIsOpenView(false);
-              setSelectedOrderId(null);
-            }}
-            order={order}
-          />
-        );
+        return <ModalManageOrderShipped {...commonProps} />;
       case "COMPLETED":
-        return (
-          <ModalManageOrderCompleted
-            isOpen={isOpenView}
-            onClose={() => {
-              setIsOpenView(false);
-              setSelectedOrderId(null);
-            }}
-            order={order}
-          />
-        );
+        return <ModalManageOrderCompleted {...commonProps} />;
       case "CANCELLED":
-        return (
-          <ModalManageOrderCanceled
-            isOpen={isOpenView}
-            onClose={() => {
-              setIsOpenView(false);
-              setSelectedOrderId(null);
-            }}
-            order={order}
-          />
-        );
+        return <ModalManageOrderCanceled {...commonProps} />;
       default:
         return null;
     }
@@ -149,7 +117,6 @@ export function TableOrderList({
                 ))}
               </ul>
             </LeftAlignCell>
-
             <TextCell content={item.customerName} />
             <LeftAlignCell>{item.total}</LeftAlignCell>
             <BadgeCell
@@ -167,12 +134,38 @@ export function TableOrderList({
               >
                 <Show color="black" />
               </IconButton>
+              <IconButton
+                variant="ghost"
+                _hover={{ bg: "transparent" }}
+                ml={2}
+                onClick={() => {
+                  if (item.status.toLowerCase() === "dibatalkan") {
+                    setSelectedOrderId(item.id);
+                    setIsOpenDelete(true);
+                  }
+                }}
+                isDisabled={item.status.toLowerCase() !== "dibatalkan"}
+              >
+                <Trash
+                  color={
+                    item.status.toLowerCase() === "dibatalkan"
+                      ? "red"
+                      : "#C4C4C4"
+                  }
+                />
+              </IconButton>
             </CenteredCell>
           </TableBodyRow>
         ))}
       </BaseTable>
 
       {renderModal()}
+      <ModalDeleteOrder
+        isOpen={isOpenDelete}
+        onClose={() => setIsOpenDelete(false)}
+        orderId={selectedOrderId}
+        refetch={refetch}
+      />
     </>
   );
 }

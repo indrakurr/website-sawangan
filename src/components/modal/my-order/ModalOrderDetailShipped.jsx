@@ -161,6 +161,7 @@ const ModalOrderDetailShipped = ({ isOpen, onClose, orderId }) => {
                       fontWeight="semibold"
                       color="black"
                       lineHeight={1}
+                      marginBottom={6}
                     >
                       Detail Produk
                     </Text>

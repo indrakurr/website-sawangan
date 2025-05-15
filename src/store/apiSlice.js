@@ -198,6 +198,13 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Admin"],
     }),
+    deleteAdminOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `/admin/orders/${orderId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
 
     // === ORDER ===
     getOrders: builder.query({
@@ -243,6 +250,16 @@ export const apiSlice = createApi({
       providesTags: ["Admin"],
     }),
 
+    // === REVIEW ===
+    submitProductReview: builder.mutation({
+      query: ({ orderId, payload }) => ({
+        url: `/orders/reviews/${orderId}`,
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["Order"],
+    }),
+
     // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),
 });
@@ -280,4 +297,6 @@ export const {
   useGetDashboardUsersQuery,
   useGetDashboardRevenueQuery,
   useCompleteOrderMutation,
+  useDeleteAdminOrderMutation,
+  useSubmitProductReviewMutation,
 } = apiSlice;
