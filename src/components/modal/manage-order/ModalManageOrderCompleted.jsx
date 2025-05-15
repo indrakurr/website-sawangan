@@ -44,42 +44,6 @@ const ModalManageOrderCompleted = ({ isOpen, onClose, order }) => {
     }
   }, [order]);
 
-  const handleSubmit = async () => {
-    const statusMap = {
-      "Belum Bayar": "PENDING",
-      Dikemas: "PACKAGED",
-      Diterima: "COMPLETED",
-    };
-
-    const toastId = toaster.loading({
-      title: "Menyimpan perubahan...",
-      duration: 4000,
-    });
-
-    try {
-      await updateOrderStatus({
-        orderId: order.id,
-        payload: { status: statusMap[selected] },
-      }).unwrap();
-
-      toaster.success({
-        title: "Status berhasil diperbarui",
-        duration: 4000,
-      });
-      onClose();
-    } catch (err) {
-      toaster.error({
-        title: "Gagal memperbarui status",
-        description:
-          err?.data?.errors ||
-          "Terjadi kesalahan pada server. Silakan coba beberapa saat lagi.",
-        duration: 4000,
-      });
-    } finally {
-      toaster.dismiss(toastId);
-    }
-  };
-
   if (!order) return null;
 
   const orderDetail = [

@@ -250,6 +250,16 @@ export const apiSlice = createApi({
       providesTags: ["Admin"],
     }),
 
+    // === REVIEW ===
+    submitProductReview: builder.mutation({
+      query: ({ orderId, payload }) => ({
+        url: `/orders/reviews/${orderId}`,
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["Order"],
+    }),
+
     // === Tambahan endpoint lainnya bisa lanjut di sini...
   }),
 });
@@ -288,4 +298,5 @@ export const {
   useGetDashboardRevenueQuery,
   useCompleteOrderMutation,
   useDeleteAdminOrderMutation,
+  useSubmitProductReviewMutation,
 } = apiSlice;
