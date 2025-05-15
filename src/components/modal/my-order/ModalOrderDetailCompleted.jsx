@@ -20,14 +20,20 @@ const ModalOrderDetailCompleted = ({ isOpen, onClose, orderId }) => {
     
       if (!order && !isLoading) return null;
       const orderDetail = [
-        { label: "Nomor Resi", value: ': ${order?.trackingNumber || "-"} ' },
-        { label: "Nama Penerima", value: ': ${order?.recipientName || "-"} ' },
-        { label: "Nomor Telepon", value: ': ${order?.phoneNumber || "-"} ' },
+        { label: "Nomor Resi", value: order?.trackingNumber || "-" },
+        {
+          label: "Nama Penerima",
+          value: order?.shippingDetails?.recipientName || "-",
+        },
+        {
+          label: "Nomor Telepon",
+          value: order?.shippingDetails?.phoneNumber || "-",
+        },
         {
           label: "Alamat",
-          value: ': ${order?.shippingAddress || "-"}',
+          value: order?.shippingAddress || "-",
         },
-        { label: "Kode Pos", value: ': ${order?.shippingPostCode || "-"}' },
+        { label: "Kode Pos", value: order?.shippingPostCode || "-" },
       ];
 
   return (
@@ -70,8 +76,9 @@ const ModalOrderDetailCompleted = ({ isOpen, onClose, orderId }) => {
                 <StepProgressCustom
                   activeStep={3}
                   createdAt={order?.createdAt}
-                  shippedAt={order?.timestamps?.shippedAt}
-                  completedAt={order?.timestamps?.completedAt}
+                  paidAt={order?.paidAt}
+                  shippedAt={order?.shippedAt}
+                  completedAt={order?.completedAt}
                 />
               </Box>
 
