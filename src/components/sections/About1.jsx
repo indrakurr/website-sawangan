@@ -35,7 +35,7 @@ export default function About1() {
         </GridItem>
         <GridItem className="col-span-1 flex flex-col gap-2" w="full">
           <Text
-            textAlign={{ sm: "center", md: "left", lg: "left" }}
+            textAlign={{ base: "center", md: "left", lg: "left" }}
             fontSize={"40px"}
             fontWeight="bold"
             color="black"
@@ -48,7 +48,7 @@ export default function About1() {
             </Text>
           </Text>
           <Text
-            textAlign={{ sm: "center", md: "left", lg: "left" }}
+            textAlign={{ base: "center", md: "left", lg: "left" }}
             fontSize={"16px"}
             fontWeight={"regular"}
             color="black"
