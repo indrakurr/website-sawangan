@@ -198,6 +198,13 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Admin"],
     }),
+    deleteAdminOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `/admin/orders/${orderId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
 
     // === ORDER ===
     getOrders: builder.query({
@@ -280,4 +287,5 @@ export const {
   useGetDashboardUsersQuery,
   useGetDashboardRevenueQuery,
   useCompleteOrderMutation,
+  useDeleteAdminOrderMutation,
 } = apiSlice;
