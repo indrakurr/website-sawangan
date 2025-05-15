@@ -13,11 +13,12 @@ import {
   Skeleton,
   SkeletonText,
   SkeletonCircle,
+  SimpleGrid
 } from "@chakra-ui/react";
 
 export default function ProductPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 12;
 
   const { data, isLoading, error } = useGetProductsQuery();
 
@@ -29,54 +30,48 @@ export default function ProductPage() {
     },
   };
 
-   if (isLoading) {
-     return (
-       <div className="overflow-x-hidden w-full min-h-screen max-w-screen mx-0 bg-[#F0F3F7]">
-         <Navbar />
-         <SearchBar />
-         <Flex
-           justify="center"
-           gap={6}
-           wrap="wrap"
-           marginTop="172px"
-           marginBottom="52px"
-           paddingX={{ lg: "80px" }}
-         >
-           {Array.from({ length: 24 }).map((_, i) => (
-             <Box
-               key={i}
-               w={{ base: "65%", md: "31%", lg: "19%" }}
-               h={"390px"}
-               borderRadius="16px"
-               overflow="hidden"
-               bg="white"
-               boxShadow="0px 4px 30px rgba(0, 0, 0, 0.05)"
-             >
-               <Skeleton height={48} borderRadius="none" {...skeletonStyle} />
-               <Box paddingX={4}>
-                 <SkeletonText
-                   mt="8"
-                   noOfLines={2}
-                   spacing="3"
-                   {...skeletonStyle}
-                 />
-                 <Skeleton
-                   height="20px"
-                   mt="2"
-                   width="60%"
-                   {...skeletonStyle}
-                 />
-                 <Flex justify="flex-end" mt="4">
-                   <SkeletonCircle size="8" {...skeletonStyle} />
-                 </Flex>
-               </Box>
-             </Box>
-           ))}
-         </Flex>
-         <Footer />
-       </div>
-     );
-   }
+  if (isLoading) {
+    return (
+      <div className="overflow-x-hidden w-full min-h-screen max-w-screen mx-0 bg-[#F0F3F7]">
+        <Navbar />
+        <SearchBar />
+        <SimpleGrid
+          columns={{ base: 2, md: 3, lg: 4 }}
+          gap={{ base: 2, md: 6 }}
+          gapY={{ base: 2, md: 6 }}
+          px={{ base: 2, md: 6, lg: 60 }}
+          mt={{ base: "135px", lg: "172px" }}
+          mb="52px"
+        >
+          {Array.from({ length: 12 }).map((_, i) => (
+            <Box
+              key={i}
+              borderRadius="16px"
+              overflow="hidden"
+              bg="white"
+              boxShadow="0px 4px 30px rgba(0, 0, 0, 0.05)"
+              h="full"
+            >
+              <Skeleton height="192px" {...skeletonStyle} />
+              <Box px={4} pt={4} pb={6}>
+                <SkeletonText
+                  mt="2"
+                  noOfLines={2}
+                  spacing="2"
+                  {...skeletonStyle}
+                />
+                <Skeleton height="20px" mt="2" width="60%" {...skeletonStyle} />
+                <Flex justify="flex-end" mt="4">
+                  <SkeletonCircle size="8" {...skeletonStyle} />
+                </Flex>
+              </Box>
+            </Box>
+          ))}
+        </SimpleGrid>
+        <Footer />
+      </div>
+    );
+  }  
 
   if (error) {
     return (
@@ -103,19 +98,18 @@ export default function ProductPage() {
       <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
         <Navbar />
         <SearchBar />
-        <Flex
-          justify="center"
-          gap={6}
-          wrap="wrap"
-          marginTop="172px"
-          marginBottom="52px"
-          paddingX={{ lg: "80px" }}
+        <SimpleGrid
+          columns={{ base: 2, md: 3, lg: 4 }}
+          gap={{ base: 2, md: 4 }}
+          gapY={{ base: 2, md: 4 }}
+          px={{ base: 2, md: 6, lg: 60 }} 
+          mt={{base:"135px", lg:"172px"}}
+          mb="52px"
         >
           {currentProducts.map((product) => (
             <CardProduk key={product.id} product={product} />
           ))}
-        </Flex>
-
+        </SimpleGrid>
         <Flex justify="center" marginBottom="40px">
           <PaginationComponent
             totalCount={allProducts.length}
@@ -126,7 +120,7 @@ export default function ProductPage() {
         </Flex>
         <Footer />
       </div>
-      <Toaster/>
+      <Toaster />
     </>
   );
 }
