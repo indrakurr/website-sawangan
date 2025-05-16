@@ -69,23 +69,19 @@ const ModalEditProduct = ({ isOpen, onClose, productId, onSuccess }) => {
   const [updateProduct, { isLoading }] = useUpdateProductMutation();
 
   useEffect(() => {
-    if (data?.data) {
+    if (data?.data && isOpen) {
       const p = data.data;
       reset({
         "nama-produk": p.name,
         "harga-produk": p.price,
         "deskripsi-produk": p.description,
-        "berat-produk": p.weightInGrams,
+        "berat-produk": p.weight,
         "stok-produk": p.stock,
         uploadImage: p.imageUrl,
       });
       setSelected(p.category);
       setExpiryDate(formatDate(p.expiryDate));
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (isOpen) {
+    } else if (isOpen) {
       reset({
         "nama-produk": "",
         "harga-produk": "",
@@ -97,7 +93,7 @@ const ModalEditProduct = ({ isOpen, onClose, productId, onSuccess }) => {
       setSelected("Pilih Kategori");
       setExpiryDate("");
     }
-  }, [isOpen, productId]);
+  }, [isOpen, productId, data]);
 
   const onSubmit = async (formDataInput) => {
     const formData = new FormData();
