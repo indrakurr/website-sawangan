@@ -334,6 +334,7 @@ export default function MyOrder() {
                       py={0}
                       border={"none"}
                       fontWeight="semibold"
+                      color={"black"}
                       onClick={() => navigate(-1)}
                     >
                       <ArrowLeft2
@@ -357,6 +358,13 @@ export default function MyOrder() {
                   <Box
                     overflowX="auto"
                     marginTop={{ base: "12px", lg: "24px" }}
+                    css={{
+                      "&::-webkit-scrollbar": {
+                        display: "none",
+                      },
+                      "-ms-overflow-style": "none", // IE & Edge
+                      "scrollbar-width": "none", // Firefox
+                    }}
                   >
                     <ButtonGroup spacing={0}>
                       {buttonLabels.map((label) => (

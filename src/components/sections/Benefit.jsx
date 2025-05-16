@@ -13,12 +13,13 @@ export default function Benefit() {
   return (
     <Container
       p="40px"
-      marginY={{ base: "16", lg: "48px" }}
-      paddingX={{ base: "16px", lg: "48px"}}
+      marginY={{ base: "16px", lg: "48px" }}
+      paddingX={{ base: "16px", lg: "48px" }}
     >
       <Grid
         borderRadius={{ base: "16px", lg: "32px" }}
-        padding={{ base: "16px", lg: "96px" }}
+        paddingY={{ base: "36px", lg: "96px" }}
+        paddingX={{ base: "20px", lg: "96px" }}
         gap={10}
         background="linear-gradient(to right, #D61C4E, #F77E21)"
       >
@@ -50,7 +51,7 @@ export default function Benefit() {
               flexDirection="column"
               alignItems="center"
               justifyContent="center"
-              borderRadius="20px"
+              borderRadius="16px"
               w={{ base: "100px", lg: "200px" }}
               h={{ base: "100px", lg: "200px" }}
               bg="transparent"
@@ -82,7 +83,7 @@ export default function Benefit() {
               flexDirection="column"
               alignItems="center"
               justifyContent="center"
-              borderRadius="20px"
+              borderRadius="16px"
               w={{ base: "100px", lg: "200px" }}
               h={{ base: "100px", lg: "200px" }}
               cursor="pointer"
@@ -115,7 +116,7 @@ export default function Benefit() {
               flexDirection="column"
               alignItems="center"
               justifyContent="center"
-              borderRadius="20px"
+              borderRadius="16px"
               w={{ base: "100px", lg: "200px" }}
               h={{ base: "100px", lg: "200px" }}
               cursor="pointer"
@@ -149,7 +150,7 @@ export default function Benefit() {
               flexDirection="column"
               alignItems="center"
               justifyContent="center"
-              borderRadius="20px"
+              borderRadius="16px"
               w={{ base: "100px", lg: "200px" }}
               h={{ base: "100px", lg: "200px" }}
               cursor="pointer"
