@@ -1,25 +1,25 @@
 function _optionalChain(ops) {
-  let lastAccessLHS = undefined
-  let value = ops[0]
-  let i = 1
+  let lastAccessLHS = undefined;
+  let value = ops[0];
+  let i = 1;
   while (i < ops.length) {
-    const op = ops[i]
-    const fn = ops[i + 1]
-    i += 2
-    if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) {
-      return undefined
+    const op = ops[i];
+    const fn = ops[i + 1];
+    i += 2;
+    if ((op === "optionalAccess" || op === "optionalCall") && value == null) {
+      return undefined;
     }
-    if (op === 'access' || op === 'optionalAccess') {
-      lastAccessLHS = value
-      value = fn(value)
-    } else if (op === 'call' || op === 'optionalCall') {
-      value = fn((...args) => value.call(lastAccessLHS, ...args))
-      lastAccessLHS = undefined
+    if (op === "access" || op === "optionalAccess") {
+      lastAccessLHS = value;
+      value = fn(value);
+    } else if (op === "call" || op === "optionalCall") {
+      value = fn((...args) => value.call(lastAccessLHS, ...args));
+      lastAccessLHS = undefined;
     }
   }
-  return value
+  return value;
 }
-;('use client')
+("use client");
 
 import {
   Toaster as ChakraToaster,
@@ -28,13 +28,53 @@ import {
   Stack,
   Toast,
   createToaster,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 
+// ====== CUSTOM TOASTER SETUP ======
 export const toaster = createToaster({
-  placement: 'bottom-end',
+  placement: "bottom-end",
   pauseOnPageIdle: true,
-})
+});
 
+// ✅ Handle token error secara global
+const rawError = toaster.error;
+
+toaster.error = ({
+  title = "Gagal",
+  description = "Terjadi kesalahan",
+  ...rest
+}) => {
+  const tokenErrors = [
+    "Token required",
+    "Invalid token format",
+    "jwt expired",
+    "jwt malformed",
+    "jwt revoked",
+  ];
+
+  if (tokenErrors.includes(description)) {
+    rawError({
+      title: "Login Diperlukan",
+      description: "Silakan login terlebih dahulu untuk melanjutkan.",
+      status: "error",
+      duration: 3000,
+      meta: { closable: true },
+    });
+
+    // Hapus token dan redirect ke /login
+    setTimeout(() => {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }, 1500);
+
+    return;
+  }
+
+  // Jika bukan error token, jalankan normal
+  rawError({ title, description, ...rest });
+};
+
+// ====== TOASTER COMPONENT ======
 export const Toaster = () => {
   return (
     <Portal>
@@ -88,4 +128,3 @@ export const Toaster = () => {
     </Portal>
   );
 };
-

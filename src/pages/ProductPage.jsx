@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useGetProductsQuery } from "../store/store";
 import Navbar from "../components/navigation/Navbar";
 import SearchBar from "../components/navigation/SearchBar";
@@ -13,14 +14,18 @@ import {
   Skeleton,
   SkeletonText,
   SkeletonCircle,
-  SimpleGrid
+  SimpleGrid,
 } from "@chakra-ui/react";
 
 export default function ProductPage() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialCategory = queryParams.get("category") || "Semua";
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Semua");
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
 
   const { data, isLoading, error } = useGetProductsQuery();
 
@@ -28,7 +33,7 @@ export default function ProductPage() {
     variant: "shine",
     css: {
       "--start-color": "#EDF2F7",
-      "--end-color": "#E2E8F0", 
+      "--end-color": "#E2E8F0",
     },
   };
 
@@ -73,14 +78,19 @@ export default function ProductPage() {
         <Footer />
       </div>
     );
-  }  
+  }
 
   if (error) {
     return (
       <div className="overflow-x-hidden w-full min-h-screen max-w-screen mx-0 bg-[#F0F3F7]">
         <Navbar />
         <SearchBar />
-        <Flex minH={"400px"} justifyContent={"center"} alignItems={"center"} marginTop={"100px"}>
+        <Flex
+          minH={"400px"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          marginTop={"100px"}
+        >
           <Text color="gray.500">Gagal memuat produk</Text>
         </Flex>
         <Footer />
@@ -98,15 +108,12 @@ export default function ProductPage() {
       selectedCategory === "Semua" || product.category === selectedCategory;
     return nameMatch && categoryMatch;
   });
-  
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentProducts = filteredProducts.slice(
     startIndex,
     startIndex + itemsPerPage
   );
-
-    
-
 
   return (
     <>
@@ -138,7 +145,7 @@ export default function ProductPage() {
         </SimpleGrid>
         <Flex justify="center" marginBottom="40px">
           <PaginationComponent
-            totalCount={allProducts.length}
+            totalCount={filteredProducts.length}
             pageSize={itemsPerPage}
             currentPage={currentPage}
             onPageChange={(page) => setCurrentPage(page)}

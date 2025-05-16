@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toaster } from "../ui/toaster";
+import { Box } from "@chakra-ui/react";
 
 export default function LoginWithGoogle({ onSuccessLogin, text = "signup_with" }) {
   const buttonRef = useRef(null);
@@ -56,5 +57,20 @@ export default function LoginWithGoogle({ onSuccessLogin, text = "signup_with" }
   };
   
 
-  return <div style={{ width: "100%" }} ref={buttonRef}></div>;
+  return (
+    <Box w="full">
+      <Box
+        ref={buttonRef}
+        sx={{
+          width: "100% !important",
+          display: "flex",
+          justifyContent: "center",
+          "& > div": {
+            width: "100% !important",
+          },
+        }}
+      />
+    </Box>
+  );
+  
 }
