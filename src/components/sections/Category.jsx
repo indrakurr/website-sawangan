@@ -33,7 +33,7 @@ export default function Category() {
 
         {/* Kategori Box */}
         <GridItem>
-          <Flex justify="center" gap={6} direction={"row"}>
+          <Flex justify="center" gap={{base:2, lg:4}} direction={"row"}>
             {/* Box Makanan */}
             <Box
               display="flex"

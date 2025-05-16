@@ -5,13 +5,35 @@ import {
   Grid,
   GridItem,
   Text,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import CardProduk from "../card/CardProduk";
 import { Link as RouterLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function ExploreProduct() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/products`
+        );
+        const allProducts = res.data?.data || [];
+        const first8 = allProducts.slice(0, 8);
+        setProducts(first8);
+      } catch (err) {
+        console.error("Gagal mengambil produk:", err);
+      }
+    };
+
+    fetch();
+  }, []);
+
   return (
-    <Container marginY={"96px"}>
+    <Container marginBottom={"96px"}>
       <Grid gap={10}>
         {/* Headline */}
         <GridItem textAlign="center">
@@ -32,19 +54,21 @@ export default function ExploreProduct() {
           </Text>
         </GridItem>
 
-        {/* Kategori Box */}
+        {/* Produk Grid */}
         <GridItem>
-          <Flex justify="center" gap={6} wrap="wrap">
-            <CardProduk />
-            <CardProduk />
-            <CardProduk />
-            <CardProduk />
-            <CardProduk />
-            <CardProduk />
-            <CardProduk />
-            <CardProduk />
-          </Flex>
+          <SimpleGrid
+            columns={{ base: 2, md: 3, lg: 4 }}
+            gap={{ base: 2, md: 4 }}
+            gapY={{ base: 2, md: 4 }}
+            px={{ base: 0, md: 6, lg: 180 }}
+          >
+            {products.map((product) => (
+              <CardProduk key={product.id} product={product} />
+            ))}
+          </SimpleGrid>
         </GridItem>
+
+        {/* Tombol Lihat Semua */}
         <GridItem className="flex justify-center">
           <Button
             as={RouterLink}
