@@ -19,6 +19,7 @@ import {
 export default function ProductPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { data, isLoading, error } = useGetProductsQuery();
 
@@ -87,23 +88,37 @@ export default function ProductPage() {
   }
 
   const allProducts = data?.data || [];
+
+  const filteredProducts = allProducts.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentProducts = allProducts.slice(
+  const currentProducts = filteredProducts.slice(
     startIndex,
     startIndex + itemsPerPage
   );
+
+    
+
 
   return (
     <>
       <div className="overflow-x-hidden w-full max-w-screen mx-0 bg-[#F0F3F7]">
         <Navbar />
-        <SearchBar />
+        <SearchBar
+          searchTerm={searchTerm}
+          onSearchChange={(val) => {
+            setSearchTerm(val);
+            setCurrentPage(1); 
+          }}
+        />
         <SimpleGrid
           columns={{ base: 2, md: 3, lg: 4 }}
           gap={{ base: 2, md: 4 }}
           gapY={{ base: 2, md: 4 }}
-          px={{ base: 2, md: 6, lg: 60 }} 
-          mt={{base:"135px", lg:"172px"}}
+          px={{ base: 2, md: 6, lg: 60 }}
+          mt={{ base: "135px", lg: "172px" }}
           mb="52px"
         >
           {currentProducts.map((product) => (

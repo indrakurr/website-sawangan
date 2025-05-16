@@ -5,12 +5,12 @@ import {
   Button,
   Menu,
   Portal,
+  Text,
 } from "@chakra-ui/react";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { Category2, ArrowDown2 } from "iconsax-react";
 
-export default function SearchBar() {
-
+export default function SearchBar({ searchTerm, onSearchChange }) {
   return (
     <Flex
       position="fixed"
@@ -18,13 +18,13 @@ export default function SearchBar() {
       left="0"
       w="full"
       bg="white"
-      px={{ base: "30px", lg: "240px" }}
+      px={{ base: "8px", lg: "240px" }}
       py="12px"
       zIndex="60"
       borderTop={1}
       borderStyle={"solid"}
       borderColor={"#CACACA"}
-      gap={{ base: "16px", lg: "60px" }}
+      gap={{ base: "8px", lg: "60px" }}
     >
       <Menu.Root>
         <Menu.Trigger asChild>
@@ -34,7 +34,9 @@ export default function SearchBar() {
             border={"none"}
             _focusVisible={{ outline: "none", boxShadow: "none" }}
           >
-            <Category2 color="black" /> Kategori <ArrowDown2 color="black" />
+            <Category2 color="black" />
+            <Text display={{ base: "none", lg: "block" }}>Kategori</Text>
+            <ArrowDown2 color="black" />
           </Button>
         </Menu.Trigger>
         <Portal>
@@ -72,7 +74,7 @@ export default function SearchBar() {
       </Menu.Root>
       <InputGroup
         flex="1"
-        startElement={<MagnifyingGlass size={"20px"} color="black" />}
+        startElement={<MagnifyingGlass size={"20px"} color="#949494" />}
         background={"white"}
         borderRadius={"12px"}
         border="solid"
@@ -87,7 +89,9 @@ export default function SearchBar() {
           borderColor={"#E2E8F0"}
           border={"none"}
           focusBorderColor="transparent"
-          _placeholder={{ color: "black" }}
+          _placeholder={{ color: "#949494" }}
+          value={searchTerm}
+          onChange={(e) => onSearchChange(e.target.value)}
         />
       </InputGroup>
     </Flex>
