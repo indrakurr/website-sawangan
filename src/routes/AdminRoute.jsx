@@ -1,23 +1,48 @@
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import axios from "axios";
 
 export default function AdminRoute() {
-  const token = localStorage.getItem("token");
+  const [checking, setChecking] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // 1. Jika belum login sama sekali, arahkan ke login admin
-  if (!token) return <Navigate to="/admin/login" replace />;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
+    const validateAdmin = async () => {
+      if (!token) {
+        setIsAdmin(false);
+        setChecking(false);
+        return;
+      }
 
-    // 2. Jika sudah login tapi bukan admin
-    if (payload.role !== "ADMIN") {
-      return <Navigate to="/unauthorized" replace />;
-    }
-  } catch (e) {
-    // 3. Jika token tidak valid (corrupt atau tidak bisa di-decode)
-    return <Navigate to="/admin/login" replace />;
-  }
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (res?.data?.data?.role === "ADMIN") {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      } catch (err) {
+        localStorage.removeItem("token");
+        setIsAdmin(false);
+      } finally {
+        setChecking(false);
+      }
+    };
 
-  // 4. Jika semuanya aman
+    validateAdmin();
+  }, []);
+
+  if (checking) return null;
+  if (!isAdmin) return <Navigate to="/admin/login" replace />;
+
   return <Outlet />;
 }
