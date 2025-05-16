@@ -334,6 +334,7 @@ export default function MyOrder() {
                       py={0}
                       border={"none"}
                       fontWeight="semibold"
+                      onClick={() => navigate(-1)}
                     >
                       <ArrowLeft2
                         style={{ width: "24px", height: "24px" }}

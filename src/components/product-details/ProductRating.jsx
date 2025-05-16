@@ -124,13 +124,13 @@ export default function ProductRating({ product }) {
                     >
                       {user.user?.fullName || "User"}
                     </Text>
-                    <HStack spacing={1}>
+                    <HStack gap={0}>
                       {Array(5)
                         .fill("")
                         .map((_, i) => (
                           <Star
                             key={i}
-                            size={16}
+                            size={12}
                             color={i < user.rating ? "#FFA500" : "#ccc"}
                             weight="fill"
                           />

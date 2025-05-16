@@ -20,6 +20,7 @@ export default function ProductPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("Semua");
 
   const { data, isLoading, error } = useGetProductsQuery();
 
@@ -89,9 +90,14 @@ export default function ProductPage() {
 
   const allProducts = data?.data || [];
 
-  const filteredProducts = allProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = allProducts.filter((product) => {
+    const nameMatch = product.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const categoryMatch =
+      selectedCategory === "Semua" || product.category === selectedCategory;
+    return nameMatch && categoryMatch;
+  });
   
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentProducts = filteredProducts.slice(
@@ -110,7 +116,12 @@ export default function ProductPage() {
           searchTerm={searchTerm}
           onSearchChange={(val) => {
             setSearchTerm(val);
-            setCurrentPage(1); 
+            setCurrentPage(1);
+          }}
+          selectedCategory={selectedCategory}
+          onCategoryChange={(category) => {
+            setSelectedCategory(category);
+            setCurrentPage(1);
           }}
         />
         <SimpleGrid

@@ -10,7 +10,12 @@ import {
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { Category2, ArrowDown2 } from "iconsax-react";
 
-export default function SearchBar({ searchTerm, onSearchChange }) {
+export default function SearchBar({
+  searchTerm,
+  onSearchChange,
+  selectedCategory,
+  onCategoryChange,
+}) {
   return (
     <Flex
       position="fixed"
@@ -35,7 +40,9 @@ export default function SearchBar({ searchTerm, onSearchChange }) {
             _focusVisible={{ outline: "none", boxShadow: "none" }}
           >
             <Category2 color="black" />
-            <Text display={{ base: "none", lg: "block" }}>Kategori</Text>
+            <Text display={{ base: "none", lg: "block" }}>
+              {selectedCategory}
+            </Text>
             <ArrowDown2 color="black" />
           </Button>
         </Menu.Trigger>
@@ -51,6 +58,7 @@ export default function SearchBar({ searchTerm, onSearchChange }) {
                 color="black"
                 value="new-txt"
                 _hover={{ bg: "#FFFEE5" }}
+                onClick={() => onCategoryChange("Makanan")}
               >
                 Makanan
               </Menu.Item>
@@ -58,6 +66,7 @@ export default function SearchBar({ searchTerm, onSearchChange }) {
                 color="black"
                 value="new-file"
                 _hover={{ bg: "#FFFEE5" }}
+                onClick={() => onCategoryChange("Minuman")}
               >
                 Minuman
               </Menu.Item>
@@ -65,8 +74,17 @@ export default function SearchBar({ searchTerm, onSearchChange }) {
                 color="black"
                 value="new-win"
                 _hover={{ bg: "#FFFEE5" }}
+                onClick={() => onCategoryChange("Aksesoris")}
               >
                 Aksesoris
+              </Menu.Item>
+              <Menu.Item
+                color="black"
+                value="Semua"
+                _hover={{ bg: "#FFFEE5" }}
+                onClick={() => onCategoryChange("Semua")}
+              >
+                Semua
               </Menu.Item>
             </Menu.Content>
           </Menu.Positioner>

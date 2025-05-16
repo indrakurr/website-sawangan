@@ -60,23 +60,29 @@ export default function ContactUs() {
             }}
             alignItems="center"
           >
-            <Button
-              size={"sm"}
-              bg={"orange.500"}
-              rounded={"xl"}
-              px={5}
-              py={5}
-              _hover={{ bg: "orange.600" }}
-              border={"none"}
-              color="white"
+            <a
+              href="http://wa.me/6285726122345"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <WhatsappLogo
-                style={{ width: "24px", height: "24px" }}
+              <Button
+                size="sm"
+                bg="green.500"
+                rounded="xl"
+                px={5}
+                py={5}
+                _hover={{ bg: "green.600" }}
+                border="none"
                 color="white"
-                weight="fill"
-              />
-              WhatsApp
-            </Button>
+              >
+                <WhatsappLogo
+                  style={{ width: "24px", height: "24px" }}
+                  color="white"
+                  weight="fill"
+                />
+                WhatsApp
+              </Button>
+            </a>
           </Flex>
         </GridItem>
         <GridItem
