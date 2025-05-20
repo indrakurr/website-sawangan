@@ -45,7 +45,11 @@ const ModalDeleteProduct = ({
   };
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={(open) => !open && onClose()}
+      placement={"center"}
+    >
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(8px)" bg="rgba(0, 0, 0, 0.4)" />
         <Dialog.Positioner
