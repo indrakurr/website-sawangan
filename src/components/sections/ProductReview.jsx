@@ -24,7 +24,7 @@ const ProductReview = ({
           {/* Rating */}
           <Box mt={2}>
             <Text fontWeight="medium" mb={1} color="#949494">
-              Rating
+              Kualitas Produk
             </Text>
             <HStack gap={0}>
               {Array.from({ length: 5 }, (_, i) => (
