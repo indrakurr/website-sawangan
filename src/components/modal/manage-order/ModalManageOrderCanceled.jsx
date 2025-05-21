@@ -38,6 +38,7 @@ const ModalManageOrderCanceled = ({ isOpen, onClose, order }) => {
       const statusMap = {
         PENDING: "Belum Bayar",
         PACKAGED: "Dikemas",
+        CANCELLED: "Dibatalkan",
       };
       setSelected(statusMap[order.status] || order.status);
     }
@@ -47,6 +48,7 @@ const ModalManageOrderCanceled = ({ isOpen, onClose, order }) => {
     const statusMap = {
       "Belum Bayar": "PENDING",
       Dikemas: "PACKAGED",
+      Dibatalkan : "CANCELLED",
     };
 
     const toastId = toaster.loading({
