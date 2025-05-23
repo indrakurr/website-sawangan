@@ -168,7 +168,12 @@ const ModalManageOrderShipped = ({ isOpen, onClose, order }) => {
               </Box>
 
               <Box w="full">
-                <Text fontSize="lg" fontWeight="semibold" color="black">
+                <Text
+                  fontSize="lg"
+                  fontWeight="semibold"
+                  color="black"
+                  marginBottom={"24px"}
+                >
                   Detail Produk
                 </Text>
                 <ProdukItem items={order?.items || []} />
