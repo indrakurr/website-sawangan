@@ -77,7 +77,6 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
       toaster.dismiss(toastId);
     }
   };
-  
 
   if (!order) return null;
 
@@ -263,7 +262,12 @@ const ModalManageOrderPending = ({ isOpen, onClose, order }) => {
               </Box>
 
               <Box w="full">
-                <Text fontSize="lg" fontWeight="semibold" color="black">
+                <Text
+                  fontSize="lg"
+                  fontWeight="semibold"
+                  color="black"
+                  marginBottom={"24px"}
+                >
                   Detail Produk
                 </Text>
                 <ProdukItem items={order?.items || []} />
