@@ -177,29 +177,6 @@ const ModalManageOrderCanceled = ({ isOpen, onClose, order }) => {
                   <DataList.Item>
                     <DataList.ItemLabel fontSize="sm" width="1/4">
                       <HStack spacing={2} alignItems="center">
-                        <MoneyTick size={20} color="#949494" />
-                        <Text>Status Transaksi</Text>
-                      </HStack>
-                    </DataList.ItemLabel>
-                    <DataList.ItemValue>
-                      <Text
-                        fontSize="sm"
-                        fontWeight="medium"
-                        px={3}
-                        py={1.5}
-                        borderRadius="lg"
-                        display="inline-block"
-                        bg={isPaid ? "green.100" : "red.100"}
-                        color={isPaid ? "green.600" : "red.600"}
-                      >
-                        {isPaid ? "Pembayaran Diterima" : "Menunggu Pembayaran"}
-                      </Text>
-                    </DataList.ItemValue>
-                  </DataList.Item>
-
-                  <DataList.Item>
-                    <DataList.ItemLabel fontSize="sm" width="1/4">
-                      <HStack spacing={2} alignItems="center">
                         <Box1 size={20} color="#949494" />
                         <Text>Ubah Status Pesanan</Text>
                       </HStack>
