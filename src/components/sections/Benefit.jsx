@@ -19,12 +19,12 @@ export default function Benefit() {
       <Grid
         borderRadius={{ base: "16px", lg: "32px" }}
         paddingY={{ base: "36px", lg: "96px" }}
-        paddingX={{ base: "20px", lg: "96px" }}
+        paddingX={{ base: "0px", lg: "96px" }}
         gap={10}
         background="linear-gradient(to right, #D61C4E, #F77E21)"
       >
         {/* Headline */}
-        <GridItem textAlign="center">
+        <GridItem textAlign="center" paddingX="20px">
           <Text
             fontSize={{ base: "24px", lg: "32px" }}
             fontWeight="bold"
@@ -52,12 +52,13 @@ export default function Benefit() {
               alignItems="center"
               justifyContent="center"
               borderRadius="16px"
-              w={{ base: "100px", lg: "200px" }}
-              h={{ base: "100px", lg: "200px" }}
+              w={{ base: "130px", lg: "200px" }}
+              h={{ base: "130px", lg: "200px" }}
               bg="transparent"
               _hover={{ bg: "#F77E21" }}
+              p={"4px"}
             >
-              <MedalStar size="48px" color="white" />
+              <MedalStar size="44px" color="white" variant="Bold" />
               <Text
                 fontSize={{ base: "12px", lg: "20px" }}
                 fontWeight="semibold"
@@ -73,9 +74,10 @@ export default function Benefit() {
                 color="white"
                 mt="8px"
                 textAlign={"center"}
+                w={"full"}
               >
-                Kami hanya menyediakan <br /> produk asli dan terjamin <br />{" "}
-                kualitasnya
+                Kami hanya menyediakan produk asli dan terjamin kualitas dan
+                rasanya
               </Text>
             </Box>
             <Box
@@ -84,13 +86,14 @@ export default function Benefit() {
               alignItems="center"
               justifyContent="center"
               borderRadius="16px"
-              w={{ base: "100px", lg: "200px" }}
-              h={{ base: "100px", lg: "200px" }}
+              w={{ base: "130px", lg: "200px" }}
+              h={{ base: "130px", lg: "200px" }}
               cursor="pointer"
               bg="#transparent"
               _hover={{ bg: "#F77E21" }}
+              p={"4px"}
             >
-              <WalletMoney size="48" color="white" />
+              <WalletMoney size="44" color="white" variant="Bold" />
               <Text
                 fontSize={{ base: "12px", lg: "20px" }}
                 fontWeight="semibold"
@@ -106,9 +109,10 @@ export default function Benefit() {
                 color="white"
                 mt="8px"
                 textAlign={"center"}
+                w={"full"}
               >
-                Dapatkan harga yang <br /> kompetitif dengan promo <br />{" "}
-                menarik setiap hari
+                Nikmati harga kompetitif dan lebih menguntungkan daripada toko
+                lainnya
               </Text>
             </Box>
             <Box
@@ -117,13 +121,14 @@ export default function Benefit() {
               alignItems="center"
               justifyContent="center"
               borderRadius="16px"
-              w={{ base: "100px", lg: "200px" }}
-              h={{ base: "100px", lg: "200px" }}
+              w={{ base: "130px", lg: "200px" }}
+              h={{ base: "130px", lg: "200px" }}
               cursor="pointer"
               bg="#transparent"
               _hover={{ bg: "#F77E21" }}
+              p={"4px"}
             >
-              <Bag2 size="48" color="white" />
+              <Bag2 size="44" color="white" variant="Bold" />
               <Text
                 fontSize={{ base: "12px", lg: "20px" }}
                 fontWeight="semibold"
@@ -139,10 +144,9 @@ export default function Benefit() {
                 color="white"
                 mt="8px"
                 textAlign={"center"}
+                w={"full"}
               >
-                Tersedia berbagai produk <br /> dengan banyak varian untuk
-                <br />
-                memenuhi kebutuhanmu
+                Tersedia produk dengan banyak varian untuk memenuhi kebutuhanmu
               </Text>
             </Box>
             <Box
@@ -151,13 +155,14 @@ export default function Benefit() {
               alignItems="center"
               justifyContent="center"
               borderRadius="16px"
-              w={{ base: "100px", lg: "200px" }}
-              h={{ base: "100px", lg: "200px" }}
+              w={{ base: "130px", lg: "200px" }}
+              h={{ base: "130px", lg: "200px" }}
               cursor="pointer"
               bg="#transparent"
               _hover={{ bg: "#F77E21" }}
+              p={"4px"}
             >
-              <Map size="48" color="white" />
+              <Map size="44" color="white" variant="Bold" />
               <Text
                 fontSize={{ base: "12px", lg: "20px" }}
                 fontWeight="semibold"
@@ -173,9 +178,10 @@ export default function Benefit() {
                 color="white"
                 mt="8px"
                 textAlign={"center"}
+                w={"full"}
               >
-                Belanja dari mana saja, <br /> kapan saja secara online
-                <br /> yang mudah dan cepat.
+                Belanja dari mana saja, kapan saja secara online yang mudah dan
+                cepat.
               </Text>
             </Box>
           </Flex>
