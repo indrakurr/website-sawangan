@@ -134,7 +134,7 @@ const ModalManageOrderCanceled = ({ isOpen, onClose, order }) => {
                 color="black"
                 lineHeight={1}
               >
-                ID Pesanan Canceled:{" "}
+                ID Pesanan:{" "}
                 <Box as="span" color="orange.500">
                   {order?.id || "-"}
                 </Box>
