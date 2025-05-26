@@ -16,13 +16,13 @@ import {
   Box1,
   ArrowDown2,
   Profile,
-  MoneyTick,
 } from "iconsax-react";
 import {
   ClipboardText,
   PhoneCall,
   MapTrifold,
   Signpost,
+  ReceiptX
 } from "@phosphor-icons/react";
 import ProdukItem from "../../card/CartModal";
 import { useUpdateAdminOrderStatusMutation } from "../../../store/store";
@@ -177,23 +177,15 @@ const ModalManageOrderCanceled = ({ isOpen, onClose, order }) => {
                   <DataList.Item>
                     <DataList.ItemLabel fontSize="sm" width="1/4">
                       <HStack spacing={2} alignItems="center">
-                        <MoneyTick size={20} color="#949494" />
-                        <Text>Status Transaksi</Text>
+                        <ReceiptX size={20} color="#949494" />
+                        <Text>Waktu Pembatalan </Text>
                       </HStack>
                     </DataList.ItemLabel>
-                    <DataList.ItemValue>
-                      <Text
-                        fontSize="sm"
-                        fontWeight="medium"
-                        px={3}
-                        py={1.5}
-                        borderRadius="lg"
-                        display="inline-block"
-                        bg={isPaid ? "green.100" : "red.100"}
-                        color={isPaid ? "green.600" : "red.600"}
-                      >
-                        {isPaid ? "Pembayaran Diterima" : "Menunggu Pembayaran"}
-                      </Text>
+                    <DataList.ItemValue color="black" fontSize="sm" width="3/4">
+                      {new Date(order?.cancelledAt).toLocaleString("id-ID", {
+                        dateStyle: "long",
+                        timeStyle: "short",
+                      })}
                     </DataList.ItemValue>
                   </DataList.Item>
 
