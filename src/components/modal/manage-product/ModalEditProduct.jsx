@@ -75,7 +75,7 @@ const ModalEditProduct = ({ isOpen, onClose, productId, onSuccess }) => {
         "nama-produk": p.name,
         "harga-produk": p.price,
         "deskripsi-produk": p.description,
-        "berat-produk": p.weight,
+        "berat-produk": p.weight * 1000,
         "stok-produk": p.stock,
         uploadImage: p.imageUrl,
       });
@@ -96,12 +96,15 @@ const ModalEditProduct = ({ isOpen, onClose, productId, onSuccess }) => {
   }, [isOpen, productId, data]);
 
   const onSubmit = async (formDataInput) => {
+    const weightInput = parseFloat(formDataInput["berat-produk"]);
+    const weightInGram = weightInput < 1 ? weightInput * 1000 : weightInput;
+
     const formData = new FormData();
     formData.append("name", formDataInput["nama-produk"]);
     formData.append("price", formDataInput["harga-produk"]);
     formData.append("description", formDataInput["deskripsi-produk"]);
     formData.append("category", selected);
-    formData.append("weight", formDataInput["berat-produk"]);
+    formData.append("weight", weightInGram); // kirim dalam gram
     formData.append("stock", formDataInput["stok-produk"]);
     formData.append("expiryDate", formatToISODate(expiryDate));
 
@@ -133,6 +136,7 @@ const ModalEditProduct = ({ isOpen, onClose, productId, onSuccess }) => {
       toaster.dismiss(toastId);
     }
   };
+  
 
   return (
     <Dialog.Root

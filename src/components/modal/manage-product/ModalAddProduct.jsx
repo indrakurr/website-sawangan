@@ -36,12 +36,15 @@ const ModalAddProduct = ({ isOpen, onClose }) => {
   const [expiryDate, setExpiryDate] = useState("");
 
   const onSubmit = async (data) => {
+    const weightInput = parseFloat(data["berat-produk"]);
+    const weightInGram = weightInput < 1 ? weightInput * 1000 : weightInput;
+
     const formData = new FormData();
     formData.append("name", data["nama-produk"]);
     formData.append("price", data["harga-produk"]);
     formData.append("description", data["deskripsi-produk"]);
     formData.append("category", selected);
-    formData.append("weight", data["berat-produk"]);
+    formData.append("weight", weightInGram); // kirim dalam gram
     formData.append("stock", data["stok-produk"]);
     formData.append("expiryDate", formatToISODate(expiryDate));
 
@@ -50,7 +53,7 @@ const ModalAddProduct = ({ isOpen, onClose }) => {
     }
 
     const toastId = toaster.loading({
-      title: "Menyimpan perubahan...",
+      title: "Menambahkan Produk...",
       duration: 4000,
     });
     try {
@@ -69,7 +72,7 @@ const ModalAddProduct = ({ isOpen, onClose }) => {
     } finally {
       toaster.dismiss(toastId);
     }
-  };
+  };  
 
   const formatToISODate = (str) => {
     const [day, month, year] = str.split("/");
