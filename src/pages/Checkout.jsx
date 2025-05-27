@@ -93,7 +93,7 @@ export default function Checkout() {
       shippingCity: document.getElementById("kota")?.value || "",
       shippingProvince: document.getElementById("provinsi")?.value || "",
       shippingPostCode: postalCode,
-      destinationId: String(destinationId), // dipastikan string
+      destinationId: String(destinationId),
       shippingService: "REG23",
       courier: "JNE",
     };
@@ -102,6 +102,7 @@ export default function Checkout() {
       title: "Kami sedang menyiapkan pesanan Anda!",
       duration: 4000,
     });
+
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/checkout`, {
         method: "POST",
@@ -129,10 +130,23 @@ export default function Checkout() {
           });
         }
       } else {
-        toaster.error({
-          title: "Checkout Gagal",
-          description: result?.errors || "Terjadi kesalahan saat checkout.",
-        });
+        if (result?.error?.code === "PROFILE_INCOMPLETE") {
+          toaster.error({
+            title: "Checkout Gagal",
+            description: "Silakan lengkapi nomor HP Anda pada halaman profil.",
+          });
+          setTimeout(() => {
+            window.location.href = "/profile";
+          }, 2000);
+        } else {
+          toaster.error({
+            title: "Checkout Gagal",
+            description:
+              result?.error?.message ||
+              result?.errors ||
+              "Terjadi kesalahan saat checkout.",
+          });
+        }
       }
     } catch (error) {
       toaster.error({
@@ -143,6 +157,7 @@ export default function Checkout() {
       toaster.dismiss(toastId);
     }
   };
+  
 
   return (
     <>
