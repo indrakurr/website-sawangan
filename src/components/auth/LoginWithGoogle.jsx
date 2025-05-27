@@ -61,6 +61,7 @@ export default function LoginWithGoogle({ onSuccessLogin, text = "signup_with" }
     <Box w="full">
       <Box
         ref={buttonRef}
+        id="google-button"
         sx={{
           width: "100% !important",
           display: "flex",
