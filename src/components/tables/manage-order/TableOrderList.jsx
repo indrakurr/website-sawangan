@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IconButton } from "@chakra-ui/react";
+import { IconButton, Flex } from "@chakra-ui/react";
 import { BaseTable } from "../base-table/BaseTable";
 import {
   CenteredCell,
@@ -12,6 +12,7 @@ import { Trash } from "iconsax-react";
 import { TableBodyRow } from "../base-table/TableRows";
 import { useGetAdminOrderByIdQuery } from "../../../store/store";
 import ModalDeleteOrder from "../../modal/manage-order/ModalDeleteOrder";
+import { ClockCountdown, SealCheck } from "@phosphor-icons/react";
 
 // Import semua modal berdasarkan status
 import ModalManageOrderPending from "../../modal/manage-order/ModalManageOrderPending";
@@ -120,7 +121,17 @@ export function TableOrderList({
             <TextCell content={item.customerName} />
             <LeftAlignCell>{item.total}</LeftAlignCell>
             <BadgeCell
-              content={item.status}
+              content={
+                <Flex align="center" gap={1}>
+                  {item.status}
+                  {item.status === "Belum Bayar" &&
+                    (item.paymentStatus === "PENDING" ? (
+                      <ClockCountdown size={16} color="orange" weight="bold" />
+                    ) : item.paymentStatus === "PAID" ? (
+                      <SealCheck size={16} color="green" weight="fill" />
+                    ) : null)}
+                </Flex>
+              }
               colorScheme={handleBadgeColor(item.status)}
             />
             <CenteredCell>

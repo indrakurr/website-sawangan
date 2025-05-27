@@ -53,6 +53,7 @@ export default function ManageOrder() {
       customerName: order.customerName,
       total: `Rp${order.totalAmount.toLocaleString("id-ID")}`,
       status: mapStatus(order.status),
+      paymentStatus: order.paymentStatus,
     }));
   }, [data]);
 
