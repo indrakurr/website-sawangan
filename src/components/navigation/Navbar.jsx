@@ -12,13 +12,30 @@ import {
   Menu,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { ShoppingCart, User, List, X } from "@phosphor-icons/react";
-import { useGetCartQuery } from "../../store/store";
-import { Box1, Logout } from "iconsax-react";
+import {
+  ShoppingCart,
+  User,
+  List,
+  X,
+  Laptop,
+  ShoppingBagOpen,
+} from "@phosphor-icons/react";
+import { Logout } from "iconsax-react";
+import { useGetCartQuery, useGetProfileQuery } from "../../store/store";
 
 export default function Navbar() {
   const [toggleNavbar, setToggleNavbar] = useState(false);
   const isLoggedIn = !!localStorage.getItem("token");
+
+  const { data: cartData } = useGetCartQuery(undefined, {
+    skip: !isLoggedIn,
+  });
+
+  const { data: profileData } = useGetProfileQuery(undefined, {
+    skip: !isLoggedIn,
+  });
+
+  const userRole = profileData?.data?.role; // ADMIN atau USER
 
   const menuItems = [
     { text: "Beranda", href: "/" },
@@ -30,13 +47,8 @@ export default function Navbar() {
     ? [...menuItems, { text: "Profil", href: "/profile" }]
     : menuItems;
 
-    const { data: cartData } = useGetCartQuery(undefined, {
-      skip: !isLoggedIn,
-    });
-
-    const totalCartItems =
-      cartData?.data?.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
-    
+  const totalCartItems =
+    cartData?.data?.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-70">
@@ -145,22 +157,41 @@ export default function Navbar() {
                       </Link>
                     </Menu.Item>
 
-                    <Menu.Item
-                      asChild
-                      paddingX={3}
-                      paddingY={2}
-                      borderRadius="md"
-                      _hover={{ bg: "gray.100" }}
-                    >
-                      <Link as={RouterLink} to="/orders">
-                        <Flex align="center" gap={2}>
-                          <Box1 size={16} color="black" />
-                          <Text fontSize="14px" color="black">
-                            Pesanan Saya
-                          </Text>
-                        </Flex>
-                      </Link>
-                    </Menu.Item>
+                    {userRole === "ADMIN" ? (
+                      <Menu.Item
+                        asChild
+                        paddingX={3}
+                        paddingY={2}
+                        borderRadius="md"
+                        _hover={{ bg: "gray.100" }}
+                      >
+                        <Link as={RouterLink} to="/dashboard">
+                          <Flex align="center" gap={2}>
+                            <Laptop size={16} color="black" />
+                            <Text fontSize="14px" color="black">
+                              Dashboard
+                            </Text>
+                          </Flex>
+                        </Link>
+                      </Menu.Item>
+                    ) : (
+                      <Menu.Item
+                        asChild
+                        paddingX={3}
+                        paddingY={2}
+                        borderRadius="md"
+                        _hover={{ bg: "gray.100" }}
+                      >
+                        <Link as={RouterLink} to="/orders">
+                          <Flex align="center" gap={2}>
+                            <ShoppingBagOpen size={16} color="black" />
+                            <Text fontSize="14px" color="black">
+                              Pesanan Saya
+                            </Text>
+                          </Flex>
+                        </Link>
+                      </Menu.Item>
+                    )}
 
                     <Menu.Item
                       color="red.500"
@@ -185,7 +216,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* MOBILE RIGHT SIDE: CART + HAMBURGER */}
+        {/* MOBILE RIGHT SIDE */}
         {isLoggedIn ? (
           <div className="flex gap-4 items-center lg:hidden">
             <Box position="relative">
