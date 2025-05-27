@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { Box, Flex, Image, Text, Portal, Menu } from "@chakra-ui/react";
+import { Box, Flex, Image, Text, Portal, Menu, Link } from "@chakra-ui/react";
 import { toaster } from "../ui/toaster";
-import { ArrowDown2, Logout, SidebarLeft,SidebarRight } from "iconsax-react";
-import { ArrowLeftSquare, ArrowRightSquare } from "react-iconly";
+import { ArrowDown2, Logout, SidebarLeft, SidebarRight } from "iconsax-react";
+import { House } from "@phosphor-icons/react";
 import { useLogoutMutation, useGetProfileQuery } from "../../store/store";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function TopBar({ collapse, setCollapse }) {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function TopBar({ collapse, setCollapse }) {
       duration: 4000,
     });
     try {
-      await logout().unwrap(); 
+      await logout().unwrap();
     } catch (err) {
       console.error("Logout gagal:", err);
     } finally {
@@ -83,20 +84,36 @@ export default function TopBar({ collapse, setCollapse }) {
           <Portal>
             <Menu.Positioner>
               <Menu.Content
-                padding="16px"
+                padding="12px"
                 borderRadius="12px"
                 backgroundColor="white"
                 boxShadow="0px 4px 15px rgba(0, 0, 0, 0.1)"
               >
                 <Menu.Item
+                  asChild
+                  paddingY={2}
+                  borderRadius="md"
+                  _hover={{ bg: "gray.100" }}
+                >
+                  <Link as={RouterLink} to="/">
+                    <Flex align="center" gap={2}>
+                      <House size={20} color="black" />
+                      <Text fontSize="14px" color="black">
+                        Kembali ke beranda
+                      </Text>
+                    </Flex>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item
                   color="red"
                   value="logout"
-                  _hover={{ bg: "white" }}
-                  padding={0}
+                  borderRadius={"md"}
+                  _hover={{ bg: "gray.100" }}
+                  paddingY={2}
                   onClick={handleLogout}
                 >
                   <Logout
-                    style={{ width: "24px", height: "24px" }}
+                    style={{ width: "20px", height: "20px" }}
                     color="red"
                   />
                   Keluar
