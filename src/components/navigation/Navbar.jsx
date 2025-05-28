@@ -299,7 +299,7 @@ export default function Navbar() {
                 variant="ghost"
                 justifyContent={"flex-start"}
                 px={4}
-                _hover={{ bg: "orange.600" }}
+                _hover={{ bg: "white" }}
                 onClick={() => {
                   localStorage.removeItem("token");
                   window.location.href = "/login";
