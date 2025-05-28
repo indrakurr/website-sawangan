@@ -291,6 +291,23 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
+            {isLoggedIn && (
+              <Button
+                size={"sm"}
+                fontSize={"md"}
+                color={"red.500"}
+                variant="ghost"
+                justifyContent={"flex-start"}
+                px={4}
+                _hover={{ bg: "orange.600" }}
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  window.location.href = "/login";
+                }}
+              >
+                Keluar
+              </Button>
+            )}
           </ul>
         </Box>
       </div>
