@@ -4,10 +4,10 @@ import CardProduk from "../card/CardProduk";
 import axios from "axios";
 
 const TARGET_IDS = [
-  "22d2413d-3c2d-45d1-8d60-97a7754cbc07",
-  "e33a2072-7688-4be9-a6d8-45e35067eb29",
-  "b72293f2-aff0-4ced-9563-b4d25a23b9bb",
-  "5c28c7bb-9a6a-4c50-828b-3d298eb8fe53",
+  "aa52b531-481d-49e5-8555-8cfc75420f13",
+  "1663e6b0-6d9f-4cfd-a99e-bf1ef28c3d43",
+  "abd4667c-b520-47f7-b728-2b5677a91b32",
+  "116c5769-f338-446c-b0ab-227f078c6161",
 ];
 
 export default function BestProduct() {
